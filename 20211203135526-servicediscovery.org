@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       1536fcd1-ca98-41dc-b9fb-aecdd68da9d7
+:END:
+#+title: ServiceDiscovery
+#+STARTUP: inlineimages
+
+* Latar belakang
+Modern cloud-native applications terbentuk dari beberapa microservice independent yang bekerja bersama untuk membuat sebuah aplikasi yang berguna. gar semua microservice ini bisa bekerja bersama, mereka butuh untuk bisa mencari dan berkoneksi satu sama lain. ini adalah dimana service disovery akan dibutuhkan.
+
+ada dua komponen major dalam service disovery:
+- [[id:b6eff6a4-07f6-4ac6-bc4d-8a39ded1bd70][ServiceRegistry]]
+- [[id:b6eff6a4-07f6-4ac6-bc4d-8a39ded1bd70][ServiceRegistry]]

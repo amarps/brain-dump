@@ -1,0 +1,34 @@
+:PROPERTIES:
+:ID:       9d0546ba-0db7-49a5-9057-d9ad1613f47f
+:END:
+#+title: CPPToolsReference
+#+date: [2021-12-03 Fri 15:26]
+
+* Compilers
+https://www.mingw-w64.org/downloads/
+https://clang.llvm.org/
+https://gcc.gnu.org/
+
+* IDE
+https://www.jetbrains.com/clion/
+https://visualstudio.microsoft.com/
+
+* Editor and plugin
+** https://www.gnu.org/software/emacs/
+https://emacs-lsp.github.io/lsp-mode/tutorials/CPP-guide/
+https://github.com/joaotavora/eglot
+
+* Unit Testing
+https://github.com/google/googletest
+
+* Code analysis and refactor
+https://github.com/include-what-you-use/include-what-you-use
+https://clang.llvm.org/extra/clang-tidy/
+https://clang.llvm.org/docs/ClangFormat.html
+
+* CI/CD
+https://www.travis-ci.com
+
+* Debugger
+https://lldb.llvm.org/
+https://www.gnu.org/software/gdb/

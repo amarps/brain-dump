@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       b6eff6a4-07f6-4ac6-bc4d-8a39ded1bd70
+:END:
+#+title: ServiceRegistry
+
+Service Registration adalah proses dari microservice untuk mendaftarkan koneksi detail dalam [[id:b6eff6a4-07f6-4ac6-bc4d-8a39ded1bd70][ServiceRegistry]] jadi microservice lain bisa menemukan dan mengkoneksikan aplikasinya pada aplikasi yang telah melakukan service registration.
+
+service discovery dalam kubernetes:
+1. kubernetes mengunakan internal dns service sebagai serviceregistry.
+2. services didaftarkan melalui dns (bukan individual pods).
+3. nama, ip address, dan network port dari setiap service didaftarkan
