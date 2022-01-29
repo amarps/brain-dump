@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       a79ba38b-dc7e-4a28-9576-599bf681422a
+:END:
+#+title: Discrete-Math
+#+date: [2022-01-28 Fri 10:01]
+#+author: Amar Panji Senjaya
+
+#+OPTIONS: toc:nil
+#+LaTeX_HEADER: \usepackage{minted}
+
+* What is discrete math?
+
+
+* Course
+[[id:c0068aab-77da-421d-9cb8-3609fc6c4c69][Discrete-Set]]
+

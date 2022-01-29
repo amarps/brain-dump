@@ -1,0 +1,67 @@
+:PROPERTIES:
+:ID:       c0068aab-77da-421d-9cb8-3609fc6c4c69
+:END:
+#+title: Discrete-Set
+#+date: [2022-01-28 Fri 09:15]
+#+author: Amar Panji Senjaya
+
+#+OPTIONS: toc:nil
+#+LaTeX_HEADER: \usepackage{minted}
+#+OPTIONS: \n:t
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX: \setlength\parindent{0pt}
+#+LATEX_HEADER: \renewcommand{\Large}{\normalsize}
+#+MACRO: NEWLINE @@latex:\\@@ @@html:<br>@@ @@ascii:|@@
+#+LATEX: \newpage
+
+* What is Set
+A *set* is a collection of objects. Individual object of set is element \in. Individual object of element that is not in The set is  called not in element denoted with \notin.
+** Examples
+- A = Employees in a company
+  John \in A
+- B = {1,3,4,7}
+  3 \in A
+  \pi \notin B
+- Z = Integers
+  3 \in Z
+
+** Order And Repetition Don't Matter
+#+BEGIN_SRC markdown
+{1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
+            = {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
+#+end_src
+
+#+LATEX: \newpage
+
+** Subsets
+- Every Element of A is also in B = A \subseteq B
+*** Example 1
+A = {1, 3}
+B = {1, 3, 4, 6}
+A \subseteq B
+*** Example 2
+A = {1, 8}
+B = {1, 3, 4, 6}
+A \nsubseteq B
+because \in 8 is not in B
+
+** Set-Roster Notion
+Replace ... with continuos clear pattern
+Example:
+Positive even integers
+{0, 2, 4, 6, ...}
+all even integers
+{..., -6, -4, -2, 0, 2, 4, 6, ...}
+
+** Set-Builder Notation
+General form: { x | P(x) }
+x variable
+"|" such that
+P(x) Property is true
+Example even integers
+= { x | x = Twice an integer }
+Example square root
+{ x | \sqrt{x} \in \mathbb{Z} }
+
+** Empty Set
+
