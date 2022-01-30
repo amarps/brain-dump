@@ -1,0 +1,73 @@
+:PROPERTIES:
+:ID:       39fea342-7645-4b37-a992-b07e1111b91e
+:END:
+#+title: luabook_note
+#+date: [2022-01-30 Sun 20:19]
+#+author: Amar Panji Senjaya
+
+* Beginning
+** Why LUA is widely used
+*** simplicity
+it has few(but powerfull) concepts. this make lua easy to learn and
+contribute to its small size.
+(It's 220kb in linux 64-bit executable including all libraries)
+*** extensibility
+Lua's extensibility is so remarkable that many people regard Lua not as a language,
+but as a kit for building domain specific languages. lua implements most of it's
+own basic functionality through external libraries. It is really easy to interface
+Lua with external languages like C/C++, Java, C#, and Python.
+*** portability
+Lua is stick to ISO (ANSI) C. This way you do not
+**** All flavor of Unix(Linux, FreeBSD, etc.)
+**** Windows, Android, IOS, OSX IBM mainframes;
+**** game consoles (playstation, xbox, wii, etc.);
+**** microcontrollers (Arduino, etc.);
+and many more.
+*** efficientcy
+Independent benchmarks show Lua as one of the fastest languages in the realm of scripting
+language.
+** What LUA commonly used for?
+*** Embedded system
+*** Mobile devices
+*** IOT
+*** Games
+** Lua is Designed to be integrated with software written in C/C++ and other conventional language
+** Why lua is so simple and small
+because it does not try to do what C is already good for these tasks. what Lua does offer is what c is not good for.
+
+*** What does Lua offer is what c is not good for
+- a good distance from hardware
+- dynamic structures
+- no redundancies
+- ease of testing
+- and debugging
+
+*** for solving C problem Lua has
+**** safe environment
+**** automatic memory management
+Simplifies interfaces because there is no need to decide who is
+responsible for allocating and deallocating memory or how to handle
+overflows.
+**** good facilities for handling strings and other data with dynamic size
+**** dynamic typing
+allows a great of polymorphism.
+
+**** First class functions
+allow a high degree of parameterization making functions more versatile
+
+** What is the most powerfull LUA feature
+Part of the power of Lua comes from its libraries.
+But the main strength of Lua is comes from its extensibility.
+
+** Another intersting thing about Lua
+*** More than an extensible language, Lua is also a glue language.
+lua supports a component based approach where we create an application
+by gluing together existing high level components. These components are written
+in a compiled, statically-typed language such as C or C++.
+Lua is not only used to glue components but also adapt and reshape them,
+and to create completely new components.
+
+* Basic Programming in Lua
+* Useful link
+Programming in LUA fourth edition by Roberto lerusalimschy
+https://stackoverflow.com/questions/2690544/what-is-the-difference-between-a-strongly-typed-language-and-a-statically-typed
