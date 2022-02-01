@@ -266,15 +266,10 @@ target_include_directories(Tutorial PUBLIC
 
 once this is done you can run cmake and the build it.
 
-.-----------.------------------.----------------.
 |           | Linked by target | Link interface |
-:-----------+------------------+----------------:
 | PUBLIC    |        X         |        X       |
-:-----------+------------------+----------------:
 | PRIVATE   |        X         |                |
-:-----------+------------------+----------------:
 | INTERFACE |                  |        X       |
-'-----------'------------------'----------------'
 
 Linked by target: libraries included in target sources (not a dependency for projects linking the library).
 Link interface: libraries included in target public headers (dependencies for projects linking the library).
