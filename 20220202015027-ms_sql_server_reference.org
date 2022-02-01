@@ -1,0 +1,464 @@
+:PROPERTIES:
+:ID:       1a8e191f-7287-40cb-a045-e5c6b2e4d09c
+:END:
+#+title: ms-sql-server-reference
+#+date: [2022-02-02 Wed 01:50]
+#+author: Amar Panji Senjaya
+#+TITLE: Microsoft SQL Server
+
+* Setup in linux
+install mssql for server
+and mssql-tool for client
+
+after installing mssql you can run command below
+to setup server
+#+begin_src sh
+  /opt/mssql/bin/mssql-conf setup
+#+end_src
+check server is run
+systemctl status mssql.service
+
+default port for mssql server is *1433*
+
+* connect to mssql using sqlcmd
+sqlcmd -S localhost -U SA -P '<YourPassword>'
+- S server location
+- U username
+  SA is default user
+- d to specify database
+
+* Basic use case sqlcmd
+after writting command type on the next line `go` to execute the command
+** Check databases and quit
+- Check Available Database
+  SELECT Name from sys.Databases
+- quit sqlcmd client
+  quit
+
+** Check mssql version on linux
+sql version when i write this documentation.
+
+Microsoft SQL Server 2019 Express Edition (64-bit) on Linux (Arch Linux) <X64>
+#+begin_src sh
+  sqlcmd -S localhost -U SA -Q 'select @@VERSION'
+#+end_src
+
+** Basic command to manipulate database
+- Create new database
+  CREATE DATABASE TestDB
+- Creating table
+  create table inventory (id INT, name NVARCHAR(50), quantity INT)
+- Inserting into table
+  Insert Into inventory values (1, 'banana', 150);
+  insert into inventory values (2, 'orange', 154);
+- get data from table
+  Select * from Inventory where quantity > 152;
+- delete database
+  drop database TestDB
+
+** Using .sql script
+- Run the script file
+  sqlcmd -S hostname -i scriptlocation
+  you can add -o to store the output of your script
+  you also need to provide username and password to run script
+
+#+begin_src sh
+  sqlcmd -S localhost -i script.sql -U username -P 'password' -o outputfile
+ #+end_src
+
+
+** stop or break execution of a SQL script
+#+begin_src sql
+  print 'hi';
+  go
+  raiserror('Oh no a fatal error', 20, -1) with log;
+  go
+  print 'ho';
+#+end_src
+
+** Get all tables from databases
+`where table_type='BASE TABLE'` remove *view* from get data
+#+begin_src sql
+  SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
+#+end_src
+
+** Drop table if exist
+The 'U' for the second param apparently means "Only look for objects with this name that are tables". One source. So OBJECT_ID('TableName') isn't wrong, but it's not insanely precise either, thus 'U' in
+#+begin_src sql
+  IF OBJECT_ID('dbo.Scores', 'U') IS NOT NULL 
+  DROP TABLE dbo.Scores; 
+#+end_src
+
+
+* Types of sql statements
+** DDL (Data Definition Language)
+The statements that with the objects in a database called the data definition language
+#+begin_src sql
+  /* DDL Statements */
+  CREATE DATABASE				 -- Creates a new database.
+  CREATE TABLE				 -- Creates a new table in the current database.
+  CREATE INDEX				 -- Creates a new index for the specified table.
+  CREATE SEQUENCE				 -- Creates a new sequence in the current database.
+  CREATE FUNCTION				 -- Creates a new function in the current database.
+  CREATE PROCEDURE			 	 -- Creates a new stored procedure in the current database.
+  CREATE TRIGGER				 -- Creates a new trigger in the current database.
+  CREATE VIEW			 	 -- Creates a new view in the current database.
+  ALTER TABLE			 	 -- Modifies the structure of the specified table.
+  ALTER SEQUENCE				 -- Modifies the attributes of a sequence.
+  ALTER FUNCTION				 -- Modifies the specified function.
+  ALTER PROCEDURE				 -- Modifies the specified stored procedure.
+  ALTER TRIGGER				 -- Modifies the specified trigger.
+  ALTER VIEW				 -- Modifies the specified view.
+  DROP DATABASE				 -- Deletes the specified database.
+  DROP TABLE				 -- Deletes the specified table.
+  DROP SEQUENCE				 -- Deletes the specified sequence.
+  DROP INDEX				 -- Deletes the specified index.
+  DROP FUNCTION				 -- Deletes the specified function.
+  DROP PROCEDURE				 -- Deletes the specified stored procedure.
+  DROP TRIGGER				 -- Deletes the specified trigger.
+  DROP VIEW				     	 -- Deletes the specified view.
+ #+end_src
+ 
+** DML (Data Manipulation Language)
+The statements that work with the data in a database are called the data manipulation language.
+#+begin_src sql
+  /*DML Staments*/
+  /* Retrieves data from one or more tables */
+  SELECT
+  /* Add one or more new rows to a table */
+  INSERT
+  /* Changes one or more existing rows in a table */
+  UPDATE
+  /* Deletes one or more existing rows from a table */
+  DELETE    
+#+end_src
+* Create database within script
+#+begin_src sql
+--create where
+USE master;  
+GO
+--check if exists
+IF DB_ID (N'MyDatabaseTest') IS NULL  
+DROP DATABASE MyOptionsTest;  
+GO 
+--create database 
+CREATE DATABASE MyDatabaseTest  
+COLLATE SQL_Latin1_General_CP1_CI_AS  
+WITH TRUSTWORTHY ON, DB_CHAINING ON;  
+GO
+--Verifying collation and option settings.  
+SELECT name, collation_name, is_trustworthy_on, is_db_chaining_on  
+FROM sys.databases  
+WHERE name = N'MyOptionsTest';  
+GO 
+#+end_src
+
+Delete existing database
+#+begin_src sql
+IF DB_ID (N'MyDatabaseTest') IS NOT NULL  
+DROP DATABASE MyDatabaseTest;
+#+end_src
+* Example stataments usage
+
+** Create new database
+#+begin_src sql
+	create DATABASE AP;
+#+end_src
+
+** Attaches an existing database file
+#+begin_src sql
+  create DATABASE AP
+       ON PRIMARY (FILENAME =
+          'C:\User\SQL Server 2019\Datbases\Test_AP.mdf')
+       FOR ATTACH
+#+end_src
+
+** Creates a new table
+#+begin_src sql
+  CREATE TABLE Invoices(
+       InvoiceID		INT		NOT NULL IDENTITY PRIMARY KEY,
+       VendorID		INT		NOT NULL REFERENCES Vendors(VendorID), --References indicate Foreign key
+       InvoiceNumber	VARCHAR(50)	NOT NULL,
+       InvoiceDate		DATE		NOT NULL,
+       PaymentTotal		MONEY		NOT NULL,
+       InvoiceTotal		MONEY		NOT NULL DEFAULT 0,
+       CreditTotal		MONEY		NOT NULL DEFAULT 0,
+       TermsID		INT		NOT NULL REFERENCES Terms(TermsID),
+       InvoiceID		DATE		NOT NULL,
+       PaymentDate		DATE		NULL,
+  );
+#+end_src
+
+** Adds a new column to the table
+#+begin_src sql
+  ALTER TABLE Invoices
+  ADD BalanceDue MONEY NOT NULL;
+#+end_src
+
+** Deletes the new column
+#+begin_src sql
+  ALTER TABLE Invoices
+  DROP COLUMN BalanceDue;
+#+end_src
+
+** Creates an index on the table
+#+begin_src sql
+  CREATE INDEX IX_Invoices_VendorID
+       ON Invoice;
+#+end_src
+
+**  Select statements that retrieves and sorts selected columns and rows from the Invoices tables
+#+begin_src sql
+  SELECT InvoiceNumber, InvoiceDate, InvoiceTotal,
+    PaymentTotal - PaymentTotal - CreaditTotal AS BalanceDue
+    FROM Invoices
+  WHERE InvoiceTotal - PaymentToal - CreditTotal > 0
+      ORDER BY InvoiceDate;
+#+end_src
+
+** Join data from two or more tables
+#+begin_src sql
+  FROM Vendors
+     INNER JOIN Invoices
+           ON Vendors.VendorID = Invoices.VendorID
+     INNER JOIN InvoiceLineItems
+           ON Invoices.InvoiceID = InvoiceLineItems.InvoiceID
+#+end_src
+
+** Joins data from the Vendors and Invoices table
+#+begin_src sql
+  SELECT VendorName, InvoiceNumber, InvoiceDate, InvoiceTotal
+  FROM Vendors INNER JOIN Invoices
+       ON Vendors.VendorID = Invoices.VendorID
+  WHERE InvoiceTotal >= 500
+  ORDER BY VendorName, InvoiceTotal DESC;
+#+end_src
+
+** Adds a row to the Invoices table
+#+begin_src sql
+  INSERT INTO Invoices (VendorID, InvoiceNumber, InvoiceDate, InvoiceTotal, TermsID, InvoiceDueDate)
+  VALUES (12, '3289175', '2/18/2020', 165, 3, '3/18/2020');
+#+end_src
+
+** Changes the value of the CreditTotal Column
+#+begin_src sql
+  UPDATE Invoices
+  SET InvoiceDueDate = InvoiceDueDate + 30
+  WHERE TermsID = 4;
+#+end_src
+** Delete s a selected invoice from the Invoices table
+#+begin_src sql
+  DELETE FROM Invoices
+  WHERE InvoiceNumber = '4-342-8069';
+#+end_src
+** Deletes all paid invoices from the invoices table
+#+begin_src sql
+  DELETE FROM Invoices
+  WHERE InvoiceTotal - PaymentTotal - CreditTotal = 0;
+#+end_src
+
+* Work with other database objects
+
+** View
+View is predefined query that's stored in a database.
+*** Create view statements for a view named VendorsMin
+#+begin_src sql
+  CREATE VIEW VendorsMin AS
+       SELECT VendorName, VendorState, VendorPhone
+       FROM Vendors
+#+end_src
+
+*** Select statement that uses the VendorsMin view
+#+begin_src sql
+  SELECT * FROM VendorsMin
+  WHERE VendorState = 'CA'
+  ORDER BY VendorName
+#+end_src
+
+** Procedurs
+A stored procedurs is a set of one or more SQL statements that are stored together in a database.
+*** Create procedure named spVendorsByState
+#+begin_src sql
+  CREATE PROCEDURE spVendorsByState @StateVar char(2) AS
+       SELECT VendorName, VendorState, VendorPhone
+       FROM Vendors
+       WHERE VendorState = @StateVar
+       ORDER BY VendorName
+#+end_src
+
+*** statement that executes the spVendorByState stored procedure
+#+begin_src sql
+	EXEC spVendorByState 'CA';
+#+end_src
+
+* DML Example
+** Select Statement
+| Clause              | Description                                                                        |
+|---------------------+------------------------------------------------------------------------------------|
+| SELECT              | Describes the column that will be included in the result set.                      |
+| FROM                | Names the table from which the query wil retrieve the data.                        |
+| WHERE [optional]    | Specifies the conditions that must met for a row to be included in the result set. |
+| ORDER BY [optional] | Specifies how the rows in the result set will be sorted.                           |
+
+*** Retrieves all the data from the invoices table
+#+begin_src sql
+	SELECT * FROM Invoices;
+#+end_src
+
+*** Retrieves three columns from each row, sorted in ascending sequence by invoice total
+#+begin_src sql
+  SELECT InvoiceNumber, InvoiceDate, InvoiceTotal
+  FROM Invoices
+  ORDER BY InvoiceTotal;
+#+end_src
+
+*** Retrieve two columns and a calculated value for a specific invoice
+#+begin_src sql
+  SELECT InvoiceID, InvoiceTotal, CreditTotal + PaymentTotal AS TotalCredits
+  FROM Invoices
+  WHERE InvoiceID = 17;
+#+end_src
+
+*** Retrieves all invoices between given dates
+#+begin_src sql
+  SELECT InvoiceNumber, InvoiceDate, InvoiceTotal
+  FROM Invoices
+  WHERE InvoiceDate BETWEEN '2020-01-01' AND '2020-03-31' ORDER BY InvoiceDate;
+#+end_src
+
+*** Statement that return an empty result set
+#+begin_src sql
+  SELECT InvoiceNumber, InvoiceDate, InvoiceTotal
+  FROM Invoices
+  WHERE InvoiceTotal > 50000;
+#+end_src
+
+** Select Column Specification
+
+* DDL Example
+** How To Create A Database
+*** Create Database Statements
+#+begin_src sql
+  CREATE DATABASE New_DB;
+#+end_src
+
+*** Attaches an existing database file
+#+begin_src sql
+  CREATE DATABASE New_DB
+         ON PRIMARY (FILENAME =
+         'C:\Username\SQL Server 2019\Databases\Existing_DB.mdf')
+  FOR ATTACH;
+#+end_src
+
+** How To Create A Table
+*** Create table without column attribute
+#+begin_src sql
+  CREATE TABLE Vendors
+       (VendorID		INT,
+       VendorName		VARCHAR(50));
+#+end_src
+
+*** Create table with column attribute
+#+begin_src sql
+  CREATE TABLE Vendors
+       (VendorID		INT		PRIMARY KEY IDENTITY,
+       VendorName		INT		NOT NULL,
+       InvoiceTotal 	MONEY		NULL DEFAULT 0);
+#+end_src
+**** IDENTITY attribute meaning
+The columns of a base table BT can optionally include not more than one identity column. The declared type of an identity column is either an exact numeric type with scale 0 (zero), INTEGER for example, or a distinct type whose source type is an exact numeric type with scale 0 (zero). An identity column has a start value, an increment, a maximum value, a minimum value, and a cycle option.
+
+The various DBMS have so far implemented similar features in different ways and syntax (MySQL: AUTO_INCREMENT, SQL Server: IDENTITY (seed, increment), PostgreSQL: serial using SEQUENCE, Oracle: using triggers, etc) and only recently added sequence generators (SQL Server in version 2012 and Oracle in 12c).
+
+
+*** Definition that uses the SPARSE attribute
+Sparse columns are ordinary columns that have an optimized storage for null values. Sparse columns reduce the space requirements for null values at the cost of more overhead to retrieve non-NULL values. Consider using sparse columns when the space saved is at least 20 percent to 40 percent. Sparse columns and column sets are defined by using the CREATE TABLE or ALTER TABLE statements.
+#+begin_src sql
+  VendorAddress2		VARCHAR(50)	SPARSE NULL
+#+end_src
+
+** Basic Syntax to create index statement
+*** Creates a nonclustered index based on a single column
+#+begin_src sql
+  CREATE INDEX IX_VendorID
+       ON Invoices (VendorID);
+#+end_src
+
+*** Creates a non clustered index based on a two column
+#+begin_src sql
+  CREATE INDEX IX_Invoices
+       ON Invoices (InvoiceDate DESC, InvoiceTotal);
+#+end_src
+
+*** Creates a filetered index for a subset of data in column
+#+begin_src sql
+  CREATE INDEX IX_InvoicesPaymentFilter
+       ON Invoices (InvoiceDate DESC, InvoiceTotal);
+  WHERE PaymentDate IS NULL;
+#+end_src
+
+*** Creates a filetered index for for categories in column
+#+begin_src sql
+  CREATE INDEX IX_InvoicesDateFilter
+       ON Invoices (InvoiceDate DESC, InvoiceTotal);
+  WHERE InvoiceDate > '2020-02-01';
+#+end_src
+
+** How to use constraint
+| No | Constraint    | Used as a Column-level constraint                       | Used as a table-level constraint         |
+|----+---------------+---------------------------------------------------------+------------------------------------------|
+|  1 | NOT NULL      | Prevents null values from being stored in the column.   | n/a                                      |
+|  2 | PRIMARY KEY   | Requres that each row in the table have a unique value  | Requires That each row in the table      |
+|    |               | in the colmun. Null Values are not allowed.             | have a unique values over one or more    |
+|    |               |                                                         | columns. Null values are not allowed     |
+|  3 | UNIQUE        | Requires that each row in the table have a unique value | Requires that each row in the table      |
+|    |               | in the column.                                          | have a unique set of values over one or  |
+|    |               |                                                         | more columns.                            |
+|  4 | CHECK         | Limits the values for a column                          | Lmits the values for one or more column  |
+|  5 | [FOREIGN KEY] | Enforces referential integrity between a column in the  | Enforces referential integrity in the    |
+|    | REFERENCES    | new table and a column in a related table.              | new table and one or more columns in the |
+|    |               |                                                         | related table.                           |
+
+*** Create a table with a two column primary key constraint
+#+begin_src sql
+  CREATE TABLE InvoicelineItems1
+  (InvoiceID		INT		NOT NULL,
+  InvoiceSequence		SMALLINT	NOT NULL,
+  InvoiceLineItemAmount	MONEY		NOT NULL,
+  PRIMARY KEY (InvoiceID, InvoiceSequence	));
+#+end_src
+
+*** Creates a table with two column-level check constraint
+#+begin_src sql
+  CREATE TABLE InvoicelineItems1
+  (InvoiceID		INT		NOT NULL,
+  InvoiceTotal		MONEY		NOT NULL CHECK (InvoiceTotal >= 0),
+  PaymentTotal		MONEY		NOT NULL DEFAULT 0 CHECK (PaymentTotal >= 0));
+#+end_src
+
+*** Statement with the check constraints coded at the table level
+#+begin_src sql
+  CREATE TABLE Invoices2
+    (InvoiceID		INT		NOT NULL,
+    InvoiceTotal		MONEY		NOT NULL,
+    PaymentTotal		MONEY		NOT NULL DEFAULT 0,
+  CHECK ((InvoiceTotal >= 0) AND (PaymentTotal >= 0));
+#+end_src
+
+** How to use check constraint
+*** Limits invoices to positive amounts
+#+begin_src sql
+  CREATE TABLE Invoices3
+  (InvoiceID		INT		NOT NULL IDENTITY PRIMARY KEY,
+  InvoiceTotal		MONEY		NOT NULL CHECK (InvoiceTotal > 0));
+#+end_src
+
+
+* Useful link
+https://dbeaver.io/
+https://stackoverflow.com/questions/41996458/how-to-execute-a-sql-script-in-dbeaver
+https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database?view=sql-server-ver15
+https://stackoverflow.com/questions/659188/sql-server-stop-or-break-execution-of-a-sql-script
+https://dba.stackexchange.com/questions/158988/what-are-identity-columns
+https://docs.microsoft.com/en-us/sql/relational-databases/tables/use-sparse-columns?view=sql-server-ver15
+
