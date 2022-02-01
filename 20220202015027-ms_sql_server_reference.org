@@ -455,10 +455,10 @@ Sparse columns are ordinary columns that have an optimized storage for null valu
 
 
 * Useful link
-https://dbeaver.io/
-https://stackoverflow.com/questions/41996458/how-to-execute-a-sql-script-in-dbeaver
-https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database?view=sql-server-ver15
-https://stackoverflow.com/questions/659188/sql-server-stop-or-break-execution-of-a-sql-script
-https://dba.stackexchange.com/questions/158988/what-are-identity-columns
-https://docs.microsoft.com/en-us/sql/relational-databases/tables/use-sparse-columns?view=sql-server-ver15
+- https://dbeaver.io/
+- https://stackoverflow.com/questions/41996458/how-to-execute-a-sql-script-in-dbeaver
+- https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database?view=sql-server-ver15
+- https://stackoverflow.com/questions/659188/sql-server-stop-or-break-execution-of-a-sql-script
+- https://dba.stackexchange.com/questions/158988/what-are-identity-columns
+- https://docs.microsoft.com/en-us/sql/relational-databases/tables/use-sparse-columns?view=sql-server-ver15
 
