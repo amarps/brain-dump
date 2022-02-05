@@ -1,0 +1,130 @@
+:PROPERTIES:
+:ID:       61082dcc-e0e8-4b27-aeca-d96d49af558c
+:END:
+#+title: kubernetes
+#+date: [2022-02-05 Sat 21:27]
+#+author: Amar Panji Senjaya
+
+Berdasarkan The kubernetes book versi 2020
+https://www.amazon.com/Kubernetes-Book-Version-November-2018-ebook/dp/B072TS9ZQZ/ref=sr_1_1?keywords=kubernetes&qid=1637967166&s=books&sr=1-1
+
+* Get Help
+slack: slack.k8s.io
+tiwtter: @kubernetesio
+
+* Kubernetes
+Kubernetes deploys and manages (orchestrates) applications that are packaged and run as containers (container-
+ized) and that are built in ways (cloud-native microservices) that allow them to scale, self-heal, and be updated
+inline with modern business requirements.
+
+* Latar belakang kubernetes
+** Apa yang bisa dilakukan kubernetes?
+- Deploy application
+- Scale secara dinamik sesuai kebutuhan
+- memperbaiki app secara automatis ketika app rusak
+- perform zero-downtime rolling updates and rollback
+- Dan lebih banyak lagi yang lain
+  
+** Apa itu containerized app
+containerized application adalah aplikasi yang berjalan dalam container.
+sebelum adanya container, aplikasi harus berjalan dalam server fisik atau dalam mesin virtual. containers adalah hal baru(nggak baru banget) untuk kita membungkus dan menjalankan aplikasi kita, dan kontainer app cepat, lebih ringan dan lebih cocok untuk modern bisnis dibandingkan server dan mesin virtual.
+
+hal yang trending dari waktu ke waktu untuk mendeploy aplikasi:
+- aplikasi berjalan pada server fisik(1980 sampai 1990)
+- aplikasi berjalan pada mesin virtual(2000s sampai 2010)
+- aplikasi berjalan pada container di era cloud(saat ini)
+
+sementara kubernetes bisa memanage workload, mesin virtual dan serverless fungsi, kubernetes juga sangat umum digunakan untuk memanage banyak aplikasi dalam kontainer.
+
+** Apa itu cloud-native app
+cloud-native app adalah aplikasi yang di desain untuk memenuhi kebutuhan business modern(auto-scaling, self-healing, rolling updates etc.) dan bisa berjalan pada kubernetes.
+
+cloud native app bukan aplikasi yang berjalan pada public cloud. cloud native app bisa berjalan pada public cloud, akan tetapi cloud native app bisa berjalan dimanapun kita memiliki kubernetes bahkan dalam data center kalian sendiri.
+
+** Apa itu aplikasi microservice?
+aplikasi microservice adalah aplikasi bisnis yang dibuat dari banyak bagian bagian kecil yang bisa berkomunikasi dan membentuk sebuah aplikasi yang bermakna. contoh, aplikasi e-commerce yang terdiri dari beberapa bagian kecil yang memiliki fungsi berbeda beda:
+- web front-end
+- catalog service
+- shopping cart
+- authentication service
+- logging service
+- persistent store
+- dan banyak lagi...
+
+setiap individu dari banyak service ini disebut microservice. biasanya, setiap setiap microservice ditulis oleh tim yang berbeda, dan setiap tim bisa memiliki versi rilisnya sendiri dan dapat discale secara independent. Contoh, kamu bisa membuat path dan scale logging microservice tanpa memberikan efek pada app lain.
+
+membangun aplikasi dengan cara ini sangat penting untuk cloud native application.
+
+* Darimana asal kubernetes
+Pada awalnya Amazon Web Services(AWS) changed the world when it brought us modern-day cloud  computing. since then, everyone else has been trying to catch-up.
+
+One of the companies trying to catch-up was Google. Google has its own very good cloud, and nees a way to abstract the value of aws, and make it easier for potential customers to use google cloud.
+
+Google has boatloads of experience working with containers at scale. For example, huge Google applications, such as search and gmail, have been running at extreme scale on containers for a lot of years - since way before Docker brought us easy to use containers. To orchestrates and manage these containerised apps, google had a couple in-house proprietary systems. They took the lessons learned from these in-house systems, and created a new platform called kubernetes and donated it to the newly from these in-house systems, and created a new platform called kubernetes, and dontaed it to newly formed cloud native computing foundation(CNCF) in 2014 as an open-source projet.
+
+** Kubernetes and Docker
+
+** What about kubernetes vs Docker Swarm
+
+** Kubernetes and Borg: Resistance is futile
+
+** Kubernetes - what's in the name
+The name Kubernetes (koo-ber-net-eez) comes from the Greek word meaning Helmsman – the person who
+steers a seafaring ship. This theme is reflected in the logo.
+
+Apparently, some of the people involved in the creation of Kubernetes wanted to call it Seven of Nine. If you
+know your Star Trek, you’ll know that Seven of Nine is a female Borg rescued by the crew of the USS Voyager
+under the command of Captain Kathryn Janeway. Sadly, copyright laws prevented it from being called Seven of
+Nine. However, the seven spokes on the logo are a tip-of-the-hat to Seven of Nine.
+One last thing about the name before moving on. You’ll often see Kubernetes shortened to K8s (pronounced
+“Kates”). The number 8 replaces the 8 characters between the K and the s – great for tweets and lazy typists like
+me ;-)
+
+** The operating system of the cloud
+
+*** Cloud Scale
+
+*** Application scheduling
+
+*** A quick analogy...
+* Kubernetes Principles of operation
+** Kubernetes principles of operation
+** Kubernetes from 40k
+** Kubernetes as a cluster
+** Kubernetes as an orchestrator
+** How it works?
+** Master and nodes
+** Master (control plane)
+* Installing Kubernetes
+* Working with pods
+* Kubernetes Deployment
+** Reconciliation loops
+Fundamental to desired state is the concept of background reconciliation loops (a.k.a. control loops).
+For example, ReplicaSets implement a background reconciliation loop that is constantly checking whether the
+right number of Pod replicas are present on the cluster. If there aren’t enough, it adds more. If there are too many,
+it terminates some.
+
+To be crystal clear, *Kubernetes is constantly making sure that current state matches desired state*.
+
+If they don’t match – maybe desired state is 10 replicas, but only 8 are running – Kubernetes declares a red-alert
+condition, orders the control plane to battle-stations and brings up two more replicas. And the best part... it does
+all of this without calling you at 04:20 am!
+
+But it’s not just failure scenarios. These very-same reconciliation loops enable scaling.
+
+For example, if you POST an updated config that changes replica count from 3 to 5, the new value of 5 will be
+registered as the application’s new desired state. The next time the ReplicaSet reconciliation loop runs, it will
+notice the discrepancy and follow the same process – sounding the claxon horn for red alert and spinning up
+two more replicas.
+
+It really is a beautiful thing.
+* Kubernetes Services
+
+* Service discovery
+* Kubernetes storage
+* ConfigMaps
+* StatefulSets
+* Threat modeling kubernetes
+* Real-world Kubernetes security
+** CI/CD pipeline
+** Infrastructure and networking
