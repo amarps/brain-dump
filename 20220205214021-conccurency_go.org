@@ -1,0 +1,405 @@
+:PROPERTIES:
+:ID:       1fe9bd64-52a1-490a-a7b3-a98783a59bce
+:END:
+#+title: conccurency go
+#+date: [2022-02-05 Sat 21:40]
+#+author: Amar Panji Senjaya
+
+* Conccurency
+** Parallelism vs Conccurency
+conccurency is not parallelism
+*** Parallelism mean to run multiple things at the exactly the same time
+*** Conccurency mean to run multiple things with potential at the the same time and the result is in the right order
+
+** goroutine example
+to run goroutine you can use keyword go before calling any function
+#+begin_src  go
+  go FunctionA() // running go routine
+#+end_src
+
+*** Running goroutine to call an endless function
+running two goroutine conccurently
+#+begin_src  go
+  func EndlessPrintWithOrder(thing string) {
+      for i := 0; true; i++ {
+          fmt.Println(i, thing)
+          time.Sleep(time.Millisecond * 500)
+      }
+  }
+
+  func main() {
+      go Endlessprintwithorder("Anjing") // running goroutine
+      Endlessprintwithorder("Kucing") // this function block main process to finish
+  }
+#+end_src
+
+this piece of code will not execute any of these call to function because there is no blocking on the end of main function.
+as soon as the code run, the main process will finish and that two goroutine will be killed before they succesfully called.
+#+begin_src  go
+  func main() {
+      go Endlessprintwithorder("Anjing") // running goroutine
+      go Endlessprintwithorder("Kucing") // also running goroutine
+  }
+#+end_src
+
+to call this two code you need to block the end of main function.
+example to blocking function that will block goroutine.
+#+begin_src  go
+  func main() {
+      go Endlessprintwithorder("Anjing") // running goroutine
+      go Endlessprintwithorder("Kucing") //
+      time.Sleep(time.Second) // sleep for 1 second before quitting
+  }
+
+  func main() {
+      go Endlessprintwithorder("Anjing") // running goroutine
+      go Endlessprintwithorder("Kucing") //
+      fmt.Scanln() // block waitng for user input
+  }
+#+end_src
+these 2 example doesn't realy useful because for the first example we dont know if the program is done printing or not if we just give a second. for the second example it's need user to input before it can run correctly.
+
+*** Wait goroutine to finish using sync.waitgroup
+#+begin_src  go
+  func PrintWithOrderAndDelay(thing string) {
+      for i := 0; i < 5; i++ {
+          fmt.Println(i, thing)
+          time.Sleep(time.Millisecond * 500)
+      }
+  }
+
+  func main() {
+      var wg sync.WaitGroup
+      wg.Add(1)   // increment wg by one
+      go func() { // wrap function with sleep inside goroutine
+          PrintWithOrderAndDelay("Anjing")
+          wg.Done()                        // call done in current thread
+      }()
+
+      wg.Wait() // waiting in the main thread
+  }
+#+end_src
+
+*** Using channel to block goroutine
+channel is used to communicate and synchronizing between thread(goroutine)
+- Sending and receiving are blocking operation
+- When you want to receive you need a value to receive otherwise it will cause deadlock
+- Similarly when you want send you need a reciver to receive otherwise it will cause deadlock
+
+Sending to channel
+#+begin_src  go
+ c <- msg
+#+end_src
+
+receiving from channel
+#+begin_src  go
+ msg = <- c
+#+end_src
+
+send and recv channel cannot run in the same thread
+#+begin_src  go
+func main() {
+	c := make(chan string)
+	c <- "a" // this is blocking and cause deadlock
+	fmt.Println(<-c) 
+}
+#+end_src
+
+this one will work because 
+#+begin_src  go
+  func main() {
+      c := make(chan string)
+      go func() { c <- "a" }()
+      fmt.Println(<-c)
+  }
+#+end_src
+
+or alternatively you can use buffered channel to block
+buffered channel will not block for sending msg before the channel is full.
+but buffered channel will cause deadlock if:
+- you receive on empty channel
+- you send buffer after channel buffer is full
+#+begin_src  go
+  func main() {
+      c := make(chan string, 1)
+      c <- "a"
+      fmt.Println(<-c)
+  }
+#+end_src
+
+
+Use channel to block groroutine
+#+begin_src  go
+  func IterateMessageWithOrder(c chan int) {
+      for i := 0; i < 5; i++ {
+          time.Sleep(time.Second)
+          fmt.Println("sleep 1 second")
+      }
+      close(c)
+  }
+
+  func main() {
+      c := make(chan int)
+      go IterateMessageWithOrder(c)
+      <-c // block until channel receive any data
+  }
+#+end_src
+
+same thing
+#+begin_src  go
+  func main() {
+      c := make(chan int)
+      go func(chan int) {
+          i := 0
+          for i < 3 {
+              time.Sleep(time.Second)
+              fmt.Println("wait 1 second")
+              i++
+          }
+          fmt.Printf("total wait time: %d second\n", i)
+      }(c)
+
+      _ = <-c // block until channel receive any data
+  }
+#+end_src
+
+Use channel to send message between thread
+#+begin_src  go
+  func IterateMessageWithOrder(c chan string) {
+      for i := 0; i < 5; i++ {
+          time.Sleep(time.Second)
+          c <- "sleep 1 second" // send msg string to channel
+      }
+      close(c)
+  }
+#+end_src
+
+#+begin_src  go
+  func main() {
+      c := make(chan string)
+      go IterateMessageWithOrder(c)
+
+      for {
+          msg, open := <-c
+          if !open {
+              break
+          }
+          fmt.Println(msg)
+      }
+  }
+#+end_src
+
+simplified form for code above
+#+begin_src  go
+  func main() {
+      c := make(chan string)
+      go IterateMessageWithOrder(c)
+      for msg := range c { // simplified form of code above
+          fmt.Println(msg)
+      }
+  }
+#+end_src
+
+another example of using channel
+#+begin_src  go
+func IterateMessageWithOrder(c chan string) {
+	fmt.Println("IterateMessageWithOrder Thread Starting")
+	for i := 0; i < 5; i++ {
+		time.Sleep(time.Second)
+		c <- "sleep 1 second" // send msg string to channel
+	}
+	fmt.Println("IterateMessageWithOrder Thread End")
+}
+
+func WaitFor7Second(c chan string) {
+	fmt.Println("WaitFor7Second Thread Starting")
+	time.Sleep(time.Second * 7)
+	fmt.Println("WaitFor7Second Thread End")
+	close(c)
+}
+
+func main() {
+	c := make(chan string)
+	go IterateMessageWithOrder(c)
+	go WaitFor7Second(c)
+
+	for msg := range c { // syntatic sugar for waiting until channel is closed
+		fmt.Println(msg) // receive msg from another thread and print it
+	}
+}
+#+end_src
+
+buffered channel ok
+#+begin_src  go
+  func main() {
+      c := make(chan string, 1)
+      c <- "a" // send 1
+      a := <-c // receive 1
+      // current channel size 0
+      fmt.Println(a)
+      c <- "b" // send 1
+      a = <-c // receive 1
+      // current channel size 0
+      fmt.Println(a)
+  }
+#+end_src
+
+#+begin_src  go
+  func main() {
+      c := make(chan string, 1)
+      c <- "a" // send 1
+      c <- "b" // receive 1
+
+      msg := <- c
+      fmt.Println(msg)
+
+      // no error even if program end here
+
+      msg = <- c
+      fmt.Println(msg)
+  }
+#+end_src
+
+buffered channel send deadlock out of range
+#+begin_src  go
+  func main() {
+      c := make(chan string, 1)
+      c <- "a" // send 1
+      c <- "b" // deadlock here because c size is 1 but has 2 value
+      a := <-c // receive 1
+      // current channel size 0
+      fmt.Println(a)
+      c <- "b" // send 1
+      a = <-c // receive 1
+      // current channel size 0
+      fmt.Println(a)
+  }
+#+end_src
+
+buffered channel receive deadlock
+#+begin_src  go
+  func main() {
+      c := make(chan string, 1)
+      c <- "a" // send 1
+      a := <-c // receive 1
+        b := <-c // deadlock here channel empty but wamt to receive 1 block 
+      c <- "b" // send 1
+      a = <-c // receive 1
+      // current channel size 0
+      fmt.Println(a)
+      fmt.Println(b)
+  }
+#+end_src
+
+*** Using Select to receive from which ever channel that ready to receive
+look at code below it looks fine but if you run the program, the c1 channel is blocked by c2 channel its not printing any message every 500ms but its waiting the c2 which will print each two second.
+#+begin_src  go
+func main() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		for {
+			c1 <- "Every 500ms"
+			time.Sleep(time.Millisecond * 500)
+		}
+	}()
+
+	go func() {
+		for {
+			c2 <- "Every two second"
+			time.Sleep(time.Second * 2)
+		}
+	}()
+
+	for {
+		fmt.Println(<-c1)
+		fmt.Println(<-c2)
+	}
+}
+#+end_src
+
+to solve problem on code above we can use select statement.
+The select statement will receive from any channel that ready to receive.
+#+begin_src  go
+  func main() {
+      c1 := make(chan string)
+      c2 := make(chan string)
+
+      go func() {
+          for {
+              c1 <- "Every 500ms"
+              time.Sleep(time.Millisecond * 500)
+          }
+      }()
+
+      go func() {
+          for {
+              c2 <- "Every two second"
+              time.Sleep(time.Second * 2)
+          }
+      }()
+
+      var msg string
+      for {
+        select {
+          case msg = <- c1:
+            fmt.Println(msg)
+        case msg = <- c2:
+            fmt.Println(msg)
+        }
+      }
+  }
+#+end_src
+
+*** Worker Poll
+#+begin_src  go
+  package main
+
+  import "fmt"
+
+  func main() {
+      // specify 20 channel for handling communication
+      // between main thread and worker thread
+      jobs := make(chan int, 20)
+      results := make(chan int, 20)
+
+      // will run on 4 core
+      go worker(jobs, results)
+      go worker(jobs, results)
+      go worker(jobs, results)
+      go worker(jobs, results)
+
+      // specify 40 jobs for worker
+      // send all i to jobs channel at worker goroutine
+      for i := 0; i < 40; i++ {
+          jobs <- i // send i to jobs channel
+      }
+      close(jobs)
+
+      // receive all result from worker goroutine
+      for j := 0; j < 40; j++ {
+          fmt.Println(<-results) // print received result
+      }
+  }
+
+  // this function will receive jobs and send result channel
+  func worker(jobs <-chan int, result chan<- int) {
+      for n := range jobs {
+          result <- fib(n) // send fib(n) to result channe
+      }
+  }
+
+  func fib(n int) int {
+      if n <= 1 {
+          return n
+      }
+      return fib(n-1) + fib(n-2)
+  }
+#+end_src
+
+* Reference and further reading
+Why does sync.Mutex largely drop performance when goroutine contention is more than 3400?
+https://stackoverflow.com/questions/57562606/why-does-sync-mutex-largely-drop-performance-when-goroutine-contention-is-more-t
+GopherCon 2017: Kavya Joshi - Understanding Channels
+https://www.youtube.com/watch?v=KBZlN0izeiY
