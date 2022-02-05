@@ -1,0 +1,99 @@
+:PROPERTIES:
+:ID:       c07bcaa3-ee9d-4510-b797-3614f303f1b1
+:END:
+#+title: kubernetes_note2
+#+date: [2022-02-05 Sat 21:29]
+#+author: Amar Panji Senjaya
+
+* Kubernetes
+- Aplikasi untuk automation deployment, scaling dan manajemen aplikasi berbasis container
+- Open Source dan saat ini paling populer di jenisnya
+- Banyak Perusahaan besar sudah menggunakan kubernetes, termasuk perusahaan unicorn di indonesia
+- Kubernetes dibuat menggunakan golang
+
+** Sejarah Kubernetes
+- Bertahun tahun google membuat internal sistem yang bernama Borg(Kemudian berganti nama menjadi Omega).
+- Sistem ini digunakan untuk membantu developer dan infra engineer untuk me-manage ribuan server yang ada di Google.
+- Tahun 2014 Google memperkenalkan Kubernetes, Open Source system yang berasal dari pengalaman Borg, Omega dan internal system lainya.
+
+** Alur kerja menggunakan kubernetes
+Buat Configuration file
+Configuration dikirim ke kubernetes master
+Nanti si kubernetes master akan memanage kubernetes worker
+** Menginstall kubernetes di local
+- Docker Desktop
+[X] enable kubernetes
+- Menggunakan minikube Desktop
+** Arsitektur Kubernetes
+http://kubernetes.io/docs/overview/components/
+*** Kubernetes Cluster
+**** Component kubernetes
+***** Kubernetes Master
+	  pihak yang memanage kubernetes
+	  system yang berjalan:
+	  - kube-apiserver
+		bertugas sebagai api yang digunakan untuk berinteraksi dengan kubernetes cluster
+	  - etcd
+		bertugas sebagai database untuk menyimpan data kubernetes cluster
+	  - kube-scheduler
+		memperhatikan aplicaksi yang kita jalankan dan meminta node untuk menjalankan aplicasi yang kita jalankan
+	  - kube-controller manager
+		bertugas melakukan kontrol terhadap kubernetes cluster
+	  - cloud-controller-manager
+		bertugas untuk melakukan kontrol terhadap interaksi dengan cloud provider
+***** Kubernetes Nodes(Workers)
+	  tempat aplikasi berjalan
+	  system yang berjalan:
+	  - kubelet
+		berjalan di setiap Node dan bertugas untuk memastikan bahwa aplikasi kita berjalan di node
+	  - kube-proxy
+		berjalan di setiap node bertugas sebagai proxy terhadap arus network yang masuk ke aplikasi kita dan sebagai load balancer juga
+	  - container-manager
+		berjalan di setiap node dan bertugas sebagai container manager. Kubernetes mendukung beberapa container manager seperti Docker, containerd, cri-o
+	  
+*** Cloud
+	
+** Node
+   - adalah worker machine di kubernetes, sebelumnya ada yang menyebutnya Minion
+   - Node bisa saja dalam bentuk VM atau mesin fisik
+   - Di dalam node selalu terdapat kubelet, kube-proxy dan container manager
+*** Melihat semua node
+	kubectl get node
+*** Melihat detail node
+	kubectl describe node [namanode]
+** Pod
+ - unit terkecil yang bisa di deploy di kubernetes cluster
+ - pod berisi satu atau lebih container
+ - secara sederhana pod adalah aplikasi kita yang running di kubernetes cluster  
+*** Kenapa butuh pod?
+	- Kenapa tidak langsung menggunakan container
+	- kenapa dalam pod bisa menjalankan lebih dari satu container
+
+*** Melihat detail pod
+kubectl describe pod [namapod]
+
+*** Melihat semua pod
+- kubectl get pods
+- kubectl get pods -o wide
+
+*** Mengakses pod
+
+*** Membuat pod
+kubectl create -f nginx.yaml
+	#+begin_src yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx # container name
+      image: nginx # image name
+      ports:
+        - containerPort: 80 
+	#+end_src
+
+expected ouput:
+pod/nginx created
+* Source
+  - Programmer zaman now - youtube channel
