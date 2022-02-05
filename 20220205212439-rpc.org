@@ -1,0 +1,68 @@
+:PROPERTIES:
+:ID:       f589bfac-825b-4a9a-a5a8-08cd487df9ca
+:END:
+#+title: rpc
+#+date: [2022-02-05 Sat 21:24]
+#+author: Amar Panji Senjaya
+
+* Remote procedure calls (RPC)
+Remote procedure calls (RPC) is a protocol that one program can use to request a service from a program located in another computer on a network without having to understand the network's detail.
+
+- It is similar in many respects to the IPC mechanism.
+- However, because we are dealing with an environment in which the processes are executing on separate systems, we must use a *message based communication scheme to provide remote service*.
+- In contrast to the IPC facility, the messages exchanged in RPC communication are well structured and are thus no longer just packets of data.
+- Each message is addressed to an RPC daemon listening to a port on the remote system, and each contains an identifier of the function to execute and the parameters to pass to that function.
+- The function is then executed as requested, and any output is sent back to the requester in a separate message.
+
+** The semantics of RPCs allow a client to invoke a procedure on a remote host as it would invoke a procedure locally
+- The RPC system hides the details that allow communication to take place by providing a stub on the client side.
+- Typically, a separate stub exist for each separate remote procedure.
+- When the client invokes a remote procedure, the RPC system calls the appropriate stub, passing it the parameters provided to the remote procedure. This stub locates the port on the server and marshals the parameters.
+- Parameter marshalling involves packaging the parameters into a form that can be transmitted over a network.
+- The stub then transmits a message to the server using message passing.
+- A similar stub on the server side receives this message and invokes the procedure on the server.
+- If necessary, return values are passed back to the client using the same technique.
+
+** Issues in RPC and how they are resolved
+| Issues                                          | How they are resolved                       |
+|-------------------------------------------------+---------------------------------------------|
+| Differences in data representation              | RPC systems define a machine-independent    |
+| on the client and server machines               | representation of data. One such            |
+|                                                 | representation is known as external data    |
+| Eg. Representation of 32-bit integers:          | representation(XDR).                        |
+|                                                 | On the client side, parameter marshalling   |
+| Some Systems (known as big-endian) use the      | involves converting the machine dependent   |
+| high memory address to store the most           | data into XDR before they are sent to the   |
+| significant byte, while other systems(known     | server.                                     |
+| as little-endian) store the least significant   | On the server side, the XDR data are        |
+| byte at the high memory address.                | Unmarshalled and converted to the machine   |
+|                                                 | dependent representation for the server.    |
+|                                                 |                                             |
+|-------------------------------------------------+---------------------------------------------|
+| Whereas local procedure calls fail only under   | The operating system must ensure that       |
+| extreme circumstances,                          | messages are acted on *exactly once*,         |
+| RPCs can fail, or be duplicated and executed    | rather than *at most once*. Most local        |
+| more than once, as a result of common network   | procedure calls have the "exactly once"     |
+| errors.                                         | functionality, but it is more difficult to  |
+|                                                 | implement.                                  |
+|                                                 |                                             |
+|-------------------------------------------------+---------------------------------------------|
+| With standard procedure calls, some form of     | 1) The binding information may be           |
+| binding takes place during link, load or        | predetermined, in the form of *fixed port*    |
+| execution time so tat a _procedure call's_        | *addresses* At compile time, an RPC call has  |
+| _name is repalced by the memory address of the_   | a fixed port number associated with it.     |
+| _Procedure call_. The RPC scheme requires a       | Once a program is compiled, the server      |
+| similar binding of the client and the server    | cannot change the port number of the        |
+| port, *but how does a client know the port*       | requested sevice.                           |
+| *numbers on the server?* Neither system has full  |                                             |
+| information about the other because they do not | 2) Binding can be done dynamically by a     |
+| share memory.                                   | rendezvous mechanism. Typically, an         |
+|                                                 | operating system provide a rendezvous(also  |
+|                                                 | called a match maker) daemon on a fixedRPC  |
+|                                                 | port. A client then sends a message         |
+|                                                 | containing the name of the RPC to the port  |
+|                                                 | address of the RPC it needs to execute. The |
+|                                                 | port number is returned,  and the RPC calls |
+|                                                 | can be sent ot that port unitl the process  |
+|                                                 | terminates (or the server crashes)          |
+|-------------------------------------------------+---------------------------------------------|
