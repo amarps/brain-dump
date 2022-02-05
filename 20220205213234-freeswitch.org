@@ -1,0 +1,594 @@
+:PROPERTIES:
+:ID:       fcfad8df-050b-4709-91c2-47a406c74851
+:END:
+#+title: freeswitch 1.8 book note
+#+date: [2022-02-05 Sat 21:32]
+#+author: Amar Panji Senjaya
+
+* Architecture of freeswitch
+freeswitch is a complete application server and a flexible toolset, used worldwide to build advanced and future-proof communacation applications.
+- real-time communication
+- webRTC
+- voice over internet protocol(voip)
+** Real-time communacation without mysteries
+Real-time communication (RTC) began with telephone during the second half of the 1800s, and almost immediately evolved into a big, worldwide interconnected network of big companies and infrastructure.
+
+*** Why telephony hard to learn?
+because a few years ago, telephony was a walled castle strictly guarded by huge corporations and almost nobody was able to completely understand how it was working. Even if you got a chance to gain that esoteric knowledge by attending internal technical seminars and in-house schools, and even that knowledge was limited to the part of system you were to work on(central office, last mile, PBX, and so on). Both the infrastructure carrying and routing the calls, and the applications answering and managing them, were ad hoc, rigid, not compatible each other and require huge investments.
+
+*** Revolution of VoIP telephony
+revolution of voip telephony brought an open protocol (SIP) to power, first in the application/PBX realm, and then in the infrastructure too. First to go was that steel box containing a proprietary PBX that could only be expanded by changing internal hardware cards mad by that same company, serving only its own kind and model of hardware phones. It was substituted by a standard server with standard PC architecture, using off the she-shelf expansion cards, able to support any kind of standard-compliant phones. SIP then climbed from bottom to top, up to the very core of Big Telcos infrastructure. Today, all telecommunication infrastructure including those of Big Telcos and Carries are running some version of the SIP protocol.
+
+*** Revolution of WebRTC
+this is a very misleading name; WebRTC does not require web pages and browsers at all. WebRTC is a set of standard happened to first be implemented in browsers. In the mean time it has become the mainstream way to communicate in the Internet of Things, spanning from smartphones apps to cars, lifts, shop cashiers, and point of sale.
+
+*** So whats up with telephony nowadays
+Nowadays it's possible to build communication system that outperform traditional voice, video, and confrence services and offer advanced features for a relatively low cost. FreeSwitch has been designed to make all of this easier, and we will go over its architecture to get a better understanding of how it works.
+
+** How About Today?
+Today, we live in an ecosystem of multiple RTC technologies, all coexisting at the same time: telephony systems(such as telephone switches and PBXs), the traditional analog phone (POTS lines or plain old telephone service), traditional telephone networks operated by carriers (pstn or public switched telephone network), mobile phones (CDMA, GSM, LTE and so on), faxes, WebRTC, smartphone apps, VoIP phones, and Enterprise systems.
+
+FreeSWITCH's niche is right in the center of this ecosystem: it connects and accepts connections from all those technologies, it bridges and mixes them together, it provides interactive applications and services to users whatever their endpoint happens to be. FreeSwitch is able to connect to external data services and to legacy in-house systems,  to computer programs and business procedures. FreeSwitch runs on Linux, Windows, and Mac OS X, as well as BSD and solaris. We have plenty of hardware choices, from big multiprocessor servers to Raspberry Pi. So, you can develop on your laptop, and then deploy on datacenter, or in an embedded device. Installing FreeSwitch is discussed in detail in /Chapter 2/, Building and Installation.
+
+** The FreeSwitch design - modular, scalable, and stable
+The design goal of FreeSwitch it to provide a modular, scalable system around stable switching core, and to provide a robust interface for developers to add to and control the system. Various elements in FreeSwitch are independent of each other and do not have much knowledge about how the other parts are working, other than what is provided in what are called "FreeSwitch APIs". The functionality or an external technology into the core.
+
+FreeSwitch has many different module types that surrond the central core, like sensors interfaces connect a robot brain to ther external environment. The list includes the following:
+
+| Module type                        | Purpose                                                                             |
+|------------------------------------+-------------------------------------------------------------------------------------|
+| Endpoint                           | Telephone protocols such as SIP and PSTN                                            |
+| Application                        | Performs a task such as playing audion or sending data                              |
+| Automated speech Recognition (ASR) | interfaces with speech recognition                                                  |
+| Chat                               | Bridges and exchanges various chat protocols.                                       |
+| Codec                              | Translate between audio formats                                                     |
+| Dialplan                           | Parses the call details and decides where to route the call.                        |
+| Directory                          | Connectes directory information services, such as LDAP, to a common core lookup API |
+| Event handlers                     | Allow external programs to control FreeSwitch.                                      |
+| File                               | Provides an interface to extract and play sound from various audio file formats     |
+| Formats                            | Play audio files in various formats.                                                |
+| Languages                          | Programming language interfaces used for call control.                              |
+| Loggers                            | Control logging to the console, system log, or log files.                           |
+| Say                                | strings together audio files in various languages to provide feedback to say things |
+|                                    | such as phone numbers time of day, spelling of words, and so on.                    |
+| Text-To-Speech(TTS)                | Interfaces with text-to-speech engines.                                             |
+| Timers                             | POSIX or linux kernel timing in applications.                                       |
+| XML Interfaces                     | Uses XML for Call Detail Records (CDRs), CURL, LDAP, RPC, and so on.                |
+
+
+Freswitch's Modules orbit the core of freeswitch by combining the functionalities of the various module interfaces, Freeswitch can be configured to connect IP phones, POTS lines, WebRTC, and IP-based telephone services. It can also translate audio formats and provides an *Interactive Voice Response (IVR)* system with custom menus. A FreeSwitch server can also be controlled from another machine. Let's start by taking closer at a pair of important module types.
+
+** Important Modules - Endpoint and Dialplan
+Endpoint modules are critically important and add some of the key features that make Freeswitch the powerfull platform it is.
+The Primary role of endpoint modules is to take certain common communacation technologies and normalize them into a common abstract entity, which we refer to as a *session*. A Session represents a connection between FreeSwitch and a particular protocol. There are several Endpoint modules that come with FreeSwitch and a particular protocol. There are several endpoint modules that come with Freeswitch, Which implement several protocols such as SIP, H.32, Jingle, Verto, WebRTC, and some others. we will spend some time examining one of the more popular modules named /mod_sofia/.
+
+Sofia-SIP(http://sofia-sip.sourceforge.net) is an open source project originally developed by Nokia, which provides a programming interface for the *Session Initiation Protocol (SIP)*. FreeSwitch developers have worked a lot evolving and fixing its original code base, further enhancing its robustness and features. We use our version of this library in FreeSwitch (path:/usr/src/freeswitch/libs/sofia-sip) in a module named mod_sofia. This module registers to all the hooks in the FreeSwitch neccesary to make an Endpoint module, and translates the native Freeswitch constructs into sofia SIP constructs and vice versa. Configuration information is taken from Freeswitch configuration files, which makes for mod_sofia to load user-defined preferences and connection details. This allows FreeSwitch to accept registrations from SIP phones and devices, register itself to other SIP servers such as providers, send notifications, and provide services to the phones such as blinking lights and voicemail.
+
+When a SIP audio/video call is established between Freeswitch and another SIP device, it will show up in FreeSwitch as an active session. If the call is inbound, it can be transferred or bridged to IVR menus, hold music (and/or video), or to one or more extensions. Or, it can be bridged to a newly created outbound call, toward a PSTN subscriber, or a WebRTC browser, for example. Let's examine typical scenario where an internal SIP phone registered as extension 2000 dials extension 2001 with the hope of establishing a call.
+
+First, the SIP phone sends a call setup message to FreeSwitch over the network(mod_sofia is listening for such messages). After receiving the message, mod_sofia in turn parses the relevant details, builds the abstract call session dta structure the core understand, and passes that call into the core state machine in FreeSwitch. The state machine (in the freeswitch core) then puts the call into the ROUTING state (meaning looking for a destination).
+
+Core's next step is to locate the Dialplan module based on the configuration data for the calling endpoint. The default and most widely used Dialplan module is the XML Dialplan module. This module is designed to look up a list of instructions from the XML tree within FreeSwitch's memory. The XML Dialplan module will parse a series of XML objects using regular expression pattern-matching.
+
+As we are trying to call 2001, we are looking around for an XML extension where the destionation_number field matches 2001. Also, let's remember the Dialplan is not limited only a single extension. An incoming call can match more than one extension in the Dialplan, and in Chapter 6, XML Dialplan, you will get an expanded definition of the term extension. The XML Dialplan module builds a TODO list for the call. Each matched extension will have its actions added to the call's TODO list.
+
+Assuming Freeswitch finds at least one extension with a matching condition, the XML Dialplan will insert instructions into the session object with the information it needs to try and connect the calls to 2001 (the TODO list for this call). Once these instructions are in place, the state of the call session changes from *ROUTING* to *EXECUTE*, where the core drills down the list and executes the instructions piled during *ROUTING* state. This is where the API comes into the picture.
+
+Each instructions is added to the session in the form of an application name and a data argument that will be passed to that application. The one we will use in this example is the bridge application. The purpose of this application is to create another session with an outbound connection, the connect the two sessions for direct audio exchange. The argument we will supply to bridge will be user/2001, which is the easiest way to generate a call to an internal registered phone at extension 2001. A Dialplan entry for 2001 might look like this.
+
+#+begin_src  xml
+  <extension name="example">
+      <condition field="destination_number" expression="^2001$">
+          <action application="bridge" data="user/2001"/>
+      </condition>
+  </extension>
+#+end_src
+
+** Complex applications made simple
+Freeswitch removes much of complexity from advanced applications. 
+** Voicemail
+The first application we will discuss is th voicemail application. This application is useful to add right after the bridge application as a second option, executed in cases where the call was not completed. We can do this with one of those special variables that we were discussing earlier. Let's look at a version of our last extension that also allows us to leave a voicemail:
+
+#+begin_src xml
+  <extension name="example 4">
+    <condition field="destination_number" expression="^2000$">
+      <action application="set"
+              data="hangup_after_bridge=true"/>
+      <action application="bridge" data="user/2000"/>
+      <action application="voicemail"
+              data="default ${domain} 2000"/>
+    </condition>
+  </extension>
+#+end_src
+
+** Multi-party audio/video confrencing
+Another important feature of Freeswitch
+
+** Summary
+Freeswitch is a complex system of moving parts that are integrated to produce a solid, stable core with flexible and easy-to-extend add-ons. The core extends its interfaces to modules. The modules also can bring outside functionalities into FreeSwitch by translating various module types, and demonstrated how they revolve around the core and interact 
+
+* Test example configuration
+this note will the cover following topics:
+- Important VoIP and FreeSwitch concepts
+- Using the Freeswitch command-line interface(fs_cli)
+- configuring a phone to work with Freeswitch
+- Calling various extension in the system
+  
+** Important Concepts to understand
+Freeswitch is the ultimate toolset fo any kin of Realtime communication service and action. This implies a lot of flexibility. Freeswitch can do a great number of things, has lot of ready-made features, and many task can be accomplished by FreeSWITCH in more than one way.
+
+One important aspect is that FreeSWITCH follows the good practice of behaving as expected. There are many conflicting requirements in the Real Time Communication world.
+
+The most important concepts we will encounter throughout this book are those of XML configurations, regular expressions, and call legs.
+
+** XML Configuration
+Freeswitch read an XML main file from the filesystem, and then all the XML files included by it. This is done once at FreeSwitch startup. So, each time you change one of those XML files, you must tell freeswitch to refresh the XML tree it has built in its memory at startup. The command reloadxml is usually enough. The XML snippet fetching is executed each time information is requested by FreeSWITCH, but the fetching will be executed against the tree built in memory at startup, so it needs to `rebuild` it if you edit any XML file. Other methods such querying databases or HTTP server are completely dynamic, they diretly query the databae or the web server each every time.
+
+** Regular Expressions(regex)
+ Regex are almost omnipresent in Freeswitch configuration. You can describe patterns of extensions, DIDs, users, callers, calles, gateways, etc. You can select, slice, dice and mix them. Logic can be built if that regex matches (eg, if it describes the string) or if that other regex is unsuccesful (it does not match the string).
+
+** Call Legs
+Call legs are what we people in thre Real Time Communication field live and die for. It is a g concepts that can be confusing at first, but will become a second nature as time goes and you continue to work with Freeswitch.
+
+*** Example:
+- Francesca want to phone Giovanni.
+- She dial Giovanni's extension.
+- A call is established between Francesca's phone and PBX.
+- Francesca will hear the ringback(message if giovanni is away).
+- This call from Francesca to the PBX is known as *"A" leg* in telco jargon.
+- Then PBX known from its configuration that it must connect this A leg to Giovanni's phone, so Francesca and giovanni can talk
+- PBX will originate a new call, known in lingo as *"B" leg* from it self to Giovanni's phone.
+- If Giovanni Answers his ringing phone, PBX will join("Brige" in telco lingo) the *A leg* with the *B leg* from itself to Giovanni's phone.
+- If Giovanni ansers his ringing phone, PBX will join("brige" in telco lingo) the A leg with B leg the A leg with the B leg, and let the media(audio, video, whatever) flow back and forth from Francesca to Giovanni.
+
+So from the POV freeswitch "A leg" is the original, initial, inbound, incoming call. "B leg" is the derivative, PBX originated, outbound call. From the POV end user(Francesca), her call is succesful (that is, she talks with Giovanni), if PBX succesfully bridges A leg and B leg, after B leg has been answered by Giovanni. They can talk eventually!
+
+Let's suppose Giovanni is not there, and Francesca gets connected to the voicemail system(so, she is still only in touch with the office PBX): this is a "call" that is composed only by an "A leg", there is only one set, the inbound Francesca<-->PBX, of media streams.
+
+There are cases where there are more than two legs, for example if Francesca calls Giovanni, and then she invites a third person to join, in a three-way call. In this case the lingo goes: Francesca call, in this case both the call leg from PBX to Giovanni and the call leg from PBX to the third person, all those are B legs (that is, there is no concept of a "C leg", "D leg", etc. They are all "B" legs).
+
+** IVRs, Interactive Voice Response (Systems)
+IVRs are those voice (and soon video) menu systems were so used when try to reach customer care of our cellphone carrier.
+for example:
+"For knowing our latest offers, please press 1, for listening to the Xmas greetings from our CEO, please press 2, to speak with our technical department please press 3"
+IVRs can be obnoxious, but are also useful.
+
+A call to an IVR is at least initially a one leg call, but after a way can become two or three legs, if you are transferred to an operator, that maybe after a while invite a sales representative to the call.
+
+IVRs "interactivity" with the caller is almost universally based on the caller to press digit on the dialpad. there is also growing use of ASR (Automatic Spech Recognition) systems, that are able to understand what the caller says. this recognition is usually made in a limited knowledge domain, for example, after asking "from what state are you calling from?", an ASR enabled IVR can be able to understand the saying the name of the state. In the future will probably be released. ASR providing good reliability in "free form" conversation, but technology is not yet there.
+
+In any case, the IVR logic is implemented as a tree, where from the initial root the caller is able to navigate the branches back and forth by choosing (through the dialpad or by voice) an option between those are presented to him.
+
+** Extensions, Contexts and Profiles
+In FreeSwitch "extension" is an immaterial concept. It can be understood as "a group of instructions into a context". OK, this leave us with the problem of what a context is. A context is a named collection of extensions. So, in a way, we have a circular definition here, in which contexts and extensions define each others.
+
+Bear with me and in a couple of paragraph we'll be over all this.
+
+FreeSwitch has "profiles". A profile is collection of configurations that is related to a specific IP address and port couple. For example 192.168.1.12:5060 is a profile, 192.168.1.13:5060 is another profile, 192.168.1.12:5061 is a third profile.
+
+context is the jail of the call. This has obvious security, logical, and practical advantages. for example the calls that are incoming to a profile that is accesible by our coworkers from the internal LAN will be directed to a context that gives the feature of interal office calls, and allows also for reaching the PSTN, because we want our coworkers to be authorized to place natianl and international calls.
+
+So, Different address:port couple, different profile, different context. It is actually simple!
+
+We know extension is a set of instructions. When a call is incoming into a context(collection of extensions) the most important thing in each extension is, do this extension apply to the incoming call? Or, from the POV of the call, do I enter this extension? Do this extension apply to me?
+
+So, extension==list of instructions. To enter an extension, a call must satisfy a "condition".
+
+A condition is a regular expression(regex) to be applied to one attribute of the call. If that regular expression matches(eg. if it succesfully describe the attribute of the call) the call will enter the extension and will execute the instructions.
+
+** Variables
+
+** Caller profile Variables
+variables are part of the caller profile
+- username
+- dialplan
+- caller_id_name
+- calle_id_name
+- calle_id_number
+- network_addr
+- ani
+- aniii
+- rdnis
+- destination_number
+- source
+- uuid
+- context
+
+Some of the variables names in the caller profile may be obscure to you right now, but you'll fund plenty information later in this book, and in all online documentation (we developers too we check the online docs, we do not memorize all and every variables, they're hundred).
+
+What's specific about the caller profile variables is that you use them in the field of a "condition" by their plain names, without special syntax.
+why we  specify that? Because variables in FreeSwitch are indicated with the special syntaxes ${varname} or $${othervarname} (well see later the difference between the two syntaxes).
+So, as a bonus for your funger, you can save some typing and have more pleasant and readable dialplan when you use caller profile variables in the condition's field:
+
+#+begin_src xml
+  <extension name="Local_Extension_Skinny">
+    <condition field="destination_number" expression="^11[01][0-9]">
+      <action application="bridge" data="skinny/internal/${destination_number}"/>
+	</condition>
+  </extension>
+#+end_src
+
+As you can see we wrote "destination_number" in the condition's field, while we had to type it entirely as "${destination_number}" when used elsewhere (here, in an action executed if the conditionis matched).
+
+All caller profile variables are read only(that is, you cannot change them) and are assigned automatically at the beginning of the call. They describe the call itself.
+
+** "Normal" Variables
+Most FreeSwitch variables are indicated by the syntax ${varname}. Variables can be created, assigned and re-assigned. Actually, assigning a value to a variable creates it, if it does not already exist. if it exist, it reassign it to the new value.
+
+#+begin_src xml
+  <action application="set" data="mystring='Rehan Allahwala'"/>
+  <action application="set" data="mystring2='SuzanneBowen'"/>
+  <action application="set" data="mystring2=${mystring}"/>
+#+end_src
+
+The application "set" assign variables. Here we see how it works in dialplan "actions". When we create or reassign a variable, we use its name (without the ${} syntax). Inside the "data" argument of the "set" action, we use the equal sign (=) to separate the variable name from its (new) value. The single quoters are used to enclose a value when it contains spaces.
+
+All variables can be used by all modules and parts of FreeSwitch. For example, when a user that is member of the "sales" group originated a call, you can set a variable on that call. You can then have one of the Call Detail Record modules to track that variable, putting it in CDRs and allowing your company to identify const centers.
+
+Variables can be created by us out of nothing or they can be automatically created by FreeSwitch, from information inherent the calls, the environment, the time of day, etc.
+
+** "Preprocessor" Variables
+those are the variables indicate by the syntax $${varname}. In a way, those are not actual variables, but they act as read-only ones. You assign them in one of the of the FreeSwitch configuration files (/usr/local/freeswitch/conf/vars.xml), and then tey are literally substituted at startup when encountered. This is exactly the same as #define construct in c preprocessor, or a "Find and replace" command in a text editor.
+
+#+begin_src  xml
+  <X-PRE_PROCESS cmd="set" data="hold_music=local_stream://moh" />
+#+end_src
+
+In this example, by editing vars.xml configuration file you alter the value that will be substituted in all configuration files (dialplan included) when $${hold_music} is encountered. If you then write in dialplan
+
+#+begin_src  xml
+  <action application="set" data="mystring=$${hold_music}" />
+#+end_src
+
+Because this is actually a text search and replace procedure that is done once at FreeSwitch startup, if you change a preprocessor variable in vars.xml you MUST restart Freeswitch in order to activate the changes (in this case reloading the configuration without restarting Freeswitch is not enough).
+
+** FS_CLI and Console, Controlling Freeswitch
+
+#+begin_src shell
+  freeswitch -u freeswitch -g freeswitch -c
+#+end_src
+
+Production system
+#+begin_src shell
+  freeswitch -u freeswitch -g freeswitch -c -nonat -ncwait
+  # and then use fs_cli to control freeswitch
+  fs_cli
+#+end_src
+
+Difference between fs_cli and the actual Freeswitch console(eg, when you start freeswitch in foreground) is that only the way to exit from the actual freeswitch console is by shutting down freeswitch. This is tricky because for almost all other aspects they (fs_cli and FreeSwitch actual console) look and behave in the same way. Problem is, if you exit fs_cli, Freeswitch continue to run in background, accepting calls, etc. And you always re-launch fs_cli and reattach to it (like an ssh terminal to a remote server). BEWARE, if you exit the actual FreeSwitch console you are terminating FreeSwitch itself, and you will need to restart it.
+
+** Some useful FS_CLI commands
+| Command        | Meaning                                                       |
+|----------------+---------------------------------------------------------------|
+| ctrl-d         | exit fs_cli                                                   |
+| ...            | exit fs_cli. If used from console it shutdown FreeSwitch      |
+| fsctl shutdown | shutdown Freeswitch                                           |
+| hupall         | hungup all call                                               |
+| status         | tells some basic statistics                                   |
+| version        | which code base                                               |
+| show channels  | visualize all call legs one by one, individually              |
+| show calls     | visualize all call legs grouped by complete bridge calls(A+B) |
+| help           | show simple docs to help                                      |
+
+** Log Level Color Meaning
+| Color  | Log Status |
+|--------+------------|
+| Red    | Error      |
+| Purple | Warning    |
+| Blue   | Notify     |
+| Green  | Info       |
+| Yellow | Debug      |
+
+** Configure SIP and make the first calls in demo dialplan
+Note: Don't use demo in production. Is overcomplex and has too much features, you do not know it and outside your control.
+
+*** Freeswitch directory
+by default freeswitch directory will be installed at:
+/etc/freeswitch
+or
+/usr.local/freeswitch
+
+*** Change demo example password
+freeswitch/conf/vars.xml or freeswitch/vars.xml
+
+<X-PRE-PROCESS cmd="set" data="default_password=your new password"/>
+
+**** why change your password?
+It probably does not matter financially until you add a pstn gateway hacker can use your expense, but please consider the leagal implications if someone uses your server to originate another kind of traffic, maybe some terrorist SIP calls? Then, take your time explaining it all to FBI during the next 3 years.
+
+Chose a random string of robust length. In doubt install and use uuidgen, it makes very good passwords. In Debian, from root command line:
+apt-get install uuid-runtime
+
+then execute uuidgen
+uuidgen
+
+it will generate a good password.
+after you change your password restart freeswitch by using
+fsctl shutdown
+and then restart freeswitch.
+
+*** install sip application
+on desktop
+Linphone (windows, osx, linux, android, ios)
+
+
+*** Demo Dialplan
+you'll find the example demo dialplan main file in freeswitch/conf/dialplan/default.xml. It make for intresting reading. Obviously you'll not able to understand most of the details if this is your first exposure to Freeswitch, but comments and your *gut feeling* will will make you to figure out a lot of it.
+
+* User Directory, SIP and Verto
+Freeswitch's User Directory or simply directory is the central registry for all data related to users authentication and authorization. After Default install freeswitch already provided with 20 users with default password.
+
+Internet Telephony Service Provider (ITSP)
+
+In SIP, we can send calls to gateways(SIP servers that belogs to ITSP or other services.
+
+** User Directory concepts
+In Freeswitch User Directory is a big and complex XML document that is accessed by Freeswitch and all of its modules whenever they need to know about users attributes.
+
+common user directory schema:
+#+begin_src xml
+  <section name="directory">
+    <domain name="exmple.com">
+      <groups>
+        <group name="default">
+          <users>
+            <user id="1001">
+              <params>
+                <param name="password" value="1234" />
+              </params>
+            </user>
+          </users>
+        </group>
+      </groups>
+    </domain>
+  </section>
+#+end_src
+
+it contain one or more "domain", each "domain" contains "groups", each "groups" contains one or more "group" items. Each group and exetra.
+
+The only required XML items are "domain" and "user". example valid dir schema
+#+begin_src xml
+<section name="directory">
+	<domain name="example.com">
+		<user id="1001">
+			<params>
+				<param name="password" value="1234" />
+			</params>
+		</user>
+	</domain>
+</section>
+#+end_src
+
+** AAA: Authentication, Authorization, Accounting
+- Authentication
+  check is user actually who he is declaring to be (eg: login and password do match)
+- Authorization
+  what "right" that user has (eg: he can call national and internation numbers, excluded premium and for-pay numbers)
+- Accounting
+  what has just done and his history (eg: he started with a credit of 835 units, and the call just finished is rated 35 units)
+
+In the fresh install configuration freeswitch handles AAA in a static way tailored for internal pbx company at directory/default.xml
+** Exploring and using the Demo Example User Directory
+*** Domains and groups
+In SIP nd verto addresses are in form "userid@domain" very much like in email (actually SIP borrow this format from SMTP and verto borrow it from SIP). We can have multiple "domain" items, they would be added fter the closing </domain> XML tag.
+
+We can see other group items, ech of them iwth a "users" item that actually contains some "user" items. But in this case those "user" items are not defining
+*** Users
+directory/default/1000.xml
+- id
+  specific to  domain, eg: you can have a freeswitch server that serves multiple domains.
+- param
+  belongs exclusive to this user. Possibly override the ones set in the "domain" or "group" container.
+- variable
+  belongs exclusive to this user. For example you want to check what kind of call a user is allowed to originate, and you choose to test the content of the variable.
+
+  | Variable                   | Purpose                                                                              |
+  |----------------------------+--------------------------------------------------------------------------------------|
+  | toll_allow                 | Specifies which types of calls the user can make                                     |
+  | accountcode                | Arbitrary value that shows up in CDR data                                            |
+  | user_context               | The dialplan context that is used when this person makes a call                      |
+  | effective_caller_id_name   | Caller ID name displayed on called party's phone when calling another registred user |
+  | effective_caller_id_number | Caller ID number sent to provider on outbound calls                                  |
+  | callgroup                  | Arbitrary value that can be used in dialplan or CDR                                  |
+  
+*** Adding  user to the demo example directory and dialplan
+Users are defined in User Directory. Where a call must go is defined in dialplan.
+So, if we add a user in the "directory", we must then be sure the dialplan allows for calls to reach that newly added user.
+*** Adding new user to the directory
+Demo example /etc/freeswitch/directory/default.xml file inside predefined default domain, in group default, there is an instruction to the FreeSwitch configuration pre-processor to read in all of the XML files contained in the /etc/freeswitch/directory. Those files contain the users definitions.
+
+We found the file 1000.xml - 1019.xml, the 20 demo predefined users with "id" 1000 to 1019. There you can find also some other XML files, very well commented, that can be source of inspiration.
+
+In our demo configuration case, adding a users is done simple by copying 1000.xml to, lets say 1020.xml and then editing the newlu create XML file.
+
+In your text editorm search and replace all string occurences of  "1000" to be "1020".
+
+use `reloadxml` command to apply new configuration.
+
+*** Call to a Group Example
+#+begin_src xml
+  <extension name="group_dial_billing">
+    <condition field="destination_number" expression="^2002$">
+      <action application="bridge" data="group/billing@${domain_name}">
+      </action>
+    </condition>
+  </extension>
+
+  <extension name="call_tommaso_stella_fan_club_members">
+    <condition field="destination_number" expression="^2003$">
+      <action application="bridge" data="group/tommaso_stella_fan_club@${domain_name}" />
+    </condition>
+  </extension>
+#+end_src
+
+*** Voicemail
+#+begin_src xml
+  <action application="bridge" data="user/${dialed_extension}@${domain_name}"/>
+  <action application="<a href=""></a>nswer" />
+  <action application="sleep" data="1000" />
+  <action application="bridge" data="loopback/app=voicemail:default ${domain_name} ${dialed_extension}" />
+#+end_src
+try to connect incoming call to the callee, if fail to connect(not answered before 30 sec), then answer the incoming call (eg, go off hook), wait for 1 second doing nothing, then connect that incoming call to the voicemail appication (using loopback "fake" endpoint).
+
+After an incoming call gets connected to the voicemail application, and the caller left a message, FreeSwitch is smart enough to light up (or blink the MWI) on the callee phone(s). Woot, that kind of magic gives a lot of satisfaction to us FreSwitch will have those MWIs to shit. Yay!
+
+
+** Communicate with the World via SIP Gateways and DIDs
+Let's see how to add a SIP gateways to an Internet Telephony Service Provider (ITSP), the easiest way to expand our communication platform to gave a global reach. An ITSP provides its customers with SIP "trunks", eg: capabilities to connect outbound calls to the world phone network. Also, an ITSP can provide DIDs (Direct Inward Dialing) numbers: telephone numbers that when called originate an inbound SIP call to our communication platform. So SIP trunks are for uus to send out calls to the world. DIDs are for gathering calls from the world to us.
+
+*** SIP Gateway from Us to the ITSP to the world
+Freeswitch simplifies SIP for us, with the concepts of "gateway".
+That "gateway" in FreeSwitch lingo is just a glorified automation provided to us, so we can use simplified syntax meaning: "Check whether this particular Internet Telephony Service Provider(ITSP) is up and reachable, send this call out to it, give the ItSP the login and password to authorize our call if needed, and wait for the ITSP to connect our call to the wide world".
+
+*BEFORE SETTING UP OUR FIRST GATEWAY We MUST TAKE SECURITY AND FRAUD PREVENTION VERY SERIOUSLY: IT MAY COST US THOUSANDS OF DOLLARS IN FRAUD*
+Keep our password complex and unguessable, ask our ITSP for the traffic to be allowed onl from our IP addresses, ask for whitelisting destination countries (traffic will only be accepted if directed to countries we authorized, such as USA, EUROPE, and Asia but not Oceania and satelite phones), block for pay numbers (for example, 188 and similar). If possible at all, use SIPS via TLS and SSL certificates to be sure only traffic actually generated by us  will be accepted and acted upon by our ITSP.
+
+Edit /etc/freeswitch/sip_profiles/external/example.xml file, and add a "gateway" container before the ending </include> tag. We can search FreeSwitch documentation at http://freeswitch.org/confluence looking for an example configuration of a gateway to our ITSP, or we can look into our ITSP website, send ITSP's, support a mail or ask in FreeSwitch mailing list. Anyway, usually is very easy, and boils down to a user/password couple, and to specify wheter registration is needed or not.
+
+* XML Dialplan
+xml dialplan myths:
+- XML is not difficult at all, it reads exactly like a plain text configuration file
+- It does not need any kind of special editor: Notepad, Vim, emacs, Nano, anything is ok
+- It is not esoteric: it is text logically structrured
+
+** General Dialplan concepts
+- Dialplan decies what Freeswitch will do with/to an incoming (audio/video)
+- Dialplan is a list of unrelated patterns
+- Each individual pattern has its own individual list of actions
+- The call "enters" the dialplan from beginning, and proceeds toward dialplan end
+- The call tries to match each pattern in turn, from first to last
+- If the call matches a pattern, the list of actions of this pattern is added to the *call TODO list*
+- At the end of dialplan traversal, the TODO list is executed
+- Matching (or non matching) an individual pattern can be cause for stopping traversing the dialplan(that is, not try to match any succesive pattern)
+- The name "EXTENSION", in FreeSwitch parlance, designateindividual pattern complete with its
+
+** Contexts
+Dialplan can have different sections, named contexts, which are completely separated from each other.
+
+There are three contexts in the demo configuration you get out of the box after a fresh freeSwitch installation:
+- default
+  calls origiated by unternal trusted users are sent to this
+- public
+  all other incoming calls are sent to this
+- features
+  no calls are sent to it, but the other two contexts "borrow" features from it
+
+** Extensions
+In FreeSwitch parlance, an extension is NOT a phone or a service.
+An extension is a configuration compound made of a pattern and a list of actions.
+
+Attribute "name" has no usage beyond being printed in debug output. Helps you to follow through what happens. Forget about it, is just a name.
+
+Attribute "continue" is of the utmost importance. It determines if the call, having matched the pattern of this extension stacked its action into the TODO list, will then continue to the next extension or will exit the dialplan now(and begin the execution of the TODO actions list).
+
+By default, a call exits the dialplan at the first extension match.
+
+If you set <extension name="myextensionname" continue="true">, the call will check if it matches next extension.
+
+** Channel Variables
+all the output lines with "variable_" prefix can be accessed in dialplan using the ${} construct.
+** Action and Anti-actions
+Actions and anti-actions live inside conditions. Actions are executed if the condition expression matches. Anti Actions are executed if the condition don't match.
+
+Let's look at an "hello world" example, insert the following at the beginning of default.xml dialplan.
+#+begin_src xml
+  <extension name="giovanni_05">
+    <condition field="destination_number" expression="^4321$">
+      <action application="answer" />
+      <action application="log" data="WARNING YEeEeEeEeEeS" />
+      <anti-action application="log" data="WARNING NOoOoOoOoOo" />
+      <action application="hangup" />
+    </condition>
+  </extension>
+#+end_src
+
+** Important dialplan application
+FreeSwitch has many(hundreds) application for dialplan and scripting usage.
+Most of them are provided by mod_dp_tools, but almost every FreeSwitch modules adds some applications to your toolbox.
+
+Let's review some of the most popular building blocks, the ones you can start to experiment with immediatelt
+
+*** answer
+The `answer` application picks up the phone by establishing a media stream to the calling party. In SIP terms, this cause Freeswitch to send a "200 OK" message, negotiate the audio/video codecs to use (if not already determined), and begin the flow of RTP packets.
+
+Example:
+<action application="answer" />
+
+*** bridge
+The `bridge` application originate new call(s) as B-leg(s), and connects (mixes, bridges) the media streams of the newly originated B-leg(s) to the stream of the incoming call (also known as A-leg)
+
+example:
+bridge data="dialstring, dialstring"
+bridge data="dialstring| dialstring"
+
+dialstring separated by commas are executed simltaneously. Dialstrings separated by pipes are executed sequentially. The first phone to answer receives the call, at which time dialing to all other phones is canceled.
+
+example xml:
+<action application="bridge" data="user/1000" />
+<action application="bridge" data="sofia/gateway/mygateway_name/$1" />
+
+*** hangup
+The hangup application disconnect the media streams and ends the call.
+
+data argument: Optional hang up cause
+
+exampmles:
+<action application="hangup" />
+<action application="hangup" data="USER_BUSY" />
+
+*** ivr
+The ivr application send the caller to a predefined IVR.
+
+Argument syntax: Name of IVR to execute.
+
+Example:
+<action application="ivr" data="ivr_demo" />
+
+*** play_and_get_digits
+The play_and_get_digits application will play a sound file to the caller, while at the same time listening for DTMF's dialed by the caller, and act on them.
+
+This is especially useful when scripting Freeswitch, allowing for full application logic and control flow.
+
+In dialplan, you can use it for simple interactions without invoking the ivr application and its XML IVR language.
+
+*** playback
+The playback application plays an audio file to the caller. Files can be in many formats as supported by Freeswitch modules. The sound and music files included in FreeSwitch demo are all .wav files.
+
+Data Argument: absolute path to a sound file or relative path to the default sound directory.
+
+*** set
+The se appication sets a channel variable
+
+data argument:
+name=value
+
+Example
+<action application="set" data="my_chan_var=example_value" />
+
+*** sleep
+The sleep application pauses dialplan execution for the specified number of milliseconds.
+
+Example:
+<action application="application" data="1000">
+
+*** transfer
+The transfer application sends the call back traversing the dialplan. This causes an entirely new parse (ROUTING) phase and execution phase to take place.
+
+data argument
+<destination number> [destination dialplan [destination context]]
+
+** Originate command
+the basic syntax of originate is as follows:
+originate <dialstring> <destination_number>
+
+It gets exactly the same dialstrings as the bridge application in dialplan. Actually, as "destination number" argument it accepts dialplan applications, so you can have this kind of command line:
+
+originate sofia/internal/user@firstdomain.com
+&bridge(sofia/internal/user@4.3.2.1)
+
+This will originate a call to userA, and if userA answers, will originate and addtional call to userB. If userB answers, it will bridge the two calls and the two users will be able to talk
+
+** Pitfalls to avoid
+The most frequent Dialplan error made by people new to FreeSwitch (and by distracted old hands) is without any doubt setting a variable and expecting to be able to check it some lines down for the assigned value.
+
+
