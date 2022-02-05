@@ -1,0 +1,65 @@
+:PROPERTIES:
+:ID:       96f9970a-68db-44ed-8e8a-db55d8707848
+:END:
+#+title: math book list i want to buy
+#+date: [2022-02-05 Sat 21:30]
+#+author: Amar Panji Senjaya
+
+* Discrete Mathematics with applications
+** Author
+Susanna s. Epp
+** Content
+Basic mathematical logic with zero algebra
+Core foundation of mathematics
+
+* Mathematical Proofs
+** Author
+Gary Chartrand
+Albert D. Polimeni
+Ping Zhang
+** Content
+Advanced use
+learn to write proofs
+
+* Abstract Mathematics
+** Author
+Robert J. Bond
+William J. Keane
+** Content
+Advanced use
+learn to write proofs
+
+* Pre-Algebra
+** Author
+AGS
+** Content
+Basic has solution
+
+* Pre-Algebra
+** Author
+Fearon .s
+** Content
+Basic
+Better content
+
+* College Algebra
+** Author
+Jerome E. Kaufman
+** Content
+Basic
+
+* A graphical approach to algebra & trigonometri
+** Author
+Hornsby
+Lial
+Rockswold
+** Content
+intermediate
+
+* A graphical approach to algebra & trigonometri
+** Author
+Hornsby
+Lial
+Rockswold
+** Content
+intermediate
