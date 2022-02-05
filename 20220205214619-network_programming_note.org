@@ -1,0 +1,620 @@
+:PROPERTIES:
+:ID:       3b309a69-bd70-4a59-8faa-2765dc09e784
+:END:
+#+title: network programming note
+#+date: [2022-02-05 Sat 21:46]
+#+author: Amar Panji Senjaya
+
+
+* Network Monitoring and Security
+
+** The purpose of network monitoring
+Reason to practice network monitoring:
+- To detect the reachability of network system
+- To measure the availability of networked systems
+- To determine the performance of networked systems
+- To inform decisions about network resources allocation
+- To aid in troubleshooting
+- To benchmark performance
+- To reverse engineer a protocol
+- To debug a program
+
+One of the most fundamental questions you coud ask is, can this system reach that system? The Ping utility,
+which is perhaps the most elementary network tool, is designed to answer just that question. Let`s consider it`s 
+usage next.
+
+** Testing reachability
+Perhaps the most basic network monitoring tool is Ping. Ping uses the **Internet Control Message Protocol (ICMP)**
+to check whether a host is reachable. It also commonly reports the total round-trip time (latency). Ping is
+available as a built in command or utility for all common operating systems.
+
+The ICMP defines a set of special IP messages that are typically useful for diagnostic and control purposes.
+Ping works by using two of these messages: echo request and echo reply. The ping utility sends an echo request,
+it should respond with an echo reply message.
+
+When the echo reply is received, Ping knows that the destination host is reachable. Ping can also report the round
+trip time from when the echo request was sent to when the echo reply was received. ICMP echo messages are
+ususally small and easy to process, so this round trip time often serves as best-case estimate of network latency.
+
+The Ping utility takes one argument: the hostname or address you`re requesting a response from. Ping on unix
+based system will send packets continously. On Windows, pass in the -t flags for this behaviour. Press C-c to
+to stop.
+
+ example of ping program:
+ #+begin_src shell
+
+ping example.com
+Ping example.com (IPADDR)  56(84) bytes of data.
+
+# specify the amount of packets
+ping -s 1000 example.command
+PING example.com (IPADDR) 1000(1028) bytes of data.
+
+ #+end_src
+
+ sometimes, just knowing that a host is reachable is enough, but sometimes you`ll want more information. It can be
+ useful to know the exact path an IP packets takes through the network. The traceroute utility provides this
+ information.
+ 
+** Checking a route
+While Ping can tell us whether a network path exist between two system, traceroute can reveal what this path
+actually is.
+
+Traceroute is used with one argument: the hostname or address you want to map a route to.
+
+On Windows, traceroute is called tracert. tracert works in a very similar way to the traceroute utility found
+on Linux and macOS.
+
+example of tracerroute -n flags tells not to perform reverse-DNS lookups for each hop. These lookups are rarely and omitting
+them saves a bit of time and screen space:
+
+#+begin_src shell
+
+traceroute -n example.com
+traceroute to example.com (93.184.216.34), 30 hops max, 60 bytes packets
+
+#+end_src
+
+In preceding example, we see that the message must first pass through 23.92.28.3
+
+*** How traceroute works
+To understand how traceroute works, we must understand a detail of the Internet Protocol (IP).
+Each IP packet header contains a field called Time to live (TTL). TTL is the maximum number of seconds
+that a packet should live on the network before being discarded. This is important to keep an IP packet from
+simply persisting (which is, going in an endless loop) over the network.
+
+TTL time travel intervals under one second are rounded up. This means that, in practice, each router that handles
+an IP packt decrements the TTL field by 1. therefore, TTL is often used as a hop-count. That is to say that the TTL
+field simply represents the number of hops a packet can still take over the network.
+
+The traceroute utility under one second are rounded up. This means in practice, each router that handles an IP
+packet decrements the TTL field by 1. Therefore, TTL is often used as a hop-count. That is to say that the TTL
+fiedl simply represents the number of hops a packet can still take over the network.
+
+The traceroute utility uses TTL to identify intermediate router in a network. Traceroute begins by addressing 
+a message (for example, a UDP datagram or an ICMP echo request) to the destination host. However, traceroute
+sets the TTL field to a value of 1. When the very first router in the connection path receives message, it decrements
+TTL to zero. The router then realizes that the message has expired and discards it. A well-behaved router
+then sends an ICMP Time Exceeded message back to the original sender. Traceroute uses this Time Exceeded
+message to identify the first router in the connection.
+
+Traceroute repeats this same process with additional messages. The second message is sent using a TTL of 2,
+ant that message identifies the second hop in the network path. The third message is sent using a TTL of 3,
+and so on. Eventually, the message reaches its final destination and traceroute has mapped the entire network path.
+
+Not all routers return an ICMP Time Exceeded message, and some networks filter out these messages. In these
+cases, traceroute will have no way to know these routers' addresses. Traceroute prints an asterisk instead.
+Theoritically, if a router exist in the connection path that doesn`t decrements the TTL field, then traceroute has
+not way knowing that this router exists.
+
+ 
+** Raw sockets
+ The socket programming API does provide access to raw sockets, in theory. With raw sockets, a C program
+ can construct the exact IP packet to send. That is, a C programmer coudl construct an ICMP packet from scratch
+ and send it over the network. Raw sockets also allow for programs to receive uninterpreted packetes from the 
+ network directly. In this case, the user program would be responsible for deconstructing and interpreting
+ the ICMP packet, not the operating system.
+
+On system with raw socket support, getting started can be as simple as changing your `socket()` function
+invocation to the following: 
+
+#+begin_src c
+
+socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
+
+#+end_src
+
+However, the problem is that raw sockets aren`t universally supported. It is a difficult subject to approach
+in cross-platform way. Windows, in particular, has varying support for raw sockets depending on the OS version.
+Recent versions of Windos have virtually not support for raw sockets. For this reason, this won`t covered here.
+
+** Checking local connections
+It is often useful to know what connections are being made on your local machine. The netstat command can help
+with that. Netstat is available on Linux, macOS, and Windows. Each version differs a little in the comand-line options
+and output, but the general usage principles are the same.
+
+I recomended running netstat with the -n flag. This flag prevents netstat from doing reverse-DNS  lookups on each
+address and has effect of speeding it up significantly.
+
+On linux, we can use the following command to show open TCP connections:
+
+#+begin_src shell
+
+netstat -nt
+
+#+end_src
+
+netstat shows six columns. These columns display the protocol, the sending and receiving queue, the local address,
+the foreign address, and the connection state. In this example, we see that there are three connections to port 80.
+It is likely that this computer is loading up three web pages (as HTTP uses port 80).
+
+On Windows, the `netstat -n -p TCP` command show the same inforation, except it omits the socket queue information.
+
+The queue information, displayed on Unix-based systems, represents how many bytes the kernel has queued up waiting
+for the program to read, or the number of bytes sent but not acknowledged by the foreign host. Small numbers are
+healthy, but if these numbers became large, it could indicate a problem with the network or a bug in the program.
+
+It is also useful to see which program is responsible for each connection
+
+
+* Protocol Security
+
+** Brief History of SSL and TLS
+SSL and TLS are cryptographic protocols that provide 
+authentication and data encryption between servers, machines, and applications
+operating over a network.
+
+TLS is the successor of ssl protoocol because ssl had serious security flaws.
+note from TLS protocol creator:
+“The differences between this protocol and SSL 3.0 are not dramatic,
+but they are significant enough that TLS 1.0 and SSL 3.0 do not interoperate.”
+
+** what to chose between ssl or tls?
+SSL 2.0 and 3.0 have been deprecated by the **Internet Engineering Task Force(IETF)**
+in 2011 and 2015.
+So currently TLS 1.2 or 1.3 is the safe way to go.
+
+** What is handshake?
+handshake is a process where the client authenticate
+the server's TLS certificate and the two decide mutually
+supported cipher suite.
+
+*** cipher suite
+collection of algorithms that all work together to securely
+encrypt your connection with website.
+
+** HTTPS
+HTTPS is http comunication secured using **Transport Layer Security (TLS)** on port 443.
+What we are looking in protocol security?
+*** Authentication
+We need a way to prevent impostors from posing a legitimate communication partners.
+TLS provides peer authentication method for this reason.
+*** Encryption
+TLS uses encryption to obfuscate transmitted data. this prevent an
+eavesdropper from correctly interpreting intercepted data.
+*** Integrity
+TLS also ensure that received data has not been tampered with or otherwise
+forged.
+HTTP and HTTPS data encapsulation difference visuallized
++---- -+  +---- -+
+| TCP   |  | TCP   |
++--- --+  +---- -+
+| HTTP |  | TLS   |
++-- - --+  +----   -+
+| HTML |  | HTTP |
++---  --+  +-       -+
+| Text |  | HTML |
++---- -+  +--- --+
+| Text |
++---- -+
+
+** Encryption Basics
+Encryption is a method of encoding data so that only authorize parties can access it
+**Encryption does not prevent interception or intereference**, but it denies the
+original data to an attacker.
+
+Encryption algorithms are called ciphers.
+encryption ciphers convert plaintext and produce ciphertext this is called
+encryption. converting ciphertext back to plaintext is called decryption.
+
+modern ciphers use keys to control the encrypt and decryption of data.
+keys are relatively short, pseudo random data sequences.
+   
+*** Symetric ciphers
+
+                        key                                  key
+                   +----------- -+                         +----------- -+
+                   |adfb23klq4 |                         |adfb23klq4 |
+                   |41234nk3l  |                         |41234nk3l  | 
+                   |fsdbfdfg32 |                         |fsdbfdfg32 |
+                   +----------- -+                         +------- -----+
+                         |                                      |
+Plaintext                V               Ciphertext             V                 Plaintext
++++++++++++++        +++++++++++++++       ++++++++++++++       +++++++++++++++        ++++++++++++++
+|         |        |           |       |           |      |           |        |          |
+| Hello!  |---->   |Encrypt    | ----> |39#@^r^^%90|----> |Decrypt    |  ----> |Hello     |
+|         |        |           |       |           |      |           |        |          |
++++++++++++++        +++++++++++++++       ++++++++++++++       +++++++++++++++        ++++++++++++++
+
+symetric cipher use the same key for encryption and decryption.
+it make eavesdropper cannot decipher it without knowledge of the secret key.
+
+some symetric ciphers in general use (not just for TLS) are the following:
+- American Encryption Standard (AES), also known as Rijndael
+- Camellia
+- Data Encryption Standard (DES)
+- Triple DES
+- International Data Encryption Algorithms (IDEA)
+- QUAD
+- RC4
+- Salsa20, Chacha20
+- Tiny Encryption Algorithms (TEA)
+
+Disadvantage of using symetric encryption is that the same key must be known to both
+the sender and receiver. generating and transmitting this key securely poses a problem.
+Key exchange algorithms attempt to address these problems. Key exchange algorithms
+work by allowing both communication parties to generate the same secret key.
+
+*** ASymetric ciphers
+
+                    Public key                            Private key
+                    +--------- -+                           +--------- -+
+                   |32huasd87  |                         |adfb23klq4 |
+                   |asdfln32   |                         |41234nk3l  | 
+                   |3on;fafds& |                         |fsdbfdfg32 |
+                    +--------- -+                          +------- ---+
+                         |                                      |
+Plaintext                V               Ciphertext             V                 Plaintext
+++++++++++++++      +++++++++++++++       +++++++++++++++      +++++++++++++++        +++++++++++++
+|          |      |           |       |           |      |           |        |          |
+| Hello!   | ---->|Encrypt    | ----> |39#@^r^^%90|----> |Decrypt    |  ----> |Hello     |
+|          |      |           |       |           |      |           |        |          |
+++++++++++++++      +++++++++++++++       +++++++++++++++      +++++++++++++++        ++++++++++++++
+
+asymetric cipher use different key for encryption and decryption.
+
+Asymetric encryption, also known as public-key encryption, attempts to solve the
+key exhange and authentication problems of symetric encryption. with assymetric
+encryption, two keys are used. One key can encrypt data, while other key can decrypt
+it. These keys are generated together and related mathematically. However, deriving
+one key from the other after the fact is not possible.
+** How TLS uses ciphers
+Digital signatures are essential in TLS; they are used to authenticate servers.
+Without digital signatures, a TLS client wouldn't be able to differetiate between
+an authentic server and an impostor.
+
+TLS can also use digital signatures to authenticate the client, although this is
+much less common in practice. 
+
+** The TLS protocol
+After a TCP connection is established, the TLS handshake is initiated by the client.
+The client sends a number of specification to the server including which versions of
+SSL/TLS it running, which cipher suites it supports, and which compression methods it would
+like to use.
+
+if the client and server do not support any cipher suite in common, then no TLS connection
+can be established.
+** Certificates
+Each HTTPS server users uses one or more certificate to verify their identity.
+This certificate must be trusted by the client itself or trusted by a third party
+that client trusts. In common usages, such as web browsers, it's most common to validate
+certificates by verifying that a trusted third party trust them. This trust
+is proven using digital signatures.
+
+The mist popular certificate authorities at the time of this writing are the following:
+  - IdenTrust
+  - Comodo
+  - DigiCert
+  - GoDaddy
+  - GlobalSign
+    The Five preceding certificate authorities are responsible for over 90% of the
+    HTTPS certificates found on the web.
+
+Certificate work using a chain-of-trust model. Each HTTPS client has a few certficate authorities 
+that they explicitly trust, and certificate authorities offer services where they digitally sign certificates.
+This service is usually done for a small fee, and usually only after some simple verification of the requester.
+
+When an HTTPS client sees a certificate signed by an authority it trusts, then it also trust certificate.
+Indeed, these chains of trust can run deep. For example, most certificate authorities also allow resselers.
+In these case, the certificate authority signs an intermediate certificate to be used by the reseller. The reseller
+then uses this intermediate certificate to sign new certificates. Clients trust intermediate certificates because
+they are signed by trusted certificate autorities, and client trust the certificates signed by ressellers because
+they trust the intermediate certficates.
+
+certificate authorities commonly offer two types of validation. Domain validation is where a signed certificate
+is issued after simply verifying that the certificate recipient can be reached at the given domain. This is
+usually done by having the certificate requester temporarily modify a DNS record, or reply to an email sent to
+their whois contact.
+
+Let's Encrypt is a relatively new certificate issuer that issue certificate for free. they do this using an
+automated model. Domain validation is done by having the certificate requester serve a small file over 
+HTTP or HTTPS.
+
+Domain validation is the most common of validation. An HTTPS server using domain validation assures
+an HTTPS client that they are connected to the domain that they think they are. It implies that their connection
+wasn't silenly hijacked or otherwise intercepted.
+
+Certificate authorities also offer Extended Validation (EV) certificates. EV certificates are only issued after the
+authority verifies the recipient's identity. This is usually done using public records and a phone call.
+
+For public-facing HTTPS applications, it is important that you obtain a certificate from a recognized certificate
+authority. However, this can sometimes be tedious, and it is often much more convenient to obtain self-signed
+certificate for development and testing purposes. Let's do that now.
+
+*** Self-signed certificates with OpenSSL
+Certificate signed by recognized authorities are essential to establish the chain of trust needed for public
+websites. However, it is much easier to obtain a self-signed certificate for testing ot development.
+
+It is also acceptable to use a self-signed certificate for certain private applications where the client can be
+deployed with a copy of the certificate, and trust only that certificate. This is caled certificate pinning. 
+Indeed when used properly, certificate pinning can be more secure than using a certificate authority.
+However, it is not appropriate for public-facing websites.
+
+We require a certificate to test our HTTPS server. We use a self-signed certificate because they are
+the easiest to obtain. The downside to this method is that web browsers won't trust our server. We can get
+around this by clicking through a few warnings in the web browsers.
+
+OpenSSL provides tools to make self-signing cerficates very easy.
+
+The basic command to self-sign a certificate is as follows:
+#+begin_src shell
+
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -keyout key.pem -out cert.pem -days 365
+
+#+end_src
+
+OpenSSL ask questions about what to put on the certificate, including the subject, your name, company, location,
+and so on. You can use the defaults on all of these as this doesn`t matter fo our testing purposes.
+
+The preceding command places the new certificate in cert.pem and the key for it in key.pem Our HTTPS server
+needs both files. cert.pem is the certificate that ges sent to the connected client, and key.pem provides our server
+with the encryption key that proves that is  owns the cerficate. Keeping this key secret is imperative.
+
+** server name identification
+Many servers host multiple domains. Certificate tied to domains; therefore, TLS must
+provide a method for the client to specify which domain it's connecting to. You may recall
+that the HTTP host header server this purpose. The problem is that the TLS connection
+should be established before the HTTP data is sent. Therefore, the server must decide
+which certificate to transmit before the HTTP host header is received.
+
+This is accomplished using **Server Name Indication (SNI)**. SNI is a technique that, when
+used by TLS, requires the client to indicate to the server which domain it is attempting
+to connect to. The server can then find a matching certificate to use for the TLS connection.
+
+** Encrypted socket with OpenSSL
+*** Encrypt connection
+OpenSSL is a widely used open source library that provides SSL and TLS service to applications.
+   
+The TLS provided by OpenSSL can be applied to any socket.
+
+Before using OpenSSL in your program you need to initialize it.
+
+#+begin_src c++
+   SSL_library_init();
+   OpenSSL_add_all_algorithms();
+   SSL_load_error_strings();
+#+end_src
+
+once OpenSSL is initialized, we need to create an SSL context.
+#+begin_src c++
+   SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
+   if (!ctx) {
+     fprintf(stderr, "SSL_CTX_new() failed.\n");
+     return 1;
+   }
+#+end_src
+   
+SSL_CTX_new() return an **SSL_CTX** object.
+SSL_CTX_new() takes one argument here we use TLS_client_method(), which
+indicates that we want general-purpose, version-flexible TLS methods available.
+Our client automatically negotiages the best mutually supported algorithm with the server
+upon connecting.
+   
+after creating context you can setting up a TCP connection.
+once connect() has returned successfully, and a TCP connection is established, you can
+use the following code to initiate a TLS connection
+
+#+begin_src c++
+   /* create new ssl object */
+   SSL *ssl = SSL_new(ctx);
+   if (!ctx) {
+     fprintf(stderr, "SSL_new() failed.\n");
+     return 1;
+   }
+
+   /* optional but usefule if connecting to server that host multiple domain */
+   if (!SSL_set_tlsext_host_name(ssl, hostname)) {
+     fprintf(stderr, "SSL_set_tlsext_host_name() failed.\n");
+     return 1;
+   }
+
+   SSL_set_fd(ssl, socket);
+   if (SSL_connect(ssl) == -1) {
+      fprintf(stderr, "SSL_set_tlsext_host_name() failed.\n");
+      ERR_print_errors_fp(stderr);
+      return 1;
+   }
+
+   /*  print client and server cipher suite agreed on */
+   printf("SSL/TlS using %s \n", SSL_get_cipher(ssl));
+
+#+end_src
+
+SSL_new() is used to create an SSL object. This object is used to track the new SSL/TLS connection.
+   
+SSL_set_tlsext_host_name() to set the domain for the server we are trying to connect to.
+This allows OpenSSL to use SNI. This call is optional, but without it,
+the server does not know which certificate to send in the case that it host more than one site.
+
+SSL_set_fd() and SSL_connect() to initiate the new TLS/SSL connection on our existing TCP socket.
+Once the TLS connection is established, data can be sent and received using SSL_write() and 
+SSL_read(), respectively. These function are used in a nearly identical manner as the standard socket
+send() and recv() functions.
+
+The following example shows transmitting a simple message over a TLS connection.
+
+#+begin_src c++
+
+   /* sending data with openssl */
+   char *data = "Hello World!";
+   int bytes_sent = SSL_write(ssl, data, strlen(data));
+
+#+end_src
+
+#+begin_src c++
+
+/* receiveing data with ssl  */
+  char read[4096];
+  int bytes_received = SSL_read(ssl, read, 4096);
+  printf("Received: %.*s\n", bytes_received, read);
+
+#+end_src
+
+When the connection is finished, it's important to free the used resources by calling
+SSL_shutown and SSL_free(ssl).
+
+#+begin_src c++
+
+  SSL_shutdown(ssl);
+  close(socket);
+  SSL_free(ssl);
+
+#+end_src
+
+When you're done with an SSL context, you should also call SSL_CTX_free().
+
+#+begin_src c++
+
+  SSL_CTX_free(ctx);
+
+#+end_src
+
+*** Certificates
+Once the TLS connection is established, we can use the SSL_get_peer_certificate()
+to get the server's certificate. It's also easy to print the certificate subject and issuer.
+#+begin_src c++
+   X509 *cert = SSL_get_peer_certificate(ssl);
+   if (!cert) {
+     fprintf (stderr, "SSL_get_peer_certificate() failed. \n");
+     return 1;
+   }
+
+   char *tmp;
+   if (tmp = X509_NAME_oneline(X509_get_subject_name(cert), 0, 0)) {
+     printf("subject: %s\n", tmp);
+   }
+
+   if (tmp = X509_NAME_oneline(X509_get_issuer_name(cert), 0, 0)) {
+     printf("issuer: %s\n", tmp);
+     OPENSSL_free(tmp);
+   }
+
+   X509_free(cert);
+#+end_src
+
+OpenSSL automatically verifies the certificate during the TLS/SSL handshake.
+You can get the verification results using the SSL_get_verify_result() function.
+   
+#+begin_src c++
+   
+   long vp = SSL_get_verify_result(ssl);
+   if (vp == X509_V_OK) {
+     printf("Certificate verified successfully.\n");
+   } else {
+     printf("Could not verify certificates: %ld\n", vp);
+   }
+
+#+end_src
+
+if SSL_get_verify_result() returns X509_V_OK, then the certificate chain was verified
+by OpenSSL and the connection can be trusted. if SSL_get_verify_result() does not
+return X509_V_OK, then HTTPS authentication has failed, and the connection should be 
+abandonned.
+
+#+begin_src c++
+   if (!SSL_CTX_load_verify_locations(ctx, "trusted.pem", 0)) {
+     fprintf(stderr, "SSL_CTX_load_verify_locations() failed.\n");
+     ERR_print_errors_fp(stderr);
+     return 1;
+   }
+#+end_src
+
+to check OpenSSL successfully verify the certificate, we must tell it which certificate
+authorities we trust. This can be done by using the **SSL_CTX_load_verify_locations()**.
+   
+** SSH
+SSH is widely used for the configuration and management of remote servers. Oftentimes, web servers aren`t 
+connected to monitors or keyboards. For many of these servers, SSH provides the only method of 
+command-line access, and administration.
+*** SSH protocol
+Most servers providing a service (such as websites and emails) over the modern internet
+aren`t attached to keyboards or monitors. Even when servers do have local input/output hardware, remote
+access is often much more convenient.
+
+Various protocol have been used to provide remote command-line access to servers. One of the first such
+protocol was Telnet. with Telnet, a client remotely connects to a server using plaintext over TCP over port
+23. The server provides more-or-less direct access to the operating system command-line through this 
+Transmission Control Protocol (TCP) connection. The client sends plaintext commands to the server, and
+the server executes connection. The client sends plaintext commands to the server, and the server 
+execute these commands. The command-line ouput is sent back from the server to the client.
+
+Telnet has a major security shortcoming: it does not encrypt any data sent over the network.
+Even User password are sent as plaintext when using Telnet. This means that any network eavesdropper
+could obtain user credential!
+
+The SSH protocol has now largely replaced Telnet. The SSH protocol works over TCP using port 22. SSH
+uses strong encryption to protect against eavesdropping.
+
+SSH allows client to verify servers identities using public-key authentication. Without public-key authentication
+of the server, an impostor could masquarade as a legitimate server and attempt to trick a client into connecting.
+Once connected, the client would send its credentials to the impostor server.
+
+SSH also provides many methods for client authentication with servers. These include sending a password
+or using public-key authentication. We look at these methods in detail later.
+
+SSH is a complicated protocol. So, instead of attempting to implement it ourselves, we use an existing
+library to provide the needed functionality.
+
+
+*** libssh
+libssh is a widely used open source C library implementing the SSH protocol. It allows us to remotely
+excute commands and transfer file using the SSH protocol.
+
+libssh is structured in a way that abstract network connections. We won`t need to bother
+with the low-level networking APIs we`ve been using so far. The libssh library handles
+hostname resolution and creation of needed TCP sockets for us.
+
+* The HTTP server
+In this chpater, we are going to implement an HTTP web server that can serve static files from a local directory.
+HTTP is a text-based client-server protocol that uses the Transmision Control Protocol (TCP).
+
+When implementing our HTTP server, we need to support multiple, simultaneous connections from many
+clients at once. Each received HTTP request need to be parsed, Response should include the requested file if
+possible.
+
+In the preceding diagram, the client is requesting /document.htm from the server. The server finds
+/document.htm and returns it to the client.
+
+Our HTTP server is somewhat simplified, and we only need to look at the first line of the HTTP request. This first
+line is called the request line. Our server only supports GET type request, so it needs to first check that the
+request line starts with GET. It then parses out the requested resource, /document.htm in the preceding example.
+
+A more full-featured HTTP server would look at several other HTTP headers. It would look at the Host header to
+determine which site is hosting. Our server only support hosting one site, so this header is not meaningful
+for us.
+
+A production server would also look at headers such as Accepting-Encoding and Accept-Language, which 
+could inform a proper response format. Our server just ignores these, and it instead serves files in only the most
+straightforward way.
+
+The internet can sometimes be a hostile environmen. A production-grade web server needs to include security
+in layers. It should be absolutely meticulous about file accessand in this chapter is not security-hardened, and it
+should be absolutely meticulous about file access and resource allocation. In The interest of clear explanation 
+and brevity, the server we develop in this chapter is n
+
+
+
+* References
+https://www.globalsign.com/en/blog/ssl-vs-tls-difference
+Lewis Van Winkle - Hands-On Network Programming with C
+
