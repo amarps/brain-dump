@@ -1,0 +1,46 @@
+:PROPERTIES:
+:ID:       12c424e4-1ef8-45bc-af7a-b46d9ae455b3
+:END:
+#+title: packet capturing note
+#+date: [2022-02-05 Sat 21:39]
+#+author: Amar Panji Senjaya
+
+* What is Packet Capturing
+- Wired vs Wireless
+- Promiscuous mode
+- Hubs vs Switches
+- Does not block or man-in-the middle traffic
+  
+* How can it be used?
+- App development: app testing, validating encryption
+- Reverse engineering an API
+- Seeing what traffic goes on in background
+- stealing credentials
+- Network administration
+- Looking for malicious traffic on network
+- Forensics for crime investigation
+- Defcon Wall of Sheep
+
+* Overview
+- Getting list of network devices
+- Capturing packets from a network device
+- saving packets to a file
+- Reading packets from a file
+- Analyzing packets layers
+- Creating custom layers
+- using Berkeley Packet Filters
+- Injecting packets
+- Following streams
+
+* Common Tools
+- Wireshark/tshark
+- Tcpdump
+- Driftnet
+- Firesheep
+
+* libpcap
+- C library
+- https://www.tcpdump.org/
+- https://www.devdungeon.com/content/using-libpcap-c
+
+
