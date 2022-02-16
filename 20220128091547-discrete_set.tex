@@ -1,4 +1,4 @@
-% Created 2022-02-16 Wed 22:46
+% Created 2022-02-17 Thu 03:34
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -38,11 +38,15 @@
 \setlength\parindent{0pt}
 \newpage
 
+Source And Learning Material:\\
+\url{https://www.youtube.com/playlist?list=PLHXZ9OQGMqxersk8fUxiUMSIx0DBqsKZS}\\
+\url{https://www.amazon.com/Discrete-Mathematics-Applications-Susanna-Epp/dp/1337694193/ref=sr\_1\_2?keywords=discrete+math\&qid=1645043639\&sr=8-2}\\
+
 \section{What is Set}
-\label{sec:org33ab9c5}
+\label{sec:orgf939808}
 A \textbf{set} is a collection of objects. Individual object of set is element \(\in\). Individual object of element that is not in The set is  called not in element denoted with \(\notin\).\\
 \subsection{Examples}
-\label{sec:orgdab6808}
+\label{sec:org6fd382b}
 \begin{itemize}
 \item A = Employees in a company\\
 John \(\in\) A\\
@@ -54,7 +58,7 @@ John \(\in\) A\\
 \end{itemize}
 
 \subsection{Order And Repetition Don't Matter}
-\label{sec:orgc18885a}
+\label{sec:org214a35d}
 \begin{minted}[]{markdown}
 {1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
 			= {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
@@ -62,25 +66,25 @@ John \(\in\) A\\
 
 \newpage
 
-\subsection{Subsets}
-\label{sec:org178dc69}
+\section{Subsets}
+\label{sec:org76d6b5e}
 \begin{itemize}
 \item Every Element of A is also in B = A \subseteq B\\
 \end{itemize}
 \subsubsection{Example 1}
-\label{sec:orgf18f761}
+\label{sec:orga89c59a}
 A = \{1, 3\}\\
 B = \{1, 3, 4, 6\}\\
 A \subseteq B\\
 \subsubsection{Example 2}
-\label{sec:org9053cf3}
+\label{sec:orgb41d041}
 A = \{1, 8\}\\
 B = \{1, 3, 4, 6\}\\
 A \nsubseteq B\\
 because \(\in\) 8 is not in B\\
 
-\subsection{Set-Roster Notion}
-\label{sec:org0e9ca43}
+\section{Set-Roster Notion}
+\label{sec:org209d0b0}
 Replace \ldots{} with continuos clear pattern\\
 Example:\\
 Positive even integers\\
@@ -88,8 +92,8 @@ Positive even integers\\
 all even integers\\
 \{\ldots{}, -6, -4, -2, 0, 2, 4, 6, \ldots{}\}\\
 
-\subsection{Set-Builder Notation}
-\label{sec:orgba22950}
+\section{Set-Builder Notation}
+\label{sec:orgbbf9d16}
 General form: \{ x | P(x) \}\\
 x variable\\
 "|" such that\\
@@ -101,8 +105,8 @@ Example square root\\
 
 \newpage
 
-\subsection{Empty Set}
-\label{sec:org43df97c}
+\section{Empty Set}
+\label{sec:orgaf9c158}
 Notion: \{\} or \(\emptyset\)\\
 \{\(\emptyset\)\}\\
 Is \(\emptyset\) \(\subset\) \{1,2,3\}?\\
@@ -110,8 +114,8 @@ Recall: A \(\subset\) B means:\\
 if x \(\in\) A, then x \(\in\) B\\
 This is \emph{vacuously} true!\\
 
-\subsection{Ordered Pairs (\emph{a}, \emph{b})}
-\label{sec:org30b0e6a}
+\section{Ordered Pairs (\emph{a}, \emph{b})}
+\label{sec:orga527ef1}
 \begin{itemize}
 \item Order Matters\\
 \item (a,b) = (c,d) of a=c \& b=d\\
@@ -133,8 +137,8 @@ Example:\\
 \{a,b\} \texttimes{} \{0,1\}\\
 A \texttimes{} B = \{(a,1), (a,0), (b,0), (b1)\}\\
 
-\subsection{Relations}
-\label{sec:org5e4c64e}
+\section{Relations}
+\label{sec:org97a7538}
 Ex: a < b\\
 compares two integers\\
 some pairs have this relationship 2 < 5\\
@@ -174,8 +178,8 @@ shorten <= 3pt
 
 ie ordered pairs\\
 (a,b) \(\in\) A \texttimes{} B\\
-\subsection{Functions}
-\label{sec:org2a444ee}
+\section{Functions}
+\label{sec:org8b299e1}
 ex: f(x) = x\textsuperscript{2}\\
 
 \begin{tikzpicture}
@@ -211,4 +215,126 @@ Consider the relation C where (x,y) \(\in\) C if x\textsuperscript{2} + y\textsu
 \end{tikzpicture}
 
 This is relation but not a function because there is more than one output asociated with one input\\
+
+
+\section{Statement}
+\label{sec:orgb9c182e}
+A statement is a sentence that is either true or false\\
+
+Examples:\\
+p: "5 > 2" = True\\
+q: "2 > 5" = False\\
+r: "x > 2" = Not a statement because we don't know what x is\\
+
+\subsection{New statement from old}
+\label{sec:org0f4d944}
+\(\neg{}\) p means not p\\
+p \(\land\) q means p and q\\
+p \(\lor\) q means p or q\\
+
+Example:\\
+"My shirt is gray but my shorts are not"\\
+p = My shirt is gray\\
+q = My shorts are gray\\
+p\(\land\) \(\neg{}\) q\\
+
+\subsection{Truth Table for (\(\neg{}\) p) \(\lor\) (\(\neg{}\) q)}
+\label{sec:orgfed8652}
+\begin{center}
+\begin{tabular}{lllll}
+p & q & \(\neg{}\) p & \(\neg{}\) q & \\
+\hline
+T & T & F & F & F\\
+T & F & F & T & T\\
+F & T & T & F & T\\
+F & F & T & T & T\\
+\end{tabular}
+\end{center}
+
+Def: Two statements are logically equivalent if they have the same truth table\\
+\begin{center}
+\begin{tabular}{lll}
+p & \(\neg{}\) p & \(\neg{}\) (\(\neg{}\) p)\\
+\hline
+T & F & T\\
+F & T & F\\
+\end{tabular}
+\end{center}
+
+Def: A tautology t is a statement that is always true\\
+Example:\\
+That dog is a mammal\\
+
+t: tautology\\
+p: some statement\\
+\begin{center}
+\begin{tabular}{lll}
+t & p & t \(\lor\) p\\
+\hline
+T & T & T\\
+T & F & T\\
+\end{tabular}
+\end{center}
+
+
+Def: A contrandiction c is a statement that is always false\\
+Example:\\
+That dog is a reptile\\
+
+c: contrandiction\\
+p: some statement\\
+\begin{center}
+\begin{tabular}{lll}
+c & p & c \(\land\) p\\
+\hline
+F & T & F\\
+F & F & F\\
+\end{tabular}
+\end{center}
+
+so c \(\land\) p is a contrandiction\\
+
+\section{Demorgan's Law \& Logical Equivalent}
+\label{sec:orgb2cabab}
+p: Trefor is a unicorn\\
+q: Trefor is a goldfish\\
+\(\neg{}\)(p \(\lor\) q) \(\equiv\) (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)?\\
+It's NOT the case that Trefor is either a unicorn OR a goldfish.\\
+is equivalent to:\\
+Trefor is NOT a unicorn AND is NOT a goldfish.\\
+
+\begin{center}
+\begin{tabular}{lllllll}
+p & q & \(\neg{}\) p & \(\neg{}\) q & p \(\lor\) q & \(\neg{}\) (p \(\land\) q) & (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)\\
+\hline
+T & T & F & F & T & F & F\\
+T & F & F & T & T & F & F\\
+F & T & T & F & T & F & F\\
+F & F & T & T & F & T & T\\
+\end{tabular}
+\end{center}
+
+Demorgan's Laws:\\
+\(\neg{}\) (p \(\lor\) q) \(\equiv\) (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)\\
+\(\neg{}\) (p \(\land\) q) \(\equiv\) (\(\neg{}\) p) \(\lor\) (\(\neg{}\) q)\\
+
+Double Negative:\\
+\(\neg{}\)(\(\neg{}\) p) \(\equiv\) p\\
+
+Identity Laws:\\
+p \(\lor\) c \(\equiv\) p\\
+p \(\land\) t \(\equiv\) p\\
+
+Universal Bound Laws:\\
+p \(\lor\) t \(\equiv\) t\\
+p \(\land\) c \(\equiv\) c\\
+
+Example:\\
+(\(\neg{}\)(p \(\lor\) \(\neg{}\) q)) \(\land\) t\\
+via DeMorgan's\\
+\(\equiv\) (\(\neg{}\) p \(\land\) \(\neg{}\) (\(\neg{}\) q)) \(\land\) t\\
+via Double Negative\\
+\(\equiv\) (\(\neg{}\) p \(\land\) q) \(\land\) t\\
+Via Identity\\
+\(\equiv\) \(\neg{}\) p \(\land\) q\\
 \end{document}
