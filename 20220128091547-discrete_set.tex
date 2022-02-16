@@ -1,4 +1,4 @@
-% Created 2022-01-28 Fri 12:20
+% Created 2022-02-16 Wed 19:26
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -16,7 +16,10 @@
 \usepackage{hyperref}
 \usepackage{minted}
 \usepackage{minted}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 \usepackage[margin=1in]{geometry}
+\usepackage[margin=1in]{pgfplots}
 \renewcommand{\Large}{\normalsize}
 \author{Amar Panji Senjaya}
 \date{\textit{[2022-01-28 Fri 09:15]}}
@@ -35,10 +38,10 @@
 \newpage
 
 \section{What is Set}
-\label{sec:orge84a5b3}
+\label{sec:org79ad7b7}
 A \textbf{set} is a collection of objects. Individual object of set is element \(\in\). Individual object of element that is not in The set is  called not in element denoted with \(\notin\).\\
 \subsection{Examples}
-\label{sec:org885b229}
+\label{sec:orgd84c747}
 \begin{itemize}
 \item A = Employees in a company\\
 John \(\in\) A\\
@@ -50,7 +53,7 @@ John \(\in\) A\\
 \end{itemize}
 
 \subsection{Order And Repetition Don't Matter}
-\label{sec:org5867a76}
+\label{sec:orgd9f7cd3}
 \begin{minted}[]{markdown}
 {1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
 			= {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
@@ -59,24 +62,24 @@ John \(\in\) A\\
 \newpage
 
 \subsection{Subsets}
-\label{sec:org20d823d}
+\label{sec:orga9a9bc9}
 \begin{itemize}
 \item Every Element of A is also in B = A \subseteq B\\
 \end{itemize}
 \subsubsection{Example 1}
-\label{sec:orgf7fbae4}
+\label{sec:orge7dca3d}
 A = \{1, 3\}\\
 B = \{1, 3, 4, 6\}\\
 A \subseteq B\\
 \subsubsection{Example 2}
-\label{sec:orga5603c4}
+\label{sec:orgced8fe8}
 A = \{1, 8\}\\
 B = \{1, 3, 4, 6\}\\
 A \nsubseteq B\\
 because \(\in\) 8 is not in B\\
 
 \subsection{Set-Roster Notion}
-\label{sec:orgbd47beb}
+\label{sec:orgcc0a307}
 Replace \ldots{} with continuos clear pattern\\
 Example:\\
 Positive even integers\\
@@ -85,7 +88,7 @@ all even integers\\
 \{\ldots{}, -6, -4, -2, 0, 2, 4, 6, \ldots{}\}\\
 
 \subsection{Set-Builder Notation}
-\label{sec:orgbc0563b}
+\label{sec:orgdbfac26}
 General form: \{ x | P(x) \}\\
 x variable\\
 "|" such that\\
@@ -94,4 +97,94 @@ Example even integers\\
 = \{ x | x = Twice an integer \}\\
 Example square root\\
 \{ x | \sqrt{x} \(\in\) \mathbb{Z} \}\\
+
+\newpage
+
+\subsection{Empty Set}
+\label{sec:orga500779}
+Notion: \{\} or \(\emptyset\)\\
+\{\(\emptyset\)\}\\
+Is \(\emptyset\) \(\subset\) \{1,2,3\}?\\
+Recall: A \(\subset\) B means:\\
+if x \(\in\) A, then x \(\in\) B\\
+This is \emph{vacuously} true!\\
+
+\subsection{Ordered Pairs (\emph{a}, \emph{b})}
+\label{sec:orgfae514e}
+\begin{itemize}
+\item Order Matters\\
+\item (a,b) = (c,d) of a=c \& b=d\\
+\item a\&b could come from different sets\\
+\end{itemize}
+
+\uline{Defn}: The cartesian product A \texttimes{} B is the set of all ordered pairs (a,b) where a \(\in\) A and b \(\in\) B\\
+
+\begin{tikzpicture}
+\begin{axis}[legend entries={p},ymin=-2,ymax=2,xmin=-2,xmax=2, axis lines=middle,axis equal,grid=both]
+\addplot coordinates{(2,1)};
+\end{axis}
+\end{tikzpicture}
+
+p = (2,1) \(\in\) \mathbb{R} x \mathbb{R}\\
+first component is x axis and second component is y axis\\
+
+Example:\\
+\{a,b\} \texttimes{} \{0,1\}\\
+A \texttimes{} B = \{(a,1), (a,0), (b,0), (b1)\}\\
+
+\subsection{Relations}
+\label{sec:orga68494a}
+Ex: a < b\\
+compares two integers\\
+some pairs have this relationship 2 < 5\\
+some pairs don't 5 \nless 2\\
+
+note:\\
+h: human\\
+d: dog\\
+c: cat\\
+m: monkey\\
+\begin{tikzpicture}[
+mydot/.style={
+  circle,
+  fill,
+  inner sep=2pt
+},
+>=latex,
+shorten >= 3pt,
+shorten <= 3pt
+]
+\node[mydot,label={left:h1}] (h1) {}; 
+\node[mydot,below=of h1,label={left:h2}] (h2) {}; 
+\node[mydot,below=of h2,label={left:h3}] (h3) {}; 
+\node[mydot,below=of h3,label={left:h4}] (h4) {}; 
+
+\node[mydot,right=2cm of h1,label={right:d1}] (d1) {}; 
+\node[mydot,below=of d1,label={right:c1}] (c1) {}; 
+\node[mydot,below=of c1,label={right:d2}] (d2) {}; 
+\node[mydot,below=of d2,label={right:m1}] (m1) {}; 
+
+\path[->] (h1) edge (c1);
+\path[->] (h2) edge (d1);
+\path[->] (h3) edge (d1);
+\end{tikzpicture}
+
+\uline{defn}: A Relation R between A and B is a subset of A \texttimes{} B\\
+
+ie ordered pairs\\
+(a,b) \(\in\) A \texttimes{} B\\
+\subsection{Functions}
+\label{sec:orgb1f8b03}
+ex: f(x) = x\textsuperscript{2}\\
+
+\begin{tikzpicture}
+\begin{axis}[legend entries={f},ymin=-2,ymax=2,xmin=-2,xmax=2, axis lines=middle,axis equal,grid=both]
+\addplot {(x^2)};
+\end{axis}
+\end{tikzpicture}
+
+function do something to every input in my domain and produce output for each input\\
+
+domain: set of all possible input\\
+range: set of all possible output\\
 \end{document}

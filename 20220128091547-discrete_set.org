@@ -7,8 +7,11 @@
 
 #+OPTIONS: toc:nil
 #+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usepackage{tikz}
+#+LaTeX_HEADER: \usetikzlibrary{positioning}
 #+OPTIONS: \n:t
 #+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage[margin=1in]{pgfplots}
 #+LATEX: \setlength\parindent{0pt}
 #+LATEX_HEADER: \renewcommand{\Large}{\normalsize}
 #+MACRO: NEWLINE @@latex:\\@@ @@html:<br>@@ @@ascii:|@@
@@ -63,5 +66,90 @@ Example even integers
 Example square root
 { x | \sqrt{x} \in \mathbb{Z} }
 
-** Empty Set
+#+LATEX: \newpage
 
+** Empty Set
+Notion: {} or \emptyset
+{\emptyset}
+Is \emptyset \subset {1,2,3}?
+Recall: A \subset B means:
+if x \in A, then x \in B
+This is /vacuously/ true!
+
+** Ordered Pairs (/a/, /b/)
+- Order Matters
+- (a,b) = (c,d) of a=c & b=d
+- a&b could come from different sets
+
+_Defn_: The cartesian product A \times B is the set of all ordered pairs (a,b) where a \in A and b \in B
+
+#+LATEX: \begin{tikzpicture}
+#+LATEX: \begin{axis}[legend entries={p},ymin=-2,ymax=2,xmin=-2,xmax=2, axis lines=middle,axis equal,grid=both]
+#+LATEX: \addplot coordinates{(2,1)};
+#+LATEX: \end{axis}
+#+LATEX: \end{tikzpicture}
+
+p = (2,1) \in \mathbb{R} x \mathbb{R}
+first component is x axis and second component is y axis
+
+Example:
+{a,b} \times {0,1}
+A \times B = {(a,1), (a,0), (b,0), (b1)}
+
+** Relations
+Ex: a < b
+compares two integers
+some pairs have this relationship 2 < 5
+some pairs don't 5 \nless 2
+
+note:
+h: human
+d: dog
+c: cat
+m: monkey
+\begin{tikzpicture}[
+mydot/.style={
+  circle,
+  fill,
+  inner sep=2pt
+},
+>=latex,
+shorten >= 3pt,
+shorten <= 3pt
+]
+\node[mydot,label={left:h1}] (h1) {}; 
+\node[mydot,below=of h1,label={left:h2}] (h2) {}; 
+\node[mydot,below=of h2,label={left:h3}] (h3) {}; 
+\node[mydot,below=of h3,label={left:h4}] (h4) {}; 
+
+\node[mydot,right=2cm of h1,label={right:d1}] (d1) {}; 
+\node[mydot,below=of d1,label={right:c1}] (c1) {}; 
+\node[mydot,below=of c1,label={right:d2}] (d2) {}; 
+\node[mydot,below=of d2,label={right:m1}] (m1) {}; 
+
+\path[->] (h1) edge (c1);
+\path[->] (h2) edge (d1);
+\path[->] (h3) edge (d1);
+\end{tikzpicture}
+
+_defn_: A Relation R between A and B is a subset of A \times B
+
+ie ordered pairs
+(a,b) \in A \times B
+** Functions
+ex: f(x) = x^2
+
+#+LATEX: \begin{tikzpicture}
+#+LATEX: \begin{axis}[legend entries={f},ymin=-2,ymax=2,xmin=-2,xmax=2, axis lines=middle,axis equal,grid=both]
+#+LATEX: \addplot {(x^2)};
+#+LATEX: \end{axis}
+#+LATEX: \end{tikzpicture}
+
+function do something to every input in my domain and produce output for each input
+
+domain: set of all possible input
+range: set of all possible output
+
+_Defn_: A function F between A and B
+is a relation between A and B such that:
+subset of A \times B
