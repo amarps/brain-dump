@@ -235,6 +235,7 @@ p: some statement
 
 so c \land p is a contrandiction
 
+#+LATEX: \newpage
 * Demorgan's Law & Logical Equivalent
 p: Trefor is a unicorn
 q: Trefor is a goldfish
@@ -273,3 +274,103 @@ via Double Negative
 \equiv (\neg p \land q) \land t
 Via Identity
 \equiv \neg p \land q
+
+So (\neg(p \lor \neg q)) \land t \equiv \neg p \land q
+
+#+LATEX: \newpage
+* Conditional Statement
+Def: p \Rightarrow q means:
+"if p is TRUE then q is TRUE"
+Whenever the hipotesis p is true then the conclution is also true.
+
+| p | q | p \Rightarrow q |
+|---+---+-----------------|
+| T | T | T               |
+| T | F | F               |
+| F | T | T               |
+| F | F | T               |
+
+| \neg p | \neg p \lor q |
+|--------+---------------|
+| F      | T             |
+| F      | F             |
+| T      | T             |
+| T      | T             |
+
+p \Rightarrow q \equiv \neg p \lor q
+
+Example:
+If i study hard, then i will pass
+p = i study hard
+q = i will pass
+p \Rightarrow q
+
+Either I don't study hard, or i pass
+\neg p = I don't study hard
+q = i pass
+
+** When the hypothesis is false, the statement is *vacuously true*.
+vacuously true meant the statement is true but true in a sort of unimportant or unintresting or vacuous set.
+
+Example:
+If _Trefor is a unicorn_, then _everyone get's an A_
+p = Trefor is a unicorn
+q = everyone get's an A
+p \Rightarrow q
+
+Example:
+Either _Trefor is not a unicorn_, or _everyone get's an A_
+\neg p = Trefor is not a unicorn
+q =  everyone get's an A
+\neg p \lor q
+
+** Negating a conditional
+\neg (p \Rightarrow q) \equiv \neg (\neg p \lor q)
+\equiv (\neg \neg p \land \neg q) Demorgan's law
+\equiv p \land \neg q
+
+** Contrapositive of a conditional:
+p \Rightarrow q \equiv \neg q \Rightarrow \neg p
+p \Rightarrow q \equiv  \neg p \lor q
+\neg q \Rightarrow \neg p \equiv q \lor \neg p
+
+
+If i study hard, then i will pass p \Rightarrow q
+Either I don't study hard, or i pass \neg p \lor \q
+If i don't pass, then i didn't study hard \q \Rightarrow \neg p
+Either i pass, or I didn't study hard q \lor \neg p
+
+** The converse and the inverse of a statement
+*** The converse statement
+p \Rightarrow q is the statement q \Rightarrow p
+The converse statement is not logically equivalent
+
+Example:
+Not Logically equivalent
+p \Rightarrow q = If it's a dog, then it's a mammal = True
+q \Rightarrow p = If it's a mammal, then it's a dog = False
+
+*** The inverse statement
+p \Rightarrow q is the statement \neg p \Rightarrow \neg q
+The inverse statements is not logically equivalent
+
+So inverse \equiv converse
+
+Example
+Not Logically equivalent
+p \Rightarrow q = If it's a dog, then it's a mammal = True
+\neg p \Rightarrow \neg q = If it's not a dog, then it's not a mammal = False
+
+** Biconditional statement
+The Biconditional p \iff q
+means that both p \Rightarrow q and q \Rightarrow p
+
+Example
+If i study hard, then I will pass = p \Rightarrow q
+_AND_ if I pass, then I studied hard = q \Rightarrow p
+
+i will pass *if and only if* i study hard
+if and only if = \iff
+
+** Valid and Invalid Arguments
+A valid argument is a list of premises from which the conclusion follows
