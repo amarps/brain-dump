@@ -1,4 +1,4 @@
-% Created 2022-02-18 Fri 20:11
+% Created 2022-02-19 Sat 04:26
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -43,10 +43,10 @@ Source And Learning Material:\\
 \url{https://www.amazon.com/Discrete-Mathematics-Applications-Susanna-Epp/dp/1337694193/ref=sr\_1\_2?keywords=discrete+math\&qid=1645043639\&sr=8-2}\\
 
 \section{What is Set}
-\label{sec:orgb8b0485}
+\label{sec:orgd410a8e}
 A \textbf{set} is a collection of objects. Individual object of set is element \(\in\). Individual object of element that is not in The set is  called not in element denoted with \(\notin\).\\
 \subsection{Examples}
-\label{sec:org939ed91}
+\label{sec:org8b3274e}
 \begin{itemize}
 \item A = Employees in a company\\
 John \(\in\) A\\
@@ -58,7 +58,7 @@ John \(\in\) A\\
 \end{itemize}
 
 \subsection{Order And Repetition Don't Matter}
-\label{sec:org4d18270}
+\label{sec:orgae4a1bb}
 \begin{minted}[]{markdown}
 {1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
 			= {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
@@ -67,24 +67,24 @@ John \(\in\) A\\
 \newpage
 
 \section{Subsets}
-\label{sec:orgc75ae72}
+\label{sec:org4f10b86}
 \begin{itemize}
 \item Every Element of A is also in B = A \subseteq B\\
 \end{itemize}
 \subsubsection{Example 1}
-\label{sec:orgf692e7f}
+\label{sec:org01d9a2b}
 A = \{1, 3\}\\
 B = \{1, 3, 4, 6\}\\
 A \subseteq B\\
 \subsubsection{Example 2}
-\label{sec:org92b9392}
+\label{sec:org4dc6af5}
 A = \{1, 8\}\\
 B = \{1, 3, 4, 6\}\\
 A \nsubseteq B\\
 because \(\in\) 8 is not in B\\
 
 \section{Set-Roster Notion}
-\label{sec:orgb42bd8d}
+\label{sec:org333b1ce}
 Replace \ldots{} with continuos clear pattern\\
 Example:\\
 Positive even integers\\
@@ -93,7 +93,7 @@ all even integers\\
 \{\ldots{}, -6, -4, -2, 0, 2, 4, 6, \ldots{}\}\\
 
 \section{Set-Builder Notation}
-\label{sec:orgcd844a5}
+\label{sec:org9dc55a1}
 General form: \{ x | P(x) \}\\
 x variable\\
 "|" such that\\
@@ -106,7 +106,7 @@ Example square root\\
 \newpage
 
 \section{Empty Set}
-\label{sec:orgaaff128}
+\label{sec:orgb250eea}
 Notion: \{\} or \(\emptyset\)\\
 \{\(\emptyset\)\}\\
 Is \(\emptyset\) \(\subset\) \{1,2,3\}?\\
@@ -115,7 +115,7 @@ if x \(\in\) A, then x \(\in\) B\\
 This is \emph{vacuously} true!\\
 
 \section{Ordered Pairs (\emph{a}, \emph{b})}
-\label{sec:orgeadc95b}
+\label{sec:org319829b}
 \begin{itemize}
 \item Order Matters\\
 \item (a,b) = (c,d) of a=c \& b=d\\
@@ -138,7 +138,7 @@ Example:\\
 A \texttimes{} B = \{(a,1), (a,0), (b,0), (b1)\}\\
 
 \section{Relations}
-\label{sec:org8782065}
+\label{sec:org2f61019}
 Ex: a < b\\
 compares two integers\\
 some pairs have this relationship 2 < 5\\
@@ -179,7 +179,7 @@ shorten <= 3pt
 ie ordered pairs\\
 (a,b) \(\in\) A \texttimes{} B\\
 \section{Functions}
-\label{sec:orge3ed098}
+\label{sec:orgffc621f}
 ex: f(x) = x\textsuperscript{2}\\
 
 \begin{tikzpicture}
@@ -218,7 +218,7 @@ This is relation but not a function because there is more than one output asocia
 
 
 \section{Statement}
-\label{sec:org1747784}
+\label{sec:org60ad893}
 A statement is a sentence that is either true or false\\
 
 Examples:\\
@@ -227,7 +227,7 @@ q: "2 > 5" = False\\
 r: "x > 2" = Not a statement because we don't know what x is\\
 
 \subsection{New statement from old}
-\label{sec:org5d0915c}
+\label{sec:orgc757d30}
 \(\neg{}\) p means not p\\
 p \(\land\) q means p and q\\
 p \(\lor\) q means p or q\\
@@ -239,7 +239,7 @@ q = My shorts are gray\\
 p\(\land\) \(\neg{}\) q\\
 
 \subsection{Truth Table for (\(\neg{}\) p) \(\lor\) (\(\neg{}\) q)}
-\label{sec:orgad06f0b}
+\label{sec:org600b654}
 \begin{center}
 \begin{tabular}{lllll}
 p & q & \(\neg{}\) p & \(\neg{}\) q & \\
@@ -296,7 +296,7 @@ so c \(\land\) p is a contrandiction\\
 
 \newpage
 \section{Demorgan's Law \& Logical Equivalent}
-\label{sec:org1a69784}
+\label{sec:org52a1bc3}
 p: Trefor is a unicorn\\
 q: Trefor is a goldfish\\
 \(\neg{}\)(p \(\lor\) q) \(\equiv\) (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)?\\
@@ -343,7 +343,7 @@ So (\(\neg{}\)(p \(\lor\) \(\neg{}\) q)) \(\land\) t \(\equiv\) \(\neg{}\) p \(\
 
 \newpage
 \section{Conditional Statement}
-\label{sec:orge2c08cc}
+\label{sec:orgad40a06}
 Def: p \(\Rightarrow\) q means:\\
 "if p is TRUE then q is TRUE"\\
 Whenever the hipotesis p is true then the conclution is also true.\\
@@ -383,7 +383,7 @@ Either I don't study hard, or i pass\\
 q = i pass\\
 
 \subsection{When the hypothesis is false, the statement is \textbf{vacuously true}.}
-\label{sec:orga926ec3}
+\label{sec:org4ef1c3e}
 vacuously true meant the statement is true but true in a sort of unimportant or unintresting or vacuous set.\\
 
 Example:\\
@@ -399,13 +399,13 @@ q =  everyone get's an A\\
 \(\neg{}\) p \(\lor\) q\\
 
 \subsection{Negating a conditional}
-\label{sec:org7eaa562}
+\label{sec:org613ab16}
 \(\neg{}\) (p \(\Rightarrow\) q) \(\equiv\) \(\neg{}\) (\(\neg{}\) p \(\lor\) q)\\
 \(\equiv\) (\(\neg{}\) \(\neg{}\) p \(\land\) \(\neg{}\) q) Demorgan's law\\
 \(\equiv\) p \(\land\) \(\neg{}\) q\\
 
 \subsection{Contrapositive of a conditional:}
-\label{sec:org9c2f51d}
+\label{sec:orgceccc76}
 p \(\Rightarrow\) q \(\equiv\) \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p\\
 p \(\Rightarrow\) q \(\equiv\)  \(\neg{}\) p \(\lor\) q\\
 \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p \(\equiv\) q \(\lor\) \(\neg{}\) p\\
@@ -417,9 +417,9 @@ If i don't pass, then i didn't study hard \q \(\Rightarrow\) \(\neg{}\) p\\
 Either i pass, or I didn't study hard q \(\lor\) \(\neg{}\) p\\
 
 \subsection{The converse and the inverse of a statement}
-\label{sec:org624e289}
+\label{sec:orge4072cc}
 \subsubsection{The converse statement}
-\label{sec:orga244379}
+\label{sec:org0de4f19}
 p \(\Rightarrow\) q is the statement q \(\Rightarrow\) p\\
 The converse statement is not logically equivalent\\
 
@@ -429,7 +429,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 q \(\Rightarrow\) p = If it's a mammal, then it's a dog = False\\
 
 \subsubsection{The inverse statement}
-\label{sec:orga770bcd}
+\label{sec:org2411bba}
 p \(\Rightarrow\) q is the statement \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q\\
 The inverse statements is not logically equivalent\\
 
@@ -441,7 +441,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q = If it's not a dog, then it's not a mammal = False\\
 
 \subsection{Biconditional statement}
-\label{sec:org1d80acd}
+\label{sec:orgbbe8368}
 The Biconditional p \iff q\\
 means that both p \(\Rightarrow\) q and q \(\Rightarrow\) p\\
 
@@ -451,4 +451,58 @@ If i study hard, then I will pass = p \(\Rightarrow\) q\\
 
 i will pass \textbf{if and only if} i study hard\\
 if and only if = \iff\\
+
+\subsection{Valid and Invalid Arguments}
+\label{sec:orgd183cbc}
+A valid argument is a list of premises from which the conclusion follows.\\
+
+Example Argument:\\
+If \uline{I do the dishes}, then \uline{my wife will be happy with me}.\\
+\uline{I do the dishes}.\\
+Therefore, \uline{my wife is happy with me}.\\
+
+If \textbf{p}, then \textbf{q}.\\
+\textbf{p}.\\
+Threfore, \textbf{q}.\\
+
+Modus Ponens is an argument of the form:\\
+If \textbf{p}, then \textbf{q}.\\
+\textbf{p}.\\
+Threfore, \textbf{q}.\\
+
+Variables\\
+\begin{center}
+\begin{tabular}{ll}
+p & q\\
+\hline
+T & T\\
+T & F\\
+F & F\\
+F & T\\
+\end{tabular}
+\end{center}
+
+Premises\\
+\begin{center}
+\begin{tabular}{ll}
+p \(\Rightarrow\) q & p\\
+\hline
+T & T\\
+F & T\\
+T & F\\
+T & F\\
+\end{tabular}
+\end{center}
+
+Conclusion\\
+\begin{center}
+\begin{tabular}{l}
+q\\
+\hline
+T\\
+X\\
+X\\
+X\\
+\end{tabular}
+\end{center}
 \end{document}

@@ -373,4 +373,49 @@ i will pass *if and only if* i study hard
 if and only if = \iff
 
 ** Valid and Invalid Arguments
-A valid argument is a list of premises from which the conclusion follows
+A valid argument is a list of premises from which the conclusion follows.
+
+Example Argument:
+If _I do the dishes_, then _my wife will be happy with me_.
+_I do the dishes_.
+Therefore, _my wife is happy with me_.
+
+If *p*, then *q*.
+*p*.
+Threfore, *q*.
+
+*** Modus Ponens
+*Modus Ponens* is an argument of the form:
+If *p*, then *q*.
+*p*.
+Threfore, *q*.
+
+Variables
+| p | q |
+|---+---|
+| T | T |
+| T | F |
+| F | F |
+| F | T |
+
+Premises
+| p \Rightarrow q | p |
+|---+---|
+| T | T |
+| F | T |
+| T | F |
+| T | F |
+
+Conclusion
+| q |
+|---|
+| T |
+| X |
+| X |
+| X |
+
+*** Modus Tollens
+*Modus Tollens* is an argument of the form:
+if *p*, then *q*.
+\neg q.
+Therefore, \neg p.
