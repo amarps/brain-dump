@@ -382,13 +382,13 @@ Therefore, _my wife is happy with me_.
 
 If *p*, then *q*.
 *p*.
-Threfore, *q*.
+Therefore, *q*.
 
 *** Modus Ponens
 *Modus Ponens* is an argument of the form:
-If *p*, then *q*.
-*p*.
-Threfore, *q*.
+premise1 = If *p*, then *q*.
+premise2 = *p*.
+conclusion = Therefore, *q*.
 
 Variables
 | p | q |
@@ -400,11 +400,11 @@ Variables
 
 Premises
 | p \Rightarrow q | p |
-|---+---|
-| T | T |
-| F | T |
-| T | F |
-| T | F |
+|-----------------+---|
+| T               | T |
+| F               | T |
+| T               | F |
+| T               | F |
 
 Conclusion
 | q |
@@ -419,3 +419,66 @@ Conclusion
 if *p*, then *q*.
 \neg q.
 Therefore, \neg p.
+
+example argument:
+If i'm POTUS then i'm an American citizen.
+I'm not an American citizen.
+Therefore, I'm not the POTUS.
+
+p = i'm POTUS
+q = i'm an American citizen.
+\neg q = I'm not an American citizen.
+\neg p = I'm not the POTUS.
+
+*** Generalization
+*Generalization* is an argument of the form:
+p.
+Therefore, p \lor q.
+
+Example:
+i'm a canadian
+Therefore, I'm a canadian or i'm a unicorn.
+
+
+*** Specialization
+*Specialization* is an argument of the form:
+p \land q.
+Therefore, p.
+
+Example:
+I'm a canadian _and_ I have a PhD
+Therefore, I'm a Canadian.
+
+
+*** Contradiction
+*Contradiction* is an argument of the form:
+\neg p \Rightarrow c
+Therefore, p.
+
+Example:
+If i'm skilled at poker, then I will win.
+I won money playing poker.
+Therefore, I'm skilled at poker.
+
+p = i'm skilled at poker
+q = I will win.
+q = I won money playing poker.
+p = I'm skilled at poker.
+
+p \Rightarrow q
+q
+p
+
+This argument is invalid argument because it's use converse statement.
+We know converse statement is not logically equivalent.
+
+
+** Predicates and Quantified Statements
+Recall: A statement is either TRUE or FALSE
+
+*** Predicate
+a *predicate* is a sentence depending on variables which becomes a sttemnt upon substituting values in the domain.
+
+Example:
+P(x): x is a factor of 12 with domain \mathbb{Z}^{+}
+
