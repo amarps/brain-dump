@@ -473,10 +473,9 @@ This argument is invalid argument because it's use converse statement.
 We know converse statement is not logically equivalent.
 
 
-** Predicates and Quantified Statements
+* Predicates and Quantified Statements
 Recall: A statement is either TRUE or FALSE
-
-*** Predicate
+** Predicate
 a *predicate* is a sentence depending on variables which becomes a sttemnt upon substituting values in the domain.
 
 Example:
@@ -486,7 +485,7 @@ P(6) True
 P(5) False
 P(\(\frac{1}{3}\)) Nonsense! \(\frac{1}{3}\) \notin \mathbb{Z}^{+}
 
-*** The Truth set
+** The Truth set
 *The truth set* of a predicate P(x):
 {x \in \mathbb{D} | P(x)}
 i.e All values x in the domain where P(x) is true
@@ -496,7 +495,7 @@ P(x): x is a factor of 12 with domain \mathbb{Z}^{+}
 TS = {1, 2, 3, 4, 5, 6, 12}
 \subseteq \mathbb{Z}^{+}
 
-*** The Universal Quantifier
+** The Universal Quantifier
 *The Universal Quantifier \forall* means "for all"
 
 Main Use "quantifying" predicates
@@ -508,7 +507,7 @@ Every dog is a mammal
 \forall
 D = set of dogs ; P(x): X is a mammal
 
-*** The existensial quantifier
+** The existensial quantifier
 *The existensial quantifier \exists* means "there exists"
 
 Main use "quantifying" predicates
@@ -522,7 +521,7 @@ statement P: "Roofus is a mammal"
 predicate P(x): "x is a mammal"
 statement Q: \forall x \in D, P(x): "every dog is a mammal"
 
-*** Negating quantifier
+** Negating quantifier
 Negate "\forall x \in \mathbb{Z}^{+}, x > 3"
 \exist x \in \mathbb{Z}^{+ },x \ngtr 3
 \exist x \in \mathbb{Z}^{+ },x\leq 3
@@ -545,7 +544,7 @@ everyone in our class is shorter than 7 feet
 Negating an existensial
 \neg (\exist x \in D, P(x)) \equiv \forall x \in D, \neg P(x).
 
-*** Negating logical statement
+** Negating logical statement
 Example
 Every interger has a larger integer
 \forall x \in \mathbb{Z}, P(x)
@@ -564,3 +563,79 @@ Some number in D is the largest
 \exist x \in D, \forall y \in D, X \grteq y
 
 Negate: \forall x \in D, \exist y \in D, x < y
+
+** Universal Conditionals
+Universal-Conditionals: P(x) \Rightarrow Q(x)
+means \forall x \in D, P(x) \Rightarrow Q(x)
+
+Example:
+if x is the POTUS, then x is a US Citizen
+P(x) = x is the POTUS
+Q(x) = x is a US Citizen
+D = people
+
+** Necessary and Sufficient Conditions
+Square
+\begin{tikzpicture}
+\draw[ultra thick, blue] (0,0) -- (1,0) -- (1,1) -- (0,1) -- (0,0);
+\end{tikzpicture}
+
+Rectangle
+\begin{tikzpicture}
+\draw[green!70!dark, ultra thick] (0,0) -- (1.5,0) -- (1.5,1) -- (0,1) -- (0,0);
+\end{tikzpicture}
+
+Quadrilateral
+\begin{tikzpicture}
+\draw[red,ultra thick] (0,0) -- (0.9,1) -- (1,-0.3) -- (0.4, -0.5) -- (0,0);
+\end{tikzpicture}
+
+All Squares are Rectangles
+if x is a Square, then x is a Rectangle
+if A(x), then B(x)
+
+A(x) is a sufficient condition for B(x)
+i.e. "x being a square is sufficient to conclude x is a rectangle"
+
+if x is a Rectangle, then x is a Quadrilateral
+if B(x), then C(x)
+
+if x is not a Quadrilateral then x is not a Rectangle
+if \neg C(x), then \neg B(x)
+
+sufficient to have a Square = A(x)
+if we want a rectangle = B(x)
+But necessary to have a Quadrilateral C(x)
+A(x) \Rightarrow B(x) \Rightarrow C(x)
+A(x) is a sufficient condition for B(x)
+B(x) is a necessary condition for A(x)
+
+Being a square is a sufficient condition fo being a rectangle
+Being a rectangle is a necesary condition for being a square
+
+* Defining Even & Odd Integers
+Informal Definition: n is an even integer if n can be written as twice an integer.
+Formal Definition: n is an even integer if \exist k \in \mathbb{Z} such that n = 2k
+
+Informal Definition: n is an odd integer if n is an integer that is not even.
+Formal Definition: n is an odd integer if \exist k \in \mathbb{Z} such that n = 2k + 1
+
+* First Proof
+Theorem: an even integer plus an odd integer is another odd integer
+Proof:
+Suppose m is even and n is odd.
+\exist k_1 \in Z and \exist k_2 \in Z that m = 2k_1 and n = 2k_2 + 1
+
+Then, m + n = (2k_1)+(2k_2 + 1)
+= 2(k_1 + k_2) + 1
+Let k_3 = k_1 + k_2, and note it is an integer.
+
+Hence, \exist k_3 \in Z so that m + n = 2k_3 + 1
+Thus m + n is odd.
+
+Direct Proofs of: \forall x \in D, P(x) \Rightarrow Q(x)
+1 State the Assumptions
+2 Formally Define the assumptions
+3 Manipulate
+4 Arrive at Definition of conclusion
+5 state the conclusion
