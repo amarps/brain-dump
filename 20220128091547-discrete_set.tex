@@ -1,4 +1,4 @@
-% Created 2022-02-19 Sat 07:06
+% Created 2022-02-20 Sun 22:25
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -43,10 +43,10 @@ Source And Learning Material:\\
 \url{https://www.amazon.com/Discrete-Mathematics-Applications-Susanna-Epp/dp/1337694193/ref=sr\_1\_2?keywords=discrete+math\&qid=1645043639\&sr=8-2}\\
 
 \section{What is Set}
-\label{sec:org3cfc4e4}
+\label{sec:org40fd03e}
 A \textbf{set} is a collection of objects. Individual object of set is element \(\in\). Individual object of element that is not in The set is  called not in element denoted with \(\notin\).\\
 \subsection{Examples}
-\label{sec:orgeab0b98}
+\label{sec:org2f53936}
 \begin{itemize}
 \item A = Employees in a company\\
 John \(\in\) A\\
@@ -58,7 +58,7 @@ John \(\in\) A\\
 \end{itemize}
 
 \subsection{Order And Repetition Don't Matter}
-\label{sec:org867ca39}
+\label{sec:org8778750}
 \begin{minted}[]{markdown}
 {1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
 			= {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
@@ -67,24 +67,24 @@ John \(\in\) A\\
 \newpage
 
 \section{Subsets}
-\label{sec:orgbecbf8c}
+\label{sec:org232e10e}
 \begin{itemize}
 \item Every Element of A is also in B = A \subseteq B\\
 \end{itemize}
 \subsubsection{Example 1}
-\label{sec:org339508a}
+\label{sec:org5273b27}
 A = \{1, 3\}\\
 B = \{1, 3, 4, 6\}\\
 A \subseteq B\\
 \subsubsection{Example 2}
-\label{sec:orgf4e5dff}
+\label{sec:orgb374d33}
 A = \{1, 8\}\\
 B = \{1, 3, 4, 6\}\\
 A \nsubseteq B\\
 because \(\in\) 8 is not in B\\
 
 \section{Set-Roster Notion}
-\label{sec:org5e79c0c}
+\label{sec:orge9b4b59}
 Replace \ldots{} with continuos clear pattern\\
 Example:\\
 Positive even integers\\
@@ -93,7 +93,7 @@ all even integers\\
 \{\ldots{}, -6, -4, -2, 0, 2, 4, 6, \ldots{}\}\\
 
 \section{Set-Builder Notation}
-\label{sec:orgd622bf0}
+\label{sec:org44eb9b1}
 General form: \{ x | P(x) \}\\
 x variable\\
 "|" such that\\
@@ -106,7 +106,7 @@ Example square root\\
 \newpage
 
 \section{Empty Set}
-\label{sec:orgc64cb91}
+\label{sec:org0ba887f}
 Notion: \{\} or \(\emptyset\)\\
 \{\(\emptyset\)\}\\
 Is \(\emptyset\) \(\subset\) \{1,2,3\}?\\
@@ -115,7 +115,7 @@ if x \(\in\) A, then x \(\in\) B\\
 This is \emph{vacuously} true!\\
 
 \section{Ordered Pairs (\emph{a}, \emph{b})}
-\label{sec:orge84f529}
+\label{sec:orgda58b81}
 \begin{itemize}
 \item Order Matters\\
 \item (a,b) = (c,d) of a=c \& b=d\\
@@ -138,7 +138,7 @@ Example:\\
 A \texttimes{} B = \{(a,1), (a,0), (b,0), (b1)\}\\
 
 \section{Relations}
-\label{sec:orge7512c0}
+\label{sec:orgea3d6e9}
 Ex: a < b\\
 compares two integers\\
 some pairs have this relationship 2 < 5\\
@@ -179,7 +179,7 @@ shorten <= 3pt
 ie ordered pairs\\
 (a,b) \(\in\) A \texttimes{} B\\
 \section{Functions}
-\label{sec:org43fd908}
+\label{sec:org22f3e18}
 ex: f(x) = x\textsuperscript{2}\\
 
 \begin{tikzpicture}
@@ -218,7 +218,7 @@ This is relation but not a function because there is more than one output asocia
 
 
 \section{Statement}
-\label{sec:orgd3b2a1d}
+\label{sec:orgabe7f3a}
 A statement is a sentence that is either true or false\\
 
 Examples:\\
@@ -227,7 +227,7 @@ q: "2 > 5" = False\\
 r: "x > 2" = Not a statement because we don't know what x is\\
 
 \subsection{New statement from old}
-\label{sec:orgeb57ec6}
+\label{sec:org5d1035c}
 \(\neg{}\) p means not p\\
 p \(\land\) q means p and q\\
 p \(\lor\) q means p or q\\
@@ -239,7 +239,7 @@ q = My shorts are gray\\
 p\(\land\) \(\neg{}\) q\\
 
 \subsection{Truth Table for (\(\neg{}\) p) \(\lor\) (\(\neg{}\) q)}
-\label{sec:orgd3766f0}
+\label{sec:org1f1c3ba}
 \begin{center}
 \begin{tabular}{lllll}
 p & q & \(\neg{}\) p & \(\neg{}\) q & \\
@@ -296,7 +296,7 @@ so c \(\land\) p is a contrandiction\\
 
 \newpage
 \section{Demorgan's Law \& Logical Equivalent}
-\label{sec:org10b9406}
+\label{sec:org9ae5899}
 p: Trefor is a unicorn\\
 q: Trefor is a goldfish\\
 \(\neg{}\)(p \(\lor\) q) \(\equiv\) (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)?\\
@@ -343,7 +343,7 @@ So (\(\neg{}\)(p \(\lor\) \(\neg{}\) q)) \(\land\) t \(\equiv\) \(\neg{}\) p \(\
 
 \newpage
 \section{Conditional Statement}
-\label{sec:org3c94b0a}
+\label{sec:orgcba7de9}
 Def: p \(\Rightarrow\) q means:\\
 "if p is TRUE then q is TRUE"\\
 Whenever the hipotesis p is true then the conclution is also true.\\
@@ -383,7 +383,7 @@ Either I don't study hard, or i pass\\
 q = i pass\\
 
 \subsection{When the hypothesis is false, the statement is \textbf{vacuously true}.}
-\label{sec:orgf02ac6c}
+\label{sec:org8470f96}
 vacuously true meant the statement is true but true in a sort of unimportant or unintresting or vacuous set.\\
 
 Example:\\
@@ -399,13 +399,13 @@ q =  everyone get's an A\\
 \(\neg{}\) p \(\lor\) q\\
 
 \subsection{Negating a conditional}
-\label{sec:org8c18424}
+\label{sec:orgfa7d31d}
 \(\neg{}\) (p \(\Rightarrow\) q) \(\equiv\) \(\neg{}\) (\(\neg{}\) p \(\lor\) q)\\
 \(\equiv\) (\(\neg{}\) \(\neg{}\) p \(\land\) \(\neg{}\) q) Demorgan's law\\
 \(\equiv\) p \(\land\) \(\neg{}\) q\\
 
 \subsection{Contrapositive of a conditional:}
-\label{sec:org3c23991}
+\label{sec:orgeb58584}
 p \(\Rightarrow\) q \(\equiv\) \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p\\
 p \(\Rightarrow\) q \(\equiv\)  \(\neg{}\) p \(\lor\) q\\
 \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p \(\equiv\) q \(\lor\) \(\neg{}\) p\\
@@ -417,9 +417,9 @@ If i don't pass, then i didn't study hard \q \(\Rightarrow\) \(\neg{}\) p\\
 Either i pass, or I didn't study hard q \(\lor\) \(\neg{}\) p\\
 
 \subsection{The converse and the inverse of a statement}
-\label{sec:org14aff1b}
+\label{sec:org76f5992}
 \subsubsection{The converse statement}
-\label{sec:org7e94ed0}
+\label{sec:org89bcca7}
 p \(\Rightarrow\) q is the statement q \(\Rightarrow\) p\\
 The converse statement is not logically equivalent\\
 
@@ -429,7 +429,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 q \(\Rightarrow\) p = If it's a mammal, then it's a dog = False\\
 
 \subsubsection{The inverse statement}
-\label{sec:org542d514}
+\label{sec:org01e53b0}
 p \(\Rightarrow\) q is the statement \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q\\
 The inverse statements is not logically equivalent\\
 
@@ -441,7 +441,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q = If it's not a dog, then it's not a mammal = False\\
 
 \subsection{Biconditional statement}
-\label{sec:orgf33b017}
+\label{sec:org6793457}
 The Biconditional p \iff q\\
 means that both p \(\Rightarrow\) q and q \(\Rightarrow\) p\\
 
@@ -453,7 +453,7 @@ i will pass \textbf{if and only if} i study hard\\
 if and only if = \iff\\
 
 \subsection{Valid and Invalid Arguments}
-\label{sec:org6fe1794}
+\label{sec:orgb4a0f18}
 A valid argument is a list of premises from which the conclusion follows.\\
 
 Example Argument:\\
@@ -466,7 +466,7 @@ If \textbf{p}, then \textbf{q}.\\
 Therefore, \textbf{q}.\\
 
 \subsubsection{Modus Ponens}
-\label{sec:org83542d3}
+\label{sec:orgf4da5bc}
 \textbf{Modus Ponens} is an argument of the form:\\
 premise1 = If \textbf{p}, then \textbf{q}.\\
 premise2 = \textbf{p}.\\
@@ -509,7 +509,7 @@ X\\
 \end{center}
 
 \subsubsection{Modus Tollens}
-\label{sec:org4f6c2f0}
+\label{sec:orgf25d880}
 \textbf{Modus Tollens} is an argument of the form:\\
 if \textbf{p}, then \textbf{q}.\\
 \(\neg{}\) q.\\
@@ -526,7 +526,7 @@ q = i'm an American citizen.\\
 \(\neg{}\) p = I'm not the POTUS.\\
 
 \subsubsection{Generalization}
-\label{sec:orgcffbc7d}
+\label{sec:org22f4d1d}
 \textbf{Generalization} is an argument of the form:\\
 p.\\
 Therefore, p \(\lor\) q.\\
@@ -537,7 +537,7 @@ Therefore, I'm a canadian or i'm a unicorn.\\
 
 
 \subsubsection{Specialization}
-\label{sec:org4bb6121}
+\label{sec:orgfbfdb8e}
 \textbf{Specialization} is an argument of the form:\\
 p \(\land\) q.\\
 Therefore, p.\\
@@ -548,7 +548,7 @@ Therefore, I'm a Canadian.\\
 
 
 \subsubsection{Contradiction}
-\label{sec:org3e30028}
+\label{sec:org02a4026}
 \textbf{Contradiction} is an argument of the form:\\
 \(\neg{}\) p \(\Rightarrow\) c\\
 Therefore, p.\\
@@ -572,13 +572,101 @@ We know converse statement is not logically equivalent.\\
 
 
 \subsection{Predicates and Quantified Statements}
-\label{sec:orgb2b64ac}
+\label{sec:orgefdce1e}
 Recall: A statement is either TRUE or FALSE\\
 
 \subsubsection{Predicate}
-\label{sec:orgbff30dd}
+\label{sec:org9f44c03}
 a \textbf{predicate} is a sentence depending on variables which becomes a sttemnt upon substituting values in the domain.\\
 
 Example:\\
 P(x): x is a factor of 12 with domain \mathbb{Z}\textsuperscript{+}\\
+
+P(6) True\\
+P(5) False\\
+P(\(\frac{1}{3}\)) Nonsense! \(\frac{1}{3}\) \(\notin\) \mathbb{Z}\textsuperscript{+}\\
+
+\subsubsection{The Truth set}
+\label{sec:orgc5eee3d}
+\textbf{The truth set} of a predicate P(x):\\
+\{x \(\in\) \mathbb{D} | P(x)\}\\
+i.e All values x in the domain where P(x) is true\\
+
+Example:\\
+P(x): x is a factor of 12 with domain \mathbb{Z}\textsuperscript{+}\\
+TS = \{1, 2, 3, 4, 5, 6, 12\}\\
+\subseteq \mathbb{Z}\textsuperscript{+}\\
+
+\subsubsection{The Universal Quantifier}
+\label{sec:orgcffc8b6}
+\textbf{The Universal Quantifier \(\forall\)} means "for all"\\
+
+Main Use "quantifying" predicates\\
+\(\forall\) x \(\in\) D, P(x)\\
+For all x in the domain, P(x) is true\\
+
+Example:\\
+Every dog is a mammal\\
+\(\forall\)\\
+D = set of dogs ; P(x): X is a mammal\\
+
+\subsubsection{The existensial quantifier}
+\label{sec:org28c0021}
+\textbf{The existensial quantifier \(\exists\)} means "there exists"\\
+
+Main use "quantifying" predicates\\
+\(\exists\) x \(\in\) D, P(x)\\
+There exists x in the domain, such that P(x)is true\\
+
+Ex: Some person is the oldest in the world\\
+\(\exists\) \(\in\) \{People in the world\}; P(x): X is the oldest\\
+
+statement P: "Roofus is a mammal"\\
+predicate P(x): "x is a mammal"\\
+statement Q: \(\forall\) x \(\in\) D, P(x): "every dog is a mammal"\\
+
+\subsubsection{Negating quantifier}
+\label{sec:orgbbf7da8}
+Negate "\(\forall\) x \(\in\) \mathbb{Z}\textsuperscript{+}, x > 3"\\
+\(\exists\) x \(\in\) \mathbb{Z}\textsuperscript{+ },x \ngtr 3\\
+\(\exists\) x \(\in\) \mathbb{Z}\textsuperscript{+ },x\(\le\) 3\\
+\(\neg{}\) P(x)\\
+
+Negating a universal\\
+\(\neg{}\) (\(\forall\) x \mathbb{D}, P(x)) \(\equiv\) x \(\in\) \mathbb{D}, \(\neg{}\) P(x).\\
+
+Example:\\
+Negate "Someone in our class it taller than 7 feet"\\
+\(\exists\) x \(\in\) D, P(x)\\
+D = our class\\
+P(x) = x is taller than 7 feet.\\
+
+negation:\\
+\(\neg{}\)(\(\exists\) x \(\in\) D, P(x))\\
+everyone in our class is shorter than 7 feet\\
+\(\forall\) x \(\in\) D, \(\neg{}\) P(x)\\
+
+Negating an existensial\\
+\(\neg{}\) (\(\exists\) x \(\in\) D, P(x)) \(\equiv\) \(\forall\) x \(\in\) D, \(\neg{}\) P(x).\\
+
+\subsubsection{Negating logical statement}
+\label{sec:orga78dad3}
+Example\\
+Every interger has a larger integer\\
+\(\forall\) x \(\in\) \mathbb{Z}, P(x)\\
+
+\(\forall\) x \(\in\) \mathbb{Z}, \(\exists\) y \(\in\) \mathbb{Z}, y > x\\
+P(x) = \(\exists\) y \(\in\) \mathbb{Z}, y > x\\
+
+True: choose y = x + 1 \(\in\) \mathbb{Z}\\
+
+Negate: \(\exists\) x \(\in\) \mathbb{Z}, \(\neg{}\) P(x)\\
+\(\exists\) x \(\in\) \mathbb{Z}, \(\forall\) y \(\in\) \mathbb{Z}, y \lteq x\\
+
+Example:\\
+Some number in D is the largest\\
+\(\exists\) x \(\in\) D, P(x)\\
+\(\exists\) x \(\in\) D, \(\forall\) y \(\in\) D, X \grteq y\\
+
+Negate: \(\forall\) x \(\in\) D, \(\exists\) y \(\in\) D, x < y\\
 \end{document}
