@@ -646,16 +646,14 @@ Theorem: an *even integer* times an *even integer* is another *even integer*
 Step 1: Define terms
 Informal Definition: n is an *even integer* if n can be written as twice an integer.
 Formal Definition: For n an integer:
-n is even \iff \exist p \in Z
-So that n = 2p           
+n is even \iff \exist p \in Z so that n = 2p
 
 Step 2: State Theorem Formally
-Theorem Formally: \forall m, n \in Z if m, n are even,
-then mn is even
+Theorem Formally: \forall m, n \in Z if m, n are even, then mn is even.
 
 Format: \forall x \in D, P(x) \Rightarrow Q(x)
 
-Step 3: Play around!
+Step 3: Play around! to make some sense of why this is actually true
 4 . 8 = 32
 4 =  2 . 2
 8 = 2 . 4
@@ -681,8 +679,20 @@ Let t = 2rs, and note it is an integer.
 Hence, \exist t \in Z so that mn=2t
 Thus mn is even.
 
+** Rational numbers definition
+Informal Definition: n is a rational number it is a fraction. Ex: 3/7
+Formal Definition: n is rational number if \exist p \in Z, \exist q \in Z/{0} such that n = \(\frac{p}{q}\)
 
-** Rational numbers definition + first proof
+Theorem: The sum of two *rational numbers* is another *rational number*
+Proof: Suppose m and n are rational
+\exist p_1, p_2 \in Z and \exist q_1, q_2 \in Z \ {0} so that m = \(\frac{p_1}{q_1}\) and n = \(\frac{p_2}{q_2}\)
+Then, m + n = \(\frac{p_1}{q_1}\) + \(\frac{p_2}{q_2}\)
+= \(\frac{p_1q_2+p_2q_1}{q_1q_2}\)
+Let p_3 = p_1q_2 + p_2q_1 and q_3 = q_1q_2
+Hence, \exist p_3 \in Z, \exist q3 \in Z \ {0} So
+m + n = \(\frac{p_3}{q_3}\)
+Thus m + n is rational
+
 
 ** Proving that divisibility is transitive
 
