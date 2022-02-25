@@ -620,7 +620,8 @@ Formal Definition: n is an even integer if \exist k \in \mathbb{Z} such that n =
 Informal Definition: n is an odd integer if n is an integer that is not even.
 Formal Definition: n is an odd integer if \exist k \in \mathbb{Z} such that n = 2k + 1
 
-* First Proof
+* Mathematical Proof
+** First Proof
 Theorem: an even integer plus an odd integer is another odd integer
 Proof:
 Suppose m is even and n is odd.
@@ -639,3 +640,52 @@ Direct Proofs of: \forall x \in D, P(x) \Rightarrow Q(x)
 3 Manipulate
 4 Arrive at Definition of conclusion
 5 state the conclusion
+** Product of two even is even
+Theorem: an *even integer* times an *even integer* is another *even integer*
+
+Step 1: Define terms
+Informal Definition: n is an *even integer* if n can be written as twice an integer.
+Formal Definition: For n an integer:
+n is even \iff \exist p \in Z
+So that n = 2p           
+
+Step 2: State Theorem Formally
+Theorem Formally: \forall m, n \in Z if m, n are even,
+then mn is even
+
+Format: \forall x \in D, P(x) \Rightarrow Q(x)
+
+Step 3: Example Assumptions
+4 . 8 = 32
+4 =  2 . 2
+8 = 2 . 4
+32 = 2(2) * 2(4)
+= 2(2 . 2 . 4)
+
+Step 4: actual Proof
+
+Start with Assumptions
+
+Apply Definitions
+
+Use algebra, known theorems, logical inferences, etc
+
+get to the conclusion
+
+Proof:
+Suppose m and n are even integers.
+As m, n are even, \exist r and \exist s so that m = 2r and n = 2s.
+Then, mn = (2r)(2s) by substitutiion
+= 2(2rs) by algebra
+Let t = 2rs, and note it is an integer.
+Hence, \exist t \in Z so that mn=2t
+Thus mn is even.
+
+
+** Rational numbers definition + first proof
+
+** Proving that divisibility is transitive
+
+** Disproving implications with counterexamples
+
+** 
