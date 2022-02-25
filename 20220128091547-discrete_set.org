@@ -655,7 +655,7 @@ then mn is even
 
 Format: \forall x \in D, P(x) \Rightarrow Q(x)
 
-Step 3: Example Assumptions
+Step 3: Play around!
 4 . 8 = 32
 4 =  2 . 2
 8 = 2 . 4
