@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       672e787a-fb02-42ce-af81-65e3775931d7
+:END:
+#+title: BasicAlgebra
+#+date: [2022-02-25 Fri 18:36]
+#+author: Amar Panji Senjaya
+

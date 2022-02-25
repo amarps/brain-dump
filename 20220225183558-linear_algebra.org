@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       44d429c2-ba1a-4b10-b1e0-1a549f3bf66b
+:END:
+#+title: Linear Algebra
+#+date: [2022-02-25 Fri 18:35]
+#+author: Amar Panji Senjaya
+

@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       6aba9d7e-e7a9-4ff7-b09c-5015f1cec4c6
+:END:
+#+title: PreCalculus
+#+date: [2022-02-25 Fri 18:38]
+#+author: Amar Panji Senjaya
+
