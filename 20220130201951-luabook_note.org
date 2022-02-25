@@ -18,19 +18,19 @@ own basic functionality through external libraries. It is really easy to interfa
 Lua with external languages like C/C++, Java, C#, and Python.
 *** portability
 Lua is stick to ISO (ANSI) C. This way you do not
-**** All flavor of Unix(Linux, FreeBSD, etc.)
-**** Windows, Android, IOS, OSX IBM mainframes;
-**** game consoles (playstation, xbox, wii, etc.);
-**** microcontrollers (Arduino, etc.);
+- All flavor of Unix(Linux, FreeBSD, etc.)
+- Windows, Android, IOS, OSX IBM mainframes;
+- game consoles (playstation, xbox, wii, etc.);
+- microcontrollers (Arduino, etc.);
 and many more.
 *** efficientcy
 Independent benchmarks show Lua as one of the fastest languages in the realm of scripting
 language.
 ** What LUA commonly used for?
-*** Embedded system
-*** Mobile devices
-*** IOT
-*** Games
+- Embedded system
+- Mobile devices
+- IOT
+- Games
 ** Lua is Designed to be integrated with software written in C/C++ and other conventional language
 ** Why lua is so simple and small
 because it does not try to do what C is already good for these tasks. what Lua does offer is what c is not good for.
@@ -43,14 +43,12 @@ because it does not try to do what C is already good for these tasks. what Lua d
 - and debugging
 
 *** for solving C problem Lua has
-**** safe environment
-**** automatic memory management
-Simplifies interfaces because there is no need to decide who is
-responsible for allocating and deallocating memory or how to handle
-overflows.
-**** good facilities for handling strings and other data with dynamic size
-**** dynamic typing
-allows a great of polymorphism.
+- safe environment
+- automatic memory management
+- Simplifies interfaces because there is no need to decide who is responsible for allocating and deallocating memory or how to handle overflows.
+- good facilities for handling strings and other data with dynamic size
+- dynamic typing
+- allows a great of polymorphism.
 
 **** First class functions
 allow a high degree of parameterization making functions more versatile
@@ -67,7 +65,6 @@ in a compiled, statically-typed language such as C or C++.
 Lua is not only used to glue components but also adapt and reshape them,
 and to create completely new components.
 
-* Basic Programming in Lua
 * Useful link
 Programming in LUA fourth edition by Roberto lerusalimschy
 https://stackoverflow.com/questions/2690544/what-is-the-difference-between-a-strongly-typed-language-and-a-statically-typed
