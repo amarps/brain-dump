@@ -176,7 +176,6 @@ Consider the relation C where (x,y) \in C if x^2 + y^2 = 1. Is this a function?
 
 This is relation but not a function because there is more than one output asociated with one input
 
-
 * Statement
 A statement is a sentence that is either true or false
 
@@ -472,7 +471,6 @@ p
 This argument is invalid argument because it's use converse statement.
 We know converse statement is not logically equivalent.
 
-
 * Predicates and Quantified Statements
 Recall: A statement is either TRUE or FALSE
 ** Predicate
@@ -522,7 +520,7 @@ predicate P(x): "x is a mammal"
 statement Q: \forall x \in D, P(x): "every dog is a mammal"
 
 ** Negating quantifier
-Negate "\forall x \in \mathbb{Z}^{+}, x > 3"
+Negate "\forall x \in \mathbb{Z}^ {+ }, x > 3"
 \exist x \in \mathbb{Z}^{+ },x \ngtr 3
 \exist x \in \mathbb{Z}^{+ },x\leq 3
 \neg P(x)
@@ -620,7 +618,7 @@ Formal Definition: n is an even integer if \exist k \in \mathbb{Z} such that n =
 Informal Definition: n is an odd integer if n is an integer that is not even.
 Formal Definition: n is an odd integer if \exist k \in \mathbb{Z} such that n = 2k + 1
 
-* Mathematical Proof
+* Mathematical Proofs
 ** First Proof
 Theorem: an even integer plus an odd integer is another odd integer
 Proof:
@@ -633,6 +631,7 @@ Let k_3 = k_1 + k_2, and note it is an integer.
 
 Hence, \exist k_3 \in Z so that m + n = 2k_3 + 1
 Thus m + n is odd.
+\square
 
 Direct Proofs of: \forall x \in D, P(x) \Rightarrow Q(x)
 1 State the Assumptions
@@ -640,6 +639,8 @@ Direct Proofs of: \forall x \in D, P(x) \Rightarrow Q(x)
 3 Manipulate
 4 Arrive at Definition of conclusion
 5 state the conclusion
+
+means end of proof \square
 ** Product of two even is even
 Theorem: an *even integer* times an *even integer* is another *even integer*
 
@@ -678,6 +679,7 @@ Then, mn = (2r)(2s) by substitutiion
 Let t = 2rs, and note it is an integer.
 Hence, \exist t \in Z so that mn=2t
 Thus mn is even.
+\square
 
 ** Rational numbers definition
 Informal Definition: n is a rational number it is a fraction. Ex: 3/7
@@ -692,10 +694,76 @@ Let p_3 = p_1q_2 + p_2q_1 and q_3 = q_1q_2
 Hence, \exist p_3 \in Z, \exist q3 \in Z \ {0} So
 m + n = \(\frac{p_3}{q_3}\)
 Thus m + n is rational
+\square
 
+** Prove that divisibility is transitive
+Divisibility:
+12 is divisible by 3
+12/3 = 4 \in Z
+12 = 3 . 4
+4 \in Z
 
-** Proving that divisibility is transitive
+12 is not divisible by 5
+12/5 \notin Z
+
+12 \neq 5 . P
+p \notin Z
+
+Definition: For n and d integers, d \neq 0,
+d|n \iff if \exist k \in Z such that n = dk
+
+d|n means:
+d divides n
+n is divisible by d
+n is a multiple of d
+d is a factor of n
+
+Theorem:
+if a is divisble by b,
+and b is divisble c,
+then a is divisble by c
+
+Theorem with notation:
+b|a
+c|b
+c|a
+
+Example illustration:
+4 | 12
+2 | 4
+2 | 12
+
+proof
+Let b|a and c|b
+\exist s, t
+a = sb, b = tc
+
+want: a = cu u \in  Z
+a = sb
+sb  = stc = c(st)
+
+Then a = sb = s(tc)
+= c(st)
+st \in Z
+c | a \square
 
 ** Disproving implications with counterexamples
+Prove or disprove
+For a, b \in b \in Z, a^2 > b^2 implies a > b.
 
-** 
+\pm\sqrt{a^2} > \pm\sqrt{b^2} \neq a > b
+
+example:
+4^2 > 3^2 = true
+(-4)^2 > 3^2
+16 > 9
+-4 > 3  = not true
+*-4 < 3* false by counter example
+
+Method of Counterexample:
+Aim: to prove P(x) \Rightarrow Q(x) is false
+\forall x \in D, P(x) \Rightarrow Q(x)
+\exist x \in D, \neg (P(x) \Rightarrow Q(x))
+
+Method of counterexample:
+Find one a \in D where P(a) \land \neg Q(a)

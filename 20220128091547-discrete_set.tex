@@ -1,4 +1,4 @@
-% Created 2022-02-25 Fri 21:17
+% Created 2022-02-26 Sat 20:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -43,10 +43,10 @@ Source And Learning Material:\\
 \url{https://www.amazon.com/Discrete-Mathematics-Applications-Susanna-Epp/dp/1337694193/ref=sr\_1\_2?keywords=discrete+math\&qid=1645043639\&sr=8-2}\\
 
 \section{What is Set}
-\label{sec:orga083ecc}
+\label{sec:org9fe7cc6}
 A \textbf{set} is a collection of objects. Individual object of set is element \(\in\). Individual object of element that is not in The set is  called not in element denoted with \(\notin\).\\
 \subsection{Examples}
-\label{sec:org06d2796}
+\label{sec:orgfe46523}
 \begin{itemize}
 \item A = Employees in a company\\
 John \(\in\) A\\
@@ -58,7 +58,7 @@ John \(\in\) A\\
 \end{itemize}
 
 \subsection{Order And Repetition Don't Matter}
-\label{sec:org97810fe}
+\label{sec:orge8ca979}
 \begin{minted}[]{markdown}
 {1, 2, 3, 4, 5, 6, 7} = {2, 5, 4, 3, 1, 7, 6}
 			= {2, 2, 2, 2, 5, 4, 3, 1, 1, 7, 6, 6, 6}
@@ -67,24 +67,24 @@ John \(\in\) A\\
 \newpage
 
 \section{Subsets}
-\label{sec:org072c0f0}
+\label{sec:org286e668}
 \begin{itemize}
 \item Every Element of A is also in B = A \subseteq B\\
 \end{itemize}
 \subsubsection{Example 1}
-\label{sec:orgac2a803}
+\label{sec:org4748a4e}
 A = \{1, 3\}\\
 B = \{1, 3, 4, 6\}\\
 A \subseteq B\\
 \subsubsection{Example 2}
-\label{sec:org93e4999}
+\label{sec:orga94c80d}
 A = \{1, 8\}\\
 B = \{1, 3, 4, 6\}\\
 A \nsubseteq B\\
 because \(\in\) 8 is not in B\\
 
 \section{Set-Roster Notion}
-\label{sec:org6c7063f}
+\label{sec:orgc483501}
 Replace \ldots{} with continuos clear pattern\\
 Example:\\
 Positive even integers\\
@@ -93,7 +93,7 @@ all even integers\\
 \{\ldots{}, -6, -4, -2, 0, 2, 4, 6, \ldots{}\}\\
 
 \section{Set-Builder Notation}
-\label{sec:orgd09e55c}
+\label{sec:org5e67f12}
 General form: \{ x | P(x) \}\\
 x variable\\
 "|" such that\\
@@ -106,7 +106,7 @@ Example square root\\
 \newpage
 
 \section{Empty Set}
-\label{sec:org31a73ec}
+\label{sec:orgc9dee7e}
 Notion: \{\} or \(\emptyset\)\\
 \{\(\emptyset\)\}\\
 Is \(\emptyset\) \(\subset\) \{1,2,3\}?\\
@@ -115,7 +115,7 @@ if x \(\in\) A, then x \(\in\) B\\
 This is \emph{vacuously} true!\\
 
 \section{Ordered Pairs (\emph{a}, \emph{b})}
-\label{sec:org0ab87db}
+\label{sec:org9e2f79e}
 \begin{itemize}
 \item Order Matters\\
 \item (a,b) = (c,d) of a=c \& b=d\\
@@ -138,7 +138,7 @@ Example:\\
 A \texttimes{} B = \{(a,1), (a,0), (b,0), (b1)\}\\
 
 \section{Relations}
-\label{sec:org044e4c8}
+\label{sec:org3b968f3}
 Ex: a < b\\
 compares two integers\\
 some pairs have this relationship 2 < 5\\
@@ -179,7 +179,7 @@ shorten <= 3pt
 ie ordered pairs\\
 (a,b) \(\in\) A \texttimes{} B\\
 \section{Functions}
-\label{sec:org7091530}
+\label{sec:org58141fe}
 ex: f(x) = x\textsuperscript{2}\\
 
 \begin{tikzpicture}
@@ -216,9 +216,8 @@ Consider the relation C where (x,y) \(\in\) C if x\textsuperscript{2} + y\textsu
 
 This is relation but not a function because there is more than one output asociated with one input\\
 
-
 \section{Statement}
-\label{sec:org1df2190}
+\label{sec:org59ab8d8}
 A statement is a sentence that is either true or false\\
 
 Examples:\\
@@ -227,7 +226,7 @@ q: "2 > 5" = False\\
 r: "x > 2" = Not a statement because we don't know what x is\\
 
 \subsection{New statement from old}
-\label{sec:org84c4de2}
+\label{sec:org478e904}
 \(\neg{}\) p means not p\\
 p \(\land\) q means p and q\\
 p \(\lor\) q means p or q\\
@@ -239,7 +238,7 @@ q = My shorts are gray\\
 p\(\land\) \(\neg{}\) q\\
 
 \subsection{Truth Table for (\(\neg{}\) p) \(\lor\) (\(\neg{}\) q)}
-\label{sec:org4eddcb2}
+\label{sec:org6e678ee}
 \begin{center}
 \begin{tabular}{lllll}
 p & q & \(\neg{}\) p & \(\neg{}\) q & \\
@@ -296,7 +295,7 @@ so c \(\land\) p is a contrandiction\\
 
 \newpage
 \section{Demorgan's Law \& Logical Equivalent}
-\label{sec:orge61768d}
+\label{sec:orgc6ada02}
 p: Trefor is a unicorn\\
 q: Trefor is a goldfish\\
 \(\neg{}\)(p \(\lor\) q) \(\equiv\) (\(\neg{}\) p) \(\land\) (\(\neg{}\) q)?\\
@@ -343,7 +342,7 @@ So (\(\neg{}\)(p \(\lor\) \(\neg{}\) q)) \(\land\) t \(\equiv\) \(\neg{}\) p \(\
 
 \newpage
 \section{Conditional Statement}
-\label{sec:org4a6194f}
+\label{sec:org9ed3aac}
 Def: p \(\Rightarrow\) q means:\\
 "if p is TRUE then q is TRUE"\\
 Whenever the hipotesis p is true then the conclution is also true.\\
@@ -383,7 +382,7 @@ Either I don't study hard, or i pass\\
 q = i pass\\
 
 \subsection{When the hypothesis is false, the statement is \textbf{vacuously true}.}
-\label{sec:org6708c93}
+\label{sec:org9110be7}
 vacuously true meant the statement is true but true in a sort of unimportant or unintresting or vacuous set.\\
 
 Example:\\
@@ -399,13 +398,13 @@ q =  everyone get's an A\\
 \(\neg{}\) p \(\lor\) q\\
 
 \subsection{Negating a conditional}
-\label{sec:orgaa594e3}
+\label{sec:orgf8f74f0}
 \(\neg{}\) (p \(\Rightarrow\) q) \(\equiv\) \(\neg{}\) (\(\neg{}\) p \(\lor\) q)\\
 \(\equiv\) (\(\neg{}\) \(\neg{}\) p \(\land\) \(\neg{}\) q) Demorgan's law\\
 \(\equiv\) p \(\land\) \(\neg{}\) q\\
 
 \subsection{Contrapositive of a conditional:}
-\label{sec:orge6e7fcd}
+\label{sec:orgfdd59f6}
 p \(\Rightarrow\) q \(\equiv\) \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p\\
 p \(\Rightarrow\) q \(\equiv\)  \(\neg{}\) p \(\lor\) q\\
 \(\neg{}\) q \(\Rightarrow\) \(\neg{}\) p \(\equiv\) q \(\lor\) \(\neg{}\) p\\
@@ -417,9 +416,9 @@ If i don't pass, then i didn't study hard \q \(\Rightarrow\) \(\neg{}\) p\\
 Either i pass, or I didn't study hard q \(\lor\) \(\neg{}\) p\\
 
 \subsection{The converse and the inverse of a statement}
-\label{sec:org38a0ea6}
+\label{sec:orgf87f1c5}
 \subsubsection{The converse statement}
-\label{sec:orgf905efd}
+\label{sec:orgb96470f}
 p \(\Rightarrow\) q is the statement q \(\Rightarrow\) p\\
 The converse statement is not logically equivalent\\
 
@@ -429,7 +428,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 q \(\Rightarrow\) p = If it's a mammal, then it's a dog = False\\
 
 \subsubsection{The inverse statement}
-\label{sec:org2b6aa39}
+\label{sec:org7ae8241}
 p \(\Rightarrow\) q is the statement \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q\\
 The inverse statements is not logically equivalent\\
 
@@ -441,7 +440,7 @@ p \(\Rightarrow\) q = If it's a dog, then it's a mammal = True\\
 \(\neg{}\) p \(\Rightarrow\) \(\neg{}\) q = If it's not a dog, then it's not a mammal = False\\
 
 \subsection{Biconditional statement}
-\label{sec:orgd0c35c2}
+\label{sec:orgb08b025}
 The Biconditional p \iff q\\
 means that both p \(\Rightarrow\) q and q \(\Rightarrow\) p\\
 
@@ -453,7 +452,7 @@ i will pass \textbf{if and only if} i study hard\\
 if and only if = \iff\\
 
 \subsection{Valid and Invalid Arguments}
-\label{sec:org9841cfe}
+\label{sec:orgf530d44}
 A valid argument is a list of premises from which the conclusion follows.\\
 
 Example Argument:\\
@@ -466,7 +465,7 @@ If \textbf{p}, then \textbf{q}.\\
 Therefore, \textbf{q}.\\
 
 \subsubsection{Modus Ponens}
-\label{sec:org932fa2c}
+\label{sec:org9b36495}
 \textbf{Modus Ponens} is an argument of the form:\\
 premise1 = If \textbf{p}, then \textbf{q}.\\
 premise2 = \textbf{p}.\\
@@ -509,7 +508,7 @@ X\\
 \end{center}
 
 \subsubsection{Modus Tollens}
-\label{sec:org23a4b9c}
+\label{sec:orgefd3ff2}
 \textbf{Modus Tollens} is an argument of the form:\\
 if \textbf{p}, then \textbf{q}.\\
 \(\neg{}\) q.\\
@@ -526,7 +525,7 @@ q = i'm an American citizen.\\
 \(\neg{}\) p = I'm not the POTUS.\\
 
 \subsubsection{Generalization}
-\label{sec:orgeb7e477}
+\label{sec:orga453830}
 \textbf{Generalization} is an argument of the form:\\
 p.\\
 Therefore, p \(\lor\) q.\\
@@ -537,7 +536,7 @@ Therefore, I'm a canadian or i'm a unicorn.\\
 
 
 \subsubsection{Specialization}
-\label{sec:org088410d}
+\label{sec:orgf3e4f18}
 \textbf{Specialization} is an argument of the form:\\
 p \(\land\) q.\\
 Therefore, p.\\
@@ -548,7 +547,7 @@ Therefore, I'm a Canadian.\\
 
 
 \subsubsection{Contradiction}
-\label{sec:org4a20778}
+\label{sec:org8dcb037}
 \textbf{Contradiction} is an argument of the form:\\
 \(\neg{}\) p \(\Rightarrow\) c\\
 Therefore, p.\\
@@ -570,12 +569,11 @@ p\\
 This argument is invalid argument because it's use converse statement.\\
 We know converse statement is not logically equivalent.\\
 
-
 \section{Predicates and Quantified Statements}
-\label{sec:org01bdec3}
+\label{sec:org5b95128}
 Recall: A statement is either TRUE or FALSE\\
 \subsection{Predicate}
-\label{sec:orgb2ea482}
+\label{sec:orgcdd6631}
 a \textbf{predicate} is a sentence depending on variables which becomes a sttemnt upon substituting values in the domain.\\
 
 Example:\\
@@ -586,7 +584,7 @@ P(5) False\\
 P(\(\frac{1}{3}\)) Nonsense! \(\frac{1}{3}\) \(\notin\) \mathbb{Z}\textsuperscript{+}\\
 
 \subsection{The Truth set}
-\label{sec:orgf5af906}
+\label{sec:orgd44cbb2}
 \textbf{The truth set} of a predicate P(x):\\
 \{x \(\in\) \mathbb{D} | P(x)\}\\
 i.e All values x in the domain where P(x) is true\\
@@ -597,7 +595,7 @@ TS = \{1, 2, 3, 4, 5, 6, 12\}\\
 \subseteq \mathbb{Z}\textsuperscript{+}\\
 
 \subsection{The Universal Quantifier}
-\label{sec:org2bc82d3}
+\label{sec:org59644d1}
 \textbf{The Universal Quantifier \(\forall\)} means "for all"\\
 
 Main Use "quantifying" predicates\\
@@ -610,7 +608,7 @@ Every dog is a mammal\\
 D = set of dogs ; P(x): X is a mammal\\
 
 \subsection{The existensial quantifier}
-\label{sec:org1048527}
+\label{sec:org73d613c}
 \textbf{The existensial quantifier \(\exists\)} means "there exists"\\
 
 Main use "quantifying" predicates\\
@@ -625,8 +623,8 @@ predicate P(x): "x is a mammal"\\
 statement Q: \(\forall\) x \(\in\) D, P(x): "every dog is a mammal"\\
 
 \subsection{Negating quantifier}
-\label{sec:org4d028d6}
-Negate "\(\forall\) x \(\in\) \mathbb{Z}\textsuperscript{+}, x > 3"\\
+\label{sec:orgd8ea9eb}
+Negate "\(\forall\) x \(\in\) \mathbb{Z}\^{} \{+ \}, x > 3"\\
 \(\exists\) x \(\in\) \mathbb{Z}\textsuperscript{+ },x \ngtr 3\\
 \(\exists\) x \(\in\) \mathbb{Z}\textsuperscript{+ },x\(\le\) 3\\
 \(\neg{}\) P(x)\\
@@ -649,7 +647,7 @@ Negating an existensial\\
 \(\neg{}\) (\(\exists\) x \(\in\) D, P(x)) \(\equiv\) \(\forall\) x \(\in\) D, \(\neg{}\) P(x).\\
 
 \subsection{Negating logical statement}
-\label{sec:org61204d5}
+\label{sec:org4b826a0}
 Example\\
 Every interger has a larger integer\\
 \(\forall\) x \(\in\) \mathbb{Z}, P(x)\\
@@ -670,7 +668,7 @@ Some number in D is the largest\\
 Negate: \(\forall\) x \(\in\) D, \(\exists\) y \(\in\) D, x < y\\
 
 \subsection{Universal Conditionals}
-\label{sec:orge399839}
+\label{sec:org297dce2}
 Universal-Conditionals: P(x) \(\Rightarrow\) Q(x)\\
 means \(\forall\) x \(\in\) D, P(x) \(\Rightarrow\) Q(x)\\
 
@@ -681,7 +679,7 @@ Q(x) = x is a US Citizen\\
 D = people\\
 
 \subsection{Necessary and Sufficient Conditions}
-\label{sec:org97e2e94}
+\label{sec:org383fbbe}
 Square\\
 \begin{tikzpicture}
 \draw[ultra thick, blue] (0,0) -- (1,0) -- (1,1) -- (0,1) -- (0,0);
@@ -721,17 +719,17 @@ Being a square is a sufficient condition fo being a rectangle\\
 Being a rectangle is a necesary condition for being a square\\
 
 \section{Defining Even \& Odd Integers}
-\label{sec:org10877d7}
+\label{sec:org71fcad9}
 Informal Definition: n is an even integer if n can be written as twice an integer.\\
 Formal Definition: n is an even integer if \(\exists\) k \(\in\) \mathbb{Z} such that n = 2k\\
 
 Informal Definition: n is an odd integer if n is an integer that is not even.\\
 Formal Definition: n is an odd integer if \(\exists\) k \(\in\) \mathbb{Z} such that n = 2k + 1\\
 
-\section{Mathematical Proof}
-\label{sec:orgee23fc4}
+\section{Mathematical Proofs}
+\label{sec:orge030c29}
 \subsection{First Proof}
-\label{sec:org932c026}
+\label{sec:org90a15f4}
 Theorem: an even integer plus an odd integer is another odd integer\\
 Proof:\\
 Suppose m is even and n is odd.\\
@@ -743,6 +741,7 @@ Let k\textsubscript{3} = k\textsubscript{1} + k\textsubscript{2}, and note it is
 
 Hence, \(\exists\) k\textsubscript{3} \(\in\) Z so that m + n = 2k\textsubscript{3} + 1\\
 Thus m + n is odd.\\
+\square\\
 
 Direct Proofs of: \(\forall\) x \(\in\) D, P(x) \(\Rightarrow\) Q(x)\\
 1 State the Assumptions\\
@@ -750,8 +749,10 @@ Direct Proofs of: \(\forall\) x \(\in\) D, P(x) \(\Rightarrow\) Q(x)\\
 3 Manipulate\\
 4 Arrive at Definition of conclusion\\
 5 state the conclusion\\
+
+means end of proof \square\\
 \subsection{Product of two even is even}
-\label{sec:orgcaa1ef3}
+\label{sec:orgbfbc0ce}
 Theorem: an \textbf{even integer} times an \textbf{even integer} is another \textbf{even integer}\\
 
 Step 1: Define terms\\
@@ -789,12 +790,12 @@ Then, mn = (2r)(2s) by substitutiion\\
 Let t = 2rs, and note it is an integer.\\
 Hence, \(\exists\) t \(\in\) Z so that mn=2t\\
 Thus mn is even.\\
+\square\\
 
 \subsection{Rational numbers definition}
-\label{sec:org5a92f1b}
+\label{sec:org903fb68}
 Informal Definition: n is a rational number it is a fraction. Ex: 3/7\\
 Formal Definition: n is rational number if \(\exists\) p \(\in\) Z, \(\exists\) q \(\in\) Z/\{0\} such that n = \(\frac{p}{q}\)\\
-
 
 Theorem: The sum of two \textbf{rational numbers} is another \textbf{rational number}\\
 Proof: Suppose m and n are rational\\
@@ -805,14 +806,79 @@ Let p\textsubscript{3} = p\textsubscript{1q}\textsubscript{2} + p\textsubscript{
 Hence, \(\exists\) p\textsubscript{3} \(\in\) Z, \(\exists\) q3 \(\in\) Z $\backslash$ \{0\} So\\
 m + n = \(\frac{p_3}{q_3}\)\\
 Thus m + n is rational\\
+\square\\
 
+\subsection{Prove that divisibility is transitive}
+\label{sec:org9c9a640}
+Divisibility:\\
+12 is divisible by 3\\
+12/3 = 4 \(\in\) Z\\
+12 = 3 . 4\\
+4 \(\in\) Z\\
 
-\subsection{Proving that divisibility is transitive}
-\label{sec:org7950244}
+12 is not divisible by 5\\
+12/5 \(\notin\) Z\\
+
+12 \(\neq\) 5 . P\\
+p \(\notin\) Z\\
+
+Definition: For n and d integers, d \(\neq\) 0,\\
+d|n \iff if \(\exists\) k \(\in\) Z such that n = dk\\
+
+d|n means:\\
+d divides n\\
+n is divisible by d\\
+n is a multiple of d\\
+d is a factor of n\\
+
+Theorem:\\
+if a is divisble by b,\\
+and b is divisble c,\\
+then a is divisble by c\\
+
+Theorem with notation:\\
+b|a\\
+c|b\\
+c|a\\
+
+Example illustration:\\
+4 | 12\\
+2 | 4\\
+2 | 12\\
+
+proof\\
+Let b|a and c|b\\
+\(\exists\) s, t\\
+a = sb, b = tc\\
+
+want: a = cu u \(\in\)  Z\\
+a = sb\\
+sb  = stc = c(st)\\
+
+Then a = sb = s(tc)\\
+= c(st)\\
+st \(\in\) Z\\
+c | a \square\\
 
 \subsection{Disproving implications with counterexamples}
-\label{sec:org09bcc37}
+\label{sec:org32188a9}
+Prove or disprove\\
+For a, b \(\in\) b \(\in\) Z, a\textsuperscript{2} > b\textsuperscript{2} implies a > b.\\
 
-\subsection{}
-\label{sec:org1281ec6}
+\textpm{}\sqrt{a^2} > \textpm{}\sqrt{b^2} \(\neq\) a > b\\
+
+example:\\
+4\textsuperscript{2} > 3\textsuperscript{2} = true\\
+(-4)\textsuperscript{2} > 3\textsuperscript{2}\\
+16 > 9\\
+-4 > 3  = not true\\
+\textbf{-4 < 3} false by counter example\\
+
+Method of Counterexample:\\
+Aim: to prove P(x) \(\Rightarrow\) Q(x) is false\\
+\(\forall\) x \(\in\) D, P(x) \(\Rightarrow\) Q(x)\\
+\(\exists\) x \(\in\) D, \(\neg{}\) (P(x) \(\Rightarrow\) Q(x))\\
+
+Method of counterexample:\\
+Find one a \(\in\) D where P(a) \(\land\) \(\neg{}\) Q(a)\\
 \end{document}

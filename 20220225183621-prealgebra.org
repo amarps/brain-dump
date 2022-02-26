@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       e984a518-bf70-4f62-aa73-8f15d11174a3
+:END:
+#+title: PreAlgebra
+#+date: [2022-02-25 Fri 18:36]
+#+author: Amar Panji Senjaya
+
